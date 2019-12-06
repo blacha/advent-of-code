@@ -15,7 +15,7 @@ o.spec('Day2', () => {
         );
         inputA[1] = '12';
         inputA[2] = '2';
-        console.log('')
+        console.log('');
         console.log('Day2.Question#1', parseInt(run(inputA.join(',')).split(',')[0]));
 
         function bruteForce() {

@@ -30,7 +30,7 @@ o.spec('Day1', () => {
             fuelOfFuel += getFuelOfFuel(fuel);
         }
 
-        console.log('')
+        console.log('');
         console.log('Day1.Question#1', total);
         console.log('Day1.Question#2', fuelOfFuel);
     });

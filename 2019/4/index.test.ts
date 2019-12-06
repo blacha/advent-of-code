@@ -27,7 +27,7 @@ o.spec('Day4', () => {
             }
         }
 
-        console.log('')
+        console.log('');
         console.log('Day4.Question#1', answerOne.length);
         console.log('Day4.Question#2', answerTwo.length);
     });
