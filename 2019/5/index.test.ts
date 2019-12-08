@@ -1,5 +1,6 @@
 import * as o from 'ospec';
 import { Computer } from './computer/int.computer';
+import 'source-map-support/register';
 
 o.spec('Day5', () => {
     const computer = new Computer();
@@ -7,86 +8,86 @@ o.spec('Day5', () => {
 
     o('modes', () => {
         computer.run('1002,4,3,4,33');
-        o(computer.output).deepEquals([]);
-        o(computer.ops).deepEquals([1002, 4, 3, 4, 99]);
-        o(computer.ended).equals(true);
+        o(computer.output).equals(undefined);
+        o(computer.memory.ops).deepEquals([1002, 4, 3, 4, 99]);
+        o(computer.isEnded).equals(true);
 
-        computer.run('1101,100,-1,4,0');
-        o(computer.ended).equals(true);
-        o(computer.ops).deepEquals([1101, 100, -1, 4, 99]);
+        // computer.run('1101,100,-1,4,0');
+        // o(computer.isEnded).equals(true);
+        // o(computer.ops).deepEquals([1101, 100, -1, 4, 99]);
     });
 
     o('TestEqual', () => {
         computer.run('3,9,8,9,10,9,4,9,99,-1,8', [9]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).deepEquals(0);
 
         computer.run('3,9,8,9,10,9,4,9,99,-1,8', [8]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([1]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).deepEquals(1);
 
         computer.run('3,9,8,9,10,9,4,9,99,-1,8', [7]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).deepEquals(0);
     });
 
     o('TestEqualMode', () => {
         computer.run('3,3,1108,-1,8,3,4,3,99', [9]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(0);
 
         computer.run('3,3,1108,-1,8,3,4,3,99', [8]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([1]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(1);
 
         computer.run('3,3,1108,-1,8,3,4,3,99', [7]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(0);
     });
 
     o('LessThan', () => {
         computer.run('3,9,7,9,10,9,4,9,99,-1,8', [9]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(0);
 
         computer.run('3,9,7,9,10,9,4,9,99,-1,8', [8]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(0);
 
         computer.run('3,9,7,9,10,9,4,9,99,-1,8', [7]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([1]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(1);
     });
 
     o('Jumps', () => {
         computer.run('3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9', [0]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(0);
 
         computer.run('3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9', [1]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([1]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(1);
 
         computer.run('3,3,1105,-1,9,1101,0,0,12,4,12,99,1', [0]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([0]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(0);
 
         computer.run('3,3,1105,-1,9,1101,0,0,12,4,12,99,1', [1]);
-        o(computer.ended).equals(true);
-        o(computer.output).deepEquals([1]);
+        o(computer.isEnded).equals(true);
+        o(computer.output).equals(1);
     });
 
     const programCheck8 = `3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99`;
 
     o('Check8', () => {
         computer.run(programCheck8, [9]);
-        o(computer.output).deepEquals([1001]);
+        o(computer.output).equals(1001);
 
         computer.run(programCheck8, [8]);
-        o(computer.output).deepEquals([1000]);
+        o(computer.output).equals(1000);
 
         computer.run(programCheck8, [7]);
-        o(computer.output).deepEquals([999]);
+        o(computer.output).equals(999);
     });
 
     o('Answer', () => {
@@ -94,9 +95,9 @@ o.spec('Day5', () => {
         computer.run(programInput, [1]);
 
         console.log('');
-        console.log('Day5.Question#1', computer.output.pop());
+        console.log('Day5.Question#1', computer.output);
 
         computer.run(programInput, [5]);
-        console.log('Day5.Question#2', computer.output.pop());
+        console.log('Day5.Question#2', computer.output);
     });
 });
