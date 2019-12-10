@@ -6,6 +6,7 @@ import { CodeOutput } from './code/code.output';
 import { CodeIfLess, CodeIfEqual } from './code/code.if';
 import { CodeEnd } from './code/code.end';
 import { CodeJumpTrue, CodeJumpFalse } from './code/code.jump';
+import { CodeOffset } from './code/code.offset';
 
 export enum ComputerState {
     Init = 'Init',
@@ -21,17 +22,15 @@ export interface ComputerMemory {
     state: ComputerState;
     ops: number[];
     offset: number;
+    offsetRelative: number;
     input: number[];
     output: number[];
 }
 export class Computer {
-    memory: ComputerMemory = {
-        state: ComputerState.Init,
-        ops: [],
-        offset: 0,
-        input: [],
-        output: [],
-    };
+    memory: ComputerMemory;
+    constructor() {
+        this.memory = this.reset();
+    }
 
     init(ops: string) {
         this.memory.ops = ops.split(',').map(c => parseInt(c, 10));
@@ -49,17 +48,27 @@ export class Computer {
         Commands[cmd.code] = cmd;
     }
 
+    reset() {
+        return (this.memory = {
+            state: ComputerState.Init,
+            ops: [],
+            offset: 0,
+            offsetRelative: 0,
+            input: [],
+            output: [],
+        });
+    }
+
     run(ops?: string, input: number[] = []) {
+        this.reset();
         if (ops != null) {
             this.init(ops);
         }
-        this.memory.offset = 0;
         this.memory.input = input;
-        this.memory.output = [];
         this.compute();
     }
 
-    resume(input: number[]) {
+    resume(input: number[] = []) {
         if (!this.isWaiting) {
             throw new Error('Invalid resume state, state:' + this.memory.state);
         }
@@ -77,8 +86,12 @@ export class Computer {
             if (cmd == null) {
                 throw new Error(`Invalid Code ${this.memory.ops[this.memory.offset]} @ ${this.memory.offset}`);
             }
-            this.debug(`0x${this.memory.offset.toString(16).padStart(3, '0')} ${cmd.name} (${cmd.code})`);
+
+            this.debug(`${this.memory.offset} ${cmd.name} (${cmd.code}) [${codeMode.modes.join(', ')}]`);
             this.memory.offset += cmd.run(this, this.memory.offset, codeMode.modes);
+            if (codeMode.modes.length > 0) {
+                throw Error('Unused modes: ' + cmd.name);
+            }
 
             if (this.isEnded) break;
             if (this.isWaiting) break;
@@ -129,16 +142,34 @@ export class Computer {
         };
     }
 
-    gets(offset: number, mode: number): number {
+    offset(offset: number, mode = 0): number {
         // Lookup mode
         if (mode == null || mode == 0) {
-            return this.memory.ops[this.memory.ops[offset]];
+            return this.value(offset);
         }
+
         // Direct mode
         if (mode == 1) {
-            return this.memory.ops[offset];
+            return offset;
+        }
+
+        // relative
+        if (mode == 2) {
+            return this.memory.offsetRelative + this.value(offset);
         }
         throw new Error('Unknown get mode: ' + mode);
+    }
+
+    gets(offset: number, mode = 0): number {
+        const addr = this.offset(offset, mode);
+        return this.value(addr);
+    }
+
+    value(offset: number): number {
+        if (offset < 0) {
+            throw new Error('Offset < 0 offset:' + offset);
+        }
+        return this.memory.ops[offset] || 0;
     }
 
     set(offset: number, value: number) {
@@ -167,3 +198,4 @@ Computer.register(new CodeJumpFalse());
 Computer.register(new CodeIfLess());
 Computer.register(new CodeIfEqual());
 Computer.register(new CodeEnd());
+Computer.register(new CodeOffset());

@@ -6,9 +6,10 @@ export class CodeAdd extends ComputerCommand {
     code = 1;
 
     run(computer: Computer, offset: number, modes: number[]): number {
-        const valA = computer.gets(offset + 1, modes[0]);
-        const valB = computer.gets(offset + 2, modes[1]);
-        const outputOffset = computer.gets(offset + 3, 1);
+        const valA = computer.gets(offset + 1, modes.shift());
+        const valB = computer.gets(offset + 2, modes.shift());
+        const outputOffset = computer.offset(offset + 3, modes.shift());
+
         computer.debug('\t', this.name, valA, '+', valB, '=>', outputOffset, 'Modes', modes);
         computer.set(outputOffset, valA + valB);
         return 4;

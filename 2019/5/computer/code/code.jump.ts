@@ -6,8 +6,8 @@ export class CodeJumpTrue extends ComputerCommand {
     code = 5;
 
     run(computer: Computer, offset: number, modes: number[]): number {
-        const valA = computer.gets(offset + 1, modes[0]);
-        const jumpAddr = computer.gets(offset + 2, modes[1]);
+        const valA = computer.gets(offset + 1, modes.shift());
+        const jumpAddr = computer.gets(offset + 2, modes.shift());
         if (valA != 0) {
             computer.debug('\t', this.name, 'to', jumpAddr);
             return jumpAddr - offset;
@@ -21,8 +21,8 @@ export class CodeJumpFalse extends ComputerCommand {
     code = 6;
 
     run(computer: Computer, offset: number, modes: number[]): number {
-        const valA = computer.gets(offset + 1, modes[0]);
-        const jumpAddr = computer.gets(offset + 2, modes[1]);
+        const valA = computer.gets(offset + 1, modes.shift());
+        const jumpAddr = computer.gets(offset + 2, modes.shift());
         if (valA == 0) {
             computer.debug('\t', this.name, 'to', jumpAddr, offset, jumpAddr - offset);
             return jumpAddr - offset;

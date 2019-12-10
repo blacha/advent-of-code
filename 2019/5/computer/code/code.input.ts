@@ -13,10 +13,10 @@ export class CodeInput extends ComputerCommand {
             return 0;
         }
 
-        const outputOffset = computer.gets(offset + 1, 1);
-        computer.debug('\t', this.name, inputVal);
-
+        const outputOffset = computer.offset(offset + 1, modes.shift());
+        computer.debug('\t', this.name, inputVal, '=>', outputOffset);
         computer.set(outputOffset, inputVal);
+
         return 2;
     }
 }
