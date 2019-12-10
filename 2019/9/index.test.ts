@@ -35,10 +35,10 @@ o.spec('Day9', () => {
         o(computer.isEnded).equals(true);
 
         console.log();
-        console.log('Day9.Question#1', computer.memory.output);
+        console.log('Day9.Question#1', computer.output);
 
         computer.run(Day9Input, [2]);
         o(computer.isEnded).equals(true);
-        console.log('Day9.Question#2', computer.memory.output);
+        console.log('Day9.Question#2', computer.output);
     });
 });

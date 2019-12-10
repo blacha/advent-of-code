@@ -36,4 +36,3 @@ o.spec('Day2', () => {
         bruteForce();
     });
 });
-
