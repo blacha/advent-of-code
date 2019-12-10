@@ -4,12 +4,11 @@ import 'source-map-support/register';
 
 o.spec('Day5', () => {
     const computer = new Computer();
-    computer._debug = false;
 
     o('modes', () => {
         computer.run('1002,4,3,4,33');
         o(computer.output).equals(undefined);
-        o(computer.memory.ops).deepEquals([1002, 4, 3, 4, 99]);
+        o(computer.state.memory).deepEquals([1002, 4, 3, 4, 99]);
         o(computer.isEnded).equals(true);
 
         // computer.run('1101,100,-1,4,0');

@@ -6,9 +6,9 @@ export class CodeOffset extends ComputerCommand {
     code = 9;
 
     run(computer: Computer, offset: number, modes: number[]): number {
-        const valA = computer.gets(offset + 1, modes.shift());
-        computer.memory.offsetRelative += valA;
-        computer.debug('\t', this.name, valA, '=>', computer.memory.offsetRelative, 'Modes', modes);
+        const valA = computer.get(offset + 1, modes.shift());
+        computer.state.offsetRelative += valA;
+        computer.print('\t', this.name, valA, '=>', computer.state.offsetRelative, 'Modes', modes);
 
         return 2;
     }

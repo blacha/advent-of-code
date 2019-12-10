@@ -6,9 +6,9 @@ export class CodeOutput extends ComputerCommand {
     code = 4;
 
     run(computer: Computer, offset: number, modes: number[]): number {
-        const valA = computer.gets(offset + 1, modes.shift());
-        computer.memory.output.push(valA);
-        computer.debug('\t', this.name, valA);
+        const valA = computer.get(offset + 1, modes.shift());
+        computer.state.output.push(valA);
+        computer.print('\t', this.name, valA);
         return 2;
     }
 }

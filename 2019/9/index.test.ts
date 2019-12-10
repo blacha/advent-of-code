@@ -7,16 +7,16 @@ o.spec('Day9', () => {
     const computer = new Computer();
 
     o('should do first example', () => {
-        computer.memory.offsetRelative = 2000;
+        computer.state.offsetRelative = 2000;
         computer.init('109,19');
         computer.resume();
-        o(computer.memory.offsetRelative).equals(2019);
+        o(computer.state.offsetRelative).equals(2019);
 
         computer.run('109,34,204,-34');
-        o(computer.memory.output).deepEquals([109]);
+        o(computer.state.output).deepEquals([109]);
 
         computer.run('109,37,204,-34');
-        o(computer.memory.output).deepEquals([-34]);
+        o(computer.state.output).deepEquals([-34]);
     });
 
     o('should do second example', () => {
@@ -27,7 +27,7 @@ o.spec('Day9', () => {
         o(computer.output).equals(1219070632396864);
 
         computer.run('109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99');
-        o(computer.memory.output.join(',')).equals('109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99');
+        o(computer.state.output.join(',')).equals('109,1,204,-1,1001,100,1,100,1008,100,16,101,1006,101,0,99');
     });
 
     o('Answers', () => {

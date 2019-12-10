@@ -60,7 +60,7 @@ export class AmplifierControl {
     setPhase(phases: number[]) {
         for (let i = 0; i < phases.length; i++) {
             const computer = this.amps[i];
-            computer.memory.input = [phases[i]];
+            computer.state.input = [phases[i]];
         }
     }
 

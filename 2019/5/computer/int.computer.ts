@@ -16,31 +16,39 @@ export enum ComputerState {
     Ended = 'Ended',
 }
 
+export enum ComputerParameterMode {
+    Lookup = 0,
+    Direct = 1,
+    Relative = 2,
+}
+
 const Commands: Record<number, ComputerCommand> = {};
 
 export interface ComputerMemory {
     state: ComputerState;
-    ops: number[];
+    memory: number[];
     offset: number;
     offsetRelative: number;
     input: number[];
     output: number[];
 }
+
 export class Computer {
-    memory: ComputerMemory;
+    state: ComputerMemory;
+
     constructor() {
-        this.memory = this.reset();
+        this.state = this.reset();
     }
 
     init(ops: string) {
-        this.memory.ops = ops.split(',').map(c => parseInt(c, 10));
-        this.memory.state = ComputerState.Ready;
+        this.state.memory = ops.split(',').map(c => parseInt(c, 10));
+        this.state.state = ComputerState.Ready;
     }
 
     /** Clone the current state */
     clone(): Computer {
         const computer = new Computer();
-        computer.memory = JSON.parse(JSON.stringify(this.memory));
+        computer.state = JSON.parse(JSON.stringify(this.state));
         return computer;
     }
 
@@ -48,47 +56,49 @@ export class Computer {
         Commands[cmd.code] = cmd;
     }
 
-    reset() {
-        return (this.memory = {
+    reset(): ComputerMemory {
+        const state = {
             state: ComputerState.Init,
-            ops: [],
+            memory: [],
             offset: 0,
             offsetRelative: 0,
             input: [],
             output: [],
-        });
+        };
+        this.state = state;
+        return state;
     }
 
-    run(ops?: string, input: number[] = []) {
+    run(ops?: string, input: number[] = []): void {
         this.reset();
         if (ops != null) {
             this.init(ops);
         }
-        this.memory.input = input;
+        this.state.input = input;
         this.compute();
     }
 
-    resume(input: number[] = []) {
+    resume(input: number[] = []): void {
         if (!this.isWaiting) {
-            throw new Error('Invalid resume state, state:' + this.memory.state);
+            throw new Error('Invalid resume state, state:' + this.state.state);
         }
-        this.memory.input = this.memory.input.concat(input);
+        this.state.input = this.state.input.concat(input);
         this.compute();
     }
 
-    compute() {
-        this.memory.state = ComputerState.Running;
-        this.debug('-- Start', this.memory.ops.join(', '), this.memory.input);
-        while (this.memory.offset > -1 && this.memory.offset < this.memory.ops.length) {
-            const codeMode = this.getCodeMode(this.memory.offset);
+    compute(): void {
+        this.state.state = ComputerState.Running;
+        this.print('-- Start', this.state.memory.join(', '), this.state.input);
+        while (this.state.offset > -1 && this.state.offset < this.state.memory.length) {
+            const codeMode = this.getCodeMode(this.state.offset);
 
             const cmd = Commands[codeMode.code];
             if (cmd == null) {
-                throw new Error(`Invalid Code ${this.memory.ops[this.memory.offset]} @ ${this.memory.offset}`);
+                throw new Error(`Invalid Code ${this.state.memory[this.state.offset]} @ ${this.state.offset}`);
             }
 
-            this.debug(`${this.memory.offset} ${cmd.name} (${cmd.code}) [${codeMode.modes.join(', ')}]`);
-            this.memory.offset += cmd.run(this, this.memory.offset, codeMode.modes);
+            this.print(`${this.state.offset} ${cmd.name} (${cmd.code}) [${codeMode.modes.join(', ')}]`);
+            this.state.offset += cmd.run(this, this.state.offset, codeMode.modes);
             if (codeMode.modes.length > 0) {
                 throw Error('Unused modes: ' + cmd.name);
             }
@@ -96,14 +106,15 @@ export class Computer {
             if (this.isEnded) break;
             if (this.isWaiting) break;
         }
-        this.debug('--Done: ', this.memory.state);
+        this.print('--Done: ', this.state.state);
     }
 
     debugger(debug = true) {
         this._debug = debug;
     }
-    _debug = false;
-    debug(...args: any[]) {
+
+    private _debug = false;
+    print(...args: any[]) {
         if (this._debug == false) {
             return;
         }
@@ -111,17 +122,17 @@ export class Computer {
     }
 
     quit() {
-        this.memory.state = ComputerState.Ended;
-        this.debug('-- Quit\n\n');
+        this.state.state = ComputerState.Ended;
+        this.print('-- Quit\n\n');
     }
 
     wait() {
-        this.memory.state = ComputerState.WaitingInput;
-        this.debug('-- Wait\n\n');
+        this.state.state = ComputerState.WaitingInput;
+        this.print('-- Wait\n\n');
     }
 
     getCodeMode(offset: number): { code: number; modes: number[] } {
-        const code = this.memory.ops[offset];
+        const code = this.state.memory[offset];
         const modes: number[] = [];
         if (code < 100) {
             return {
@@ -144,23 +155,23 @@ export class Computer {
 
     offset(offset: number, mode = 0): number {
         // Lookup mode
-        if (mode == null || mode == 0) {
+        if (mode == ComputerParameterMode.Lookup) {
             return this.value(offset);
         }
 
         // Direct mode
-        if (mode == 1) {
+        if (mode == ComputerParameterMode.Direct) {
             return offset;
         }
 
         // relative
-        if (mode == 2) {
-            return this.memory.offsetRelative + this.value(offset);
+        if (mode == ComputerParameterMode.Relative) {
+            return this.state.offsetRelative + this.value(offset);
         }
         throw new Error('Unknown get mode: ' + mode);
     }
 
-    gets(offset: number, mode = 0): number {
+    get(offset: number, mode = 0): number {
         const addr = this.offset(offset, mode);
         return this.value(addr);
     }
@@ -169,23 +180,23 @@ export class Computer {
         if (offset < 0) {
             throw new Error('Offset < 0 offset:' + offset);
         }
-        return this.memory.ops[offset] || 0;
+        return this.state.memory[offset] || 0;
     }
 
     set(offset: number, value: number) {
-        this.memory.ops[offset] = value;
+        this.state.memory[offset] = value;
     }
 
     get output(): number | undefined {
-        return this.memory.output[this.memory.output.length - 1];
+        return this.state.output[this.state.output.length - 1];
     }
 
     get isWaiting() {
-        return this.memory.state == ComputerState.WaitingInput || this.memory.state == ComputerState.Ready;
+        return this.state.state == ComputerState.WaitingInput || this.state.state == ComputerState.Ready;
     }
 
     get isEnded() {
-        return this.memory.state == ComputerState.Ended;
+        return this.state.state == ComputerState.Ended;
     }
 }
 

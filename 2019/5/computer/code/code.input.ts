@@ -5,7 +5,7 @@ export class CodeInput extends ComputerCommand {
     name = 'input';
     code = 3;
     run(computer: Computer, offset: number, modes: number[]): number {
-        const inputVal = computer.memory.input.shift();
+        const inputVal = computer.state.input.shift();
 
         // Need more input, hopefully someone will resume us with input
         if (inputVal == null) {
@@ -14,7 +14,7 @@ export class CodeInput extends ComputerCommand {
         }
 
         const outputOffset = computer.offset(offset + 1, modes.shift());
-        computer.debug('\t', this.name, inputVal, '=>', outputOffset);
+        computer.print('\t', this.name, inputVal, '=>', outputOffset);
         computer.set(outputOffset, inputVal);
 
         return 2;
