@@ -1,6 +1,6 @@
 import * as o from 'ospec';
 import { Computer } from '../shared/computer/int.computer';
-import '../01/node_modules/source-map-support/register';
+import 'source-map-support/register';
 
 o.spec('Day5', () => {
     const computer = new Computer();
