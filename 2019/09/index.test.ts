@@ -1,6 +1,6 @@
 import * as o from 'ospec';
 import 'source-map-support/register';
-import { Computer } from '../5/computer/int.computer';
+import { Computer } from '../shared/computer/int.computer';
 import { Day9Input } from './input';
 
 o.spec('Day9', () => {

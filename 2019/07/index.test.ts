@@ -1,5 +1,5 @@
 import * as o from 'ospec';
-import 'source-map-support/register';
+import '../01/node_modules/source-map-support/register';
 import { AmplifierControl } from './index';
 
 o.spec('Day7', () => {
