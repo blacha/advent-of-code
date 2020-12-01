@@ -3,7 +3,7 @@ import 'source-map-support/register';
 import { ElfImage, Color } from './index';
 import { InputData } from './input';
 
-o.spec('Day8', () => {
+o.spec('2019:Day08', () => {
   o('should do first example', () => {
     const img = new ElfImage(3, 2);
     img.load('123456789012'.split('').map((c) => parseInt(c)));
@@ -38,9 +38,9 @@ o.spec('Day8', () => {
     const zeroLayer = img.findLayerZeros();
 
     console.log();
-    console.log('Day8.Question#1', zeroLayer.one * zeroLayer.two);
+    console.log('2019:08.Question#1', zeroLayer.one * zeroLayer.two);
     o(zeroLayer.one * zeroLayer.two).equals(1848);
-    console.log('Day8.Question#2');
+    console.log('2019:08.Question#2');
 
     for (let y = 0; y < img.height; y++) {
       const row = [];

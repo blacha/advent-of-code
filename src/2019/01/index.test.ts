@@ -2,7 +2,7 @@ import o from 'ospec';
 import { getFuel, getFuelOfFuel } from './index';
 import { InputDayOne } from './input';
 
-o.spec('Day1', () => {
+o.spec('2019:Day01', () => {
   o('getFuel', () => {
     o(getFuel(12)).equals(2);
     o(getFuel(14)).equals(2);
@@ -31,7 +31,7 @@ o.spec('Day1', () => {
     }
 
     console.log('');
-    console.log('Day1.Question#1', total);
-    console.log('Day1.Question#2', fuelOfFuel);
+    console.log('2019:01.Question#1', total);
+    console.log('2019:01.Question#2', fuelOfFuel);
   });
 });

@@ -3,7 +3,7 @@ import 'source-map-support/register';
 import o from 'ospec';
 import { Scanner, Vector, Moon } from './index';
 
-o.spec('Day12', () => {
+o.spec('2019:Day12', () => {
   o('should do first example', () => {
     Vector.PadCount = 2;
     const scanner = new Scanner([
@@ -105,13 +105,11 @@ o.spec('Day12', () => {
     }
 
     console.log();
-    console.log('Day12.Question#1', scanner.energy);
+    console.log('2019:12.Question#1', scanner.energy);
     scanner.reset();
 
     const dupe = scanner.findDupe();
-    console.log('Day12.Question#2', dupe);
+    console.log('2019:12.Question#2', dupe);
     o(dupe).equals(278013787106916);
   });
 });
-
-o.run();

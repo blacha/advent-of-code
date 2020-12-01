@@ -3,7 +3,7 @@ import 'source-map-support/register';
 import o from 'ospec';
 import { Sensors } from './index';
 
-o.spec('Day10', () => {
+o.spec('2019:Day10', () => {
   o('should do first example', () => {
     const sensors = Sensors.scan(
       `.#..#
@@ -188,11 +188,11 @@ o.spec('Day10', () => {
 
     console.log();
     const scan = base.scan();
-    console.log('Day10.Question#1', scan.count);
+    console.log('2019:10.Question#1', scan.count);
     o(scan.count).equals(288);
 
     const destroyed = base.destroy(scan.asteroid, 200);
-    console.log('Day10.Question#2', destroyed.x * 100 + destroyed.y);
+    console.log('2019:10.Question#2', destroyed.x * 100 + destroyed.y);
     o(base.scan().count).equals(288);
   });
 });

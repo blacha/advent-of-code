@@ -2,7 +2,7 @@ import o from 'ospec';
 import 'source-map-support/register';
 import { AmplifierControl } from './index';
 
-o.spec('Day7', () => {
+o.spec('2019:Day07', () => {
   o('should do first example', () => {
     const amp = AmplifierControl.brute('3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0');
     o(amp.input).deepEquals([4, 3, 2, 1, 0]);
@@ -40,11 +40,11 @@ o.spec('Day7', () => {
     const amp = AmplifierControl.brute(program);
 
     console.log();
-    console.log('Day7.Question#1', amp.value);
+    console.log('2019:07.Question#1', amp.value);
     o(amp.value).equals(437860);
 
     const ampB = AmplifierControl.brute(program, [5, 6, 7, 8, 9]);
-    console.log('Day7.Question#2', ampB.value);
+    console.log('2019:07.Question#2', ampB.value);
     o(ampB.value).equals(49810599);
   });
 });

@@ -2,7 +2,7 @@ import o from 'ospec';
 import { Computer } from '../shared/computer/int.computer';
 import 'source-map-support/register';
 
-o.spec('Day5', () => {
+o.spec('2019:Day05', () => {
   const computer = new Computer();
 
   o('modes', () => {
@@ -94,9 +94,9 @@ o.spec('Day5', () => {
     computer.run(programInput, [1]);
 
     console.log('');
-    console.log('Day5.Question#1', computer.output);
+    console.log('2020:05.Question#1', computer.output);
 
     computer.run(programInput, [5]);
-    console.log('Day5.Question#2', computer.output);
+    console.log('2020:05.Question#2', computer.output);
   });
 });

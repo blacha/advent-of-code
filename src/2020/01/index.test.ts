@@ -2,7 +2,7 @@ import o from 'ospec';
 import { findSum, threeFor2020, twoFor2020 } from '.';
 import { Day1Input } from './input';
 
-o.spec('Day1', () => {
+o.spec('2020:01', () => {
   const testValues = [1721, 979, 366, 299, 675, 1456];
 
   o('twoFor2020', () => {
@@ -17,9 +17,9 @@ o.spec('Day1', () => {
 
   o('Answer', () => {
     console.log('');
-    console.time('2020:Day1');
-    console.log('2020:Day1.Question#1', twoFor2020(Day1Input), findSum(Day1Input, 2, 2020));
-    console.log('2020:Day1.Question#2', threeFor2020(Day1Input), findSum(Day1Input, 3, 2020));
-    console.timeEnd('2020:Day1');
+    console.time('2020:01');
+    console.log('2020:01.Question#1', twoFor2020(Day1Input), findSum(Day1Input, 2, 2020));
+    console.log('2020:01.Question#2', threeFor2020(Day1Input), findSum(Day1Input, 3, 2020));
+    console.timeEnd('2020:01');
   });
 });

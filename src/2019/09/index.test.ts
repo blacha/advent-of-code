@@ -3,7 +3,7 @@ import 'source-map-support/register';
 import { Computer } from '../shared/computer/int.computer';
 import { Day9Input } from './input';
 
-o.spec('Day9', () => {
+o.spec('2019:Day09', () => {
   const computer = new Computer();
 
   o('should do first example', () => {
@@ -35,10 +35,10 @@ o.spec('Day9', () => {
     o(computer.isEnded).equals(true);
 
     console.log();
-    console.log('Day9.Question#1', computer.output);
+    console.log('2019:09.Question#1', computer.output);
 
     computer.run(Day9Input, [2]);
     o(computer.isEnded).equals(true);
-    console.log('Day9.Question#2', computer.output);
+    console.log('2019:09.Question#2', computer.output);
   });
 });

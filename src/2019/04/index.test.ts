@@ -1,7 +1,7 @@
 import o from 'ospec';
 import { checkInput, hasDoubleDupe } from './index';
 
-o.spec('Day4', () => {
+o.spec('2019:Day04', () => {
   o('check dupes', () => {
     o(checkInput('111111')).equals(true);
     o(checkInput('223450')).equals(false);
@@ -28,7 +28,7 @@ o.spec('Day4', () => {
     }
 
     console.log('');
-    console.log('Day4.Question#1', answerOne.length);
-    console.log('Day4.Question#2', answerTwo.length);
+    console.log('2020:04.Question#1', answerOne.length);
+    console.log('2020:04.Question#2', answerTwo.length);
   });
 });
