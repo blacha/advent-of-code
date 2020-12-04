@@ -5,7 +5,9 @@
   "scripts": {
     "build": "tsc --pretty",
     "lint": "eslint 'src/**/*.ts' --quiet --fix",
-    "test": "ospec build/**/*.test.js"
+    "test": "yarn run test:2020 && yarn run test:2019",
+    "test:2020": "ospec build/src/2020/**/*.test.js",
+    "test:2019": "ospec build/src/2019/**/*.test.js"
   },
   "dependencies": {},
   "devDependencies": {
