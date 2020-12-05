@@ -1,6 +1,6 @@
 import 'source-map-support/register';
 import * as fs from 'fs';
-import o from 'ospec';
+import o, { Ospec } from 'ospec';
 import { Answers } from './answers';
 
 export abstract class AoC<T = string> {
@@ -33,7 +33,11 @@ export abstract class AoC<T = string> {
   }
 
   get dataRaw(): Promise<string> {
-    return fs.promises.readFile(`./data/${this.user}/${this.year}/${this.dayId}`).then((f) => f.toString());
+    const filePath = `./data/${this.user}/${this.year}/${this.dayId}`;
+    if (fs.existsSync(filePath)) {
+      return fs.promises.readFile(filePath).then((f) => f.toString());
+    }
+    return fs.promises.readFile(filePath + '.txt').then((f) => f.toString());
   }
 
   get dataTestRaw(): Promise<string> {
@@ -54,7 +58,7 @@ export abstract class AoC<T = string> {
     });
   }
 
-  abstract parse?(data: string): Promise<T> | T;
+  parse?(data: string): Promise<T> | T;
   abstract partA(input: T): Promise<number> | number;
   abstract partB(input: T): Promise<number> | number;
 
@@ -68,9 +72,9 @@ export abstract class AoC<T = string> {
     return this.partB(data);
   }
 
-  test(fn?: () => void, run = false): void {
+  test(fn?: (o: Ospec) => void, run = false): void {
     o.spec(this.id, () => {
-      if (fn) fn();
+      if (fn) fn(o);
       o('Answer', async () => {
         const ans = Answers.get(this.user, this.year, this.day);
         console.log('');
@@ -87,5 +91,12 @@ export abstract class AoC<T = string> {
       });
     });
     if (run) o.run();
+  }
+
+  async run() {
+    const ansA = await this.solutionA();
+    const ansB = await this.solutionB();
+    console.log(`${this.id}.Question#1`, ansA);
+    console.log(`${this.id}.Question#2`, ansB);
   }
 }
