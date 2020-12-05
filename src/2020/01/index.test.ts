@@ -1,25 +1,16 @@
 import o from 'ospec';
-import { findSum, threeFor2020, twoFor2020 } from '.';
-import { Day1Input } from './input';
+import { aoc2020day1 } from '.';
 
-o.spec('2020:01', () => {
+aoc2020day1.test(() => {
   const testValues = [1721, 979, 366, 299, 675, 1456];
 
-  o('twoFor2020', () => {
-    o(twoFor2020(testValues)).equals(514579);
-    o(findSum(testValues, 2, 2020)).equals(514579);
-    o(twoFor2020(Day1Input)).equals(1003971);
-  });
-  o('threeFor2020', () => {
-    o(threeFor2020(testValues)).equals(241861950);
-    o(threeFor2020(Day1Input)).equals(84035952);
+  o('twoFor2020', async () => {
+    o(await aoc2020day1.partA(testValues)).equals(514579);
+    o(await aoc2020day1.solutionA()).equals(1003971);
   });
 
-  o('Answer', () => {
-    console.log('');
-    console.time('2020:01');
-    console.log('2020:01.Question#1', twoFor2020(Day1Input), findSum(Day1Input, 2, 2020));
-    console.log('2020:01.Question#2', threeFor2020(Day1Input), findSum(Day1Input, 3, 2020));
-    console.timeEnd('2020:01');
+  o('threeFor2020', async () => {
+    o(await aoc2020day1.partB(testValues)).equals(241861950);
+    o(await aoc2020day1.solutionB()).equals(84035952);
   });
 });

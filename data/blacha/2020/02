@@ -1,4 +1,4 @@
-export const Day2Input = `6-9 z: qzzzzxzzfzzzz
+6-9 z: qzzzzxzzfzzzz
 2-4 s: xgmsdts
 6-7 k: khqpsvk
 1-3 k: knkqh
@@ -997,4 +997,4 @@ export const Day2Input = `6-9 z: qzzzzxzzfzzzz
 15-20 l: llllllllllllllrllllz
 7-9 z: zzzzzznzwz
 1-6 m: mmmmmmm
-6-7 v: ckvbtcv`;
+6-7 v: ckvbtcv

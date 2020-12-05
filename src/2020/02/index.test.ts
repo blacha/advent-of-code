@@ -1,27 +1,18 @@
 import o from 'ospec';
-import { countValidPasswordsA, countValidPasswordsB, Day2TestInput, parseInput } from '.';
-import { Day2Input } from './input';
+import { aoc2020day2 } from '.';
 
-o.spec('2020:02', () => {
-  o('should parse input', () => {
-    o(parseInput(Day2TestInput)).deepEquals([
+aoc2020day2.test(() => {
+  o('should parse input', async () => {
+    const data = await aoc2020day2.dataTest;
+    o(data).deepEquals([
       { min: 1, max: 3, char: 'a', pass: 'abcde' },
       { min: 1, max: 3, char: 'b', pass: 'cdefg' },
       { min: 2, max: 9, char: 'c', pass: 'ccccccccc' },
     ]);
   });
-
-  o('should validate test data', () => {
-    o(countValidPasswordsA(parseInput(Day2TestInput))).equals(2);
-    o(countValidPasswordsB(parseInput(Day2TestInput))).equals(1);
-  });
-
-  o('Answer', () => {
-    const parsedData = parseInput(Day2Input);
-    console.log('');
-    console.time('2020:02');
-    console.log('2020:02.Question#1', countValidPasswordsA(parsedData));
-    console.log('2020:02.Question#2', countValidPasswordsB(parsedData));
-    console.timeEnd('2020:02');
+  o('should validate test data', async () => {
+    const data = await aoc2020day2.dataTest;
+    o(aoc2020day2.partA(data)).equals(2);
+    o(aoc2020day2.partB(data)).equals(1);
   });
 });

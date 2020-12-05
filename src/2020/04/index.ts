@@ -1,4 +1,4 @@
-import { Day4Input, Day4InputTest } from './input';
+import { AoC } from '../../framework/aoc';
 
 export interface Passport {
   byr: string;
@@ -8,25 +8,9 @@ export interface Passport {
   hcl: string;
   ecl: string;
   pid: string;
-  cid?: string;
 }
 
-export interface PassportData {
-  passport: Passport;
-  isValid: boolean;
-  isValidated: boolean;
-}
-
-const RequiredFields = new Set<keyof Passport>([
-  'byr', // (Birth Year)
-  'iyr', // (Issue Year)
-  'eyr', // (Expiration Year)
-  'hgt', // (Height)
-  'hcl', // (Hair Color)
-  'ecl', // (Eye Color)
-  'pid', // (Passport ID)
-  'cid', // (Country ID)
-]);
+const RequiredFields = new Set<keyof Passport>(['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']);
 const EyeColors = new Set(['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']);
 
 export const Validators: Record<keyof Passport, (s?: string) => boolean> = {
@@ -44,45 +28,52 @@ export const Validators: Record<keyof Passport, (s?: string) => boolean> = {
     return false;
   },
   hcl: (f?: string) => f != null && /^#([0-9a-f]){6}/.test(f),
-  cid: () => true,
 };
 
-function isKeyValid(k: any): k is keyof Passport {
-  return RequiredFields.has(k);
-}
-
-export function parseDay4Input(f: string): PassportData[] {
-  let passport: Partial<Passport> = {};
-  const passports = [{ passport, isValid: true, isValidated: false }];
-
-  for (const line of f.split('\n')) {
-    if (line == '') {
-      passport = {};
-      passports.push({ passport, isValid: true, isValidated: false });
-      continue;
-    }
-    for (const pairs of line.split(' ')) {
-      if (!pairs.includes(':')) continue;
-      const [key, value] = pairs.split(':') as [keyof Passport, string];
-      if (!isKeyValid(key)) throw new Error('WeirdKey:' + key);
-      passport[key] = value;
-    }
+export class AoC2020Day4 extends AoC<Passport[]> {
+  constructor() {
+    super(2020, 4);
   }
-  for (const p of passports) {
-    // Question 1 validation
-    const fieldCount = Object.keys(p.passport).length;
-    p.isValid = fieldCount == RequiredFields.size || (fieldCount == RequiredFields.size - 1 && p.passport.cid == null);
-    // Question 2 validation
-    let isValid = true;
-    for (const key of RequiredFields) {
-      const validator = Validators[key];
-      if (validator(p.passport[key]) == false) {
-        isValid = false;
-        break;
+
+  isKeyValid(k: any): k is keyof Passport {
+    return RequiredFields.has(k);
+  }
+
+  parse(str: string): Passport[] {
+    let passport: Partial<Passport> = {};
+    const passports = [passport];
+    for (const line of str.split('\n')) {
+      if (line.trim() == '') {
+        passport = {};
+        passports.push(passport);
+        continue;
+      }
+      for (const pairs of line.split(' ')) {
+        if (!pairs.includes(':')) continue;
+        const [key, value] = pairs.split(':');
+        if (key == 'cid') continue;
+
+        if (!this.isKeyValid(key)) throw new Error('WeirdKey:' + key);
+        passport[key] = value;
       }
     }
-    p.isValidated = isValid;
+    return passports as Passport[];
   }
 
-  return passports as PassportData[];
+  partA(input: Passport[]): number {
+    return input.filter((f: Passport) => RequiredFields.size == Object.keys(f).length).length;
+  }
+
+  partB(input: Passport[]): number {
+    return input.filter((f: Passport) => {
+      for (const key of RequiredFields) {
+        const validator = Validators[key];
+        if (validator(f[key])) continue;
+        return false;
+      }
+      return true;
+    }).length;
+  }
 }
+
+export const aoc2020day4 = new AoC2020Day4();
