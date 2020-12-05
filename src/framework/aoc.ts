@@ -44,14 +44,14 @@ export abstract class AoC<T = string> {
     return fs.promises.readFile(`./data/${this.user}/${this.year}/${this.dayId}.test`).then((f) => f.toString());
   }
 
-  get dataTest(): Promise<T> {
+  get dataTest(): Promise<T> | T {
     return this.dataTestRaw.then((data): Promise<T> | T => {
       if (this.parse) return this.parse(data);
       return (data as any) as T;
     });
   }
 
-  get data(): Promise<T> {
+  get data(): Promise<T> | T {
     return this.dataRaw.then((data): Promise<T> | T => {
       if (this.parse) return this.parse(data);
       return (data as any) as T;
