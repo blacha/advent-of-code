@@ -83,6 +83,8 @@ export abstract class AoC<T = string> {
         if (ans) {
           o(a).equals(ans.a);
           o(b).equals(ans.b);
+        } else {
+          console.log('No known answers for ', this.id);
         }
       });
     });

@@ -192,7 +192,7 @@
         "affectsGlobalScope": true
       },
       "./src/answers.ts": {
-        "version": "4855a5fe31596157842df67cd15c72f80156335de40dc1678434493778c02b6a",
+        "version": "c1de45d475f938954271da12dcee74c74be78ad0363b5cce61c697f6c699ca22",
         "signature": "3911b9435c0c32802ad40fa8932e98144f4b4c9f122afa36b0d7fa516657f8c2",
         "affectsGlobalScope": false
       },
@@ -202,7 +202,7 @@
         "affectsGlobalScope": false
       },
       "./src/aoc.ts": {
-        "version": "bfd4010a46bf3e40dd70f7147fe218685098e621096da571c2c9c11a1b4764af",
+        "version": "2d0698b706d2772653df34795da45f6cd49cb5f48f233b09eaf4706dcdb33977",
         "signature": "4434e64f2fd84df4588c1105db963507f44b5197f0334f8bf86aa3079b47f5a8",
         "affectsGlobalScope": false
       },

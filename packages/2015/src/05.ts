@@ -25,10 +25,10 @@ export class AoC2015Day5 extends AoC<string[]> {
     return vowels >= 3 && dupes > 0;
   }
 
-  isExtraNiceA(s: string): boolean {
+  isExtraNice(s: string): boolean {
     let gapDupe = false;
     let doublePair = false;
-    const pairTypes = new Set();
+    const pairTypes = new Map<string, number>();
     for (let i = 0; i < s.length; i++) {
       const ch = s[i];
 
@@ -36,20 +36,17 @@ export class AoC2015Day5 extends AoC<string[]> {
       if (i < s.length - 1) {
         const nxChar = s[i + 1];
         const pairChar = ch + nxChar;
-        if (pairTypes.has(pairChar)) doublePair = true;
-        pairTypes.add(pairChar);
+        if (pairTypes.has(pairChar)) {
+          const firstOffset = pairTypes.get(pairChar)!;
+          doublePair = i - firstOffset > 1;
+        } else {
+          pairTypes.set(pairChar, i);
+        }
       }
     }
     if (gapDupe == false) return false;
 
     return gapDupe && doublePair;
-  }
-
-  isExtraNice(s: string): boolean {
-    // if (!this.isNice(s)) return false;
-    if (!this.isExtraNiceA(s)) return false;
-
-    return true;
   }
 
   partA(input: string[]): number {
@@ -72,6 +69,7 @@ aoc2015day5.test((o) => {
 
     o(aoc2015day5.isExtraNice('qjhvhtzxzqqjkmpb')).equals(true);
     o(aoc2015day5.isExtraNice('xxyxx')).equals(true);
+    o(aoc2015day5.isExtraNice('xxx')).equals(false);
     o(aoc2015day5.isExtraNice('uurcxstgmygtbstg')).equals(false);
     o(aoc2015day5.isExtraNice('ieodomkazucvgmuy')).equals(false);
   });

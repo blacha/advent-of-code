@@ -12,6 +12,12 @@ export class AnswersRegistry {
 
 export const Answers = new AnswersRegistry();
 
+Answers.register('blacha', 2015, 1, 138, 1771);
+Answers.register('blacha', 2015, 2, 1586300, 3737498);
+Answers.register('blacha', 2015, 3, 2565, 2639);
+Answers.register('blacha', 2015, 4, 346386, 9958218);
+Answers.register('blacha', 2015, 5, 258, 53);
+
 Answers.register('blacha', 2019, 1, 3405637, 5105597);
 Answers.register('blacha', 2019, 2, 3516593, 7749);
 Answers.register('blacha', 2019, 3, 1337, 65356);
