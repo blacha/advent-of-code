@@ -1,3 +1,3 @@
-export function toNumberArray(str: string): number[] {
-  return str.split('\n').map((c) => parseFloat(c));
+export function toNumberArray(str: string, split = '\n'): number[] {
+  return str.split(split).map((c) => parseFloat(c));
 }

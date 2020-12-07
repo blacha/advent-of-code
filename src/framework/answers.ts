@@ -1,9 +1,9 @@
 export class AnswersRegistry {
-  map: Map<string, { a: number; b: number }> = new Map();
-  get(user: string, year: number, day: number): { a: number; b: number } | null {
+  map: Map<string, { a: number; b: number | string }> = new Map();
+  get(user: string, year: number, day: number): { a: number; b: number | string } | null {
     return this.map.get(`${user}:${year}:${day}`) ?? null;
   }
-  register(user: string, year: number, day: number, a: number, b: number): void {
+  register(user: string, year: number, day: number, a: number, b: number | string): void {
     const userKey = `${user}:${year}:${day}`;
     if (this.map.has(`${user}:${year}:${day}`)) throw new Error('Duplicate answer supplied ' + userKey);
     this.map.set(userKey, { a, b });
@@ -12,7 +12,21 @@ export class AnswersRegistry {
 
 export const Answers = new AnswersRegistry();
 
+Answers.register('blacha', 2019, 1, 3405637, 5105597);
+Answers.register('blacha', 2019, 2, 3516593, 7749);
+Answers.register('blacha', 2019, 3, 1337, 65356);
+Answers.register('blacha', 2019, 4, 1150, 748);
+Answers.register('blacha', 2019, 5, 15259545, 7616021);
+Answers.register('blacha', 2019, 6, 117672, 277);
+Answers.register('blacha', 2019, 7, 437860, 49810599);
+Answers.register('blacha', 2019, 8, 1848, 'fgjuz');
+Answers.register('blacha', 2019, 9, 2682107844, 34738);
+Answers.register('blacha', 2019, 10, 288, 616);
+Answers.register('blacha', 2019, 11, 1709, 'pguehcjh');
+Answers.register('blacha', 2019, 12, 13500, 278013787106916);
+
 Answers.register('blacha', 2020, 1, 1003971, 84035952);
 Answers.register('blacha', 2020, 2, 506, 443);
 Answers.register('blacha', 2020, 3, 148, 742481664);
 Answers.register('blacha', 2020, 4, 226, 160);
+Answers.register('blacha', 2020, 5, 933, 711);

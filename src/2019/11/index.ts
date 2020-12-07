@@ -1,4 +1,4 @@
-import { Grid } from '../03';
+import { Grid } from '../shared/grid';
 import { Computer } from '../shared/computer/int.computer';
 import { RobotProgram } from './robot';
 export enum PanelColor {

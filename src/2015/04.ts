@@ -34,5 +34,5 @@ export class AoC2015Day4 extends AoC {
   }
 }
 
-export const day4 = new AoC2015Day4();
-day4.run();
+export const aoc2015day4 = new AoC2015Day4();
+aoc2015day4.test();

@@ -5,12 +5,16 @@
   "scripts": {
     "build": "tsc --pretty",
     "lint": "eslint 'src/**/*.ts' --quiet --fix",
-    "test": "ospec build/src/**/*.test.js",
-    "test:2020": "ospec build/src/2020/**/*.test.js",
-    "test:2019": "ospec build/src/2019/**/*.test.js"
+    "test": "ospec 'build/src/**/*.test.js'",
+    "test:2020": "node 'build/src/2020/2020.test.js'",
+    "test:2019": "node 'build/src/2019/2019.test.js'",
+    "test:2015": "node 'build/src/2015/2015.test.js'"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
   "devDependencies": {
+    "@types/node-fetch": "^2.5.7",
     "@linzjs/style": "^0.4.1",
     "@types/node": "^14.14.10",
     "@types/ospec": "^4.0.2",

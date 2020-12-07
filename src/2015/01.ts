@@ -31,4 +31,10 @@ export class AoC2015Day1 extends AoC {
   }
 }
 
-export const day1 = new AoC2015Day1();
+export const aoc2015day1 = new AoC2015Day1();
+
+aoc2015day1.test((o) => {
+  o('simple tests', () => {
+    o(aoc2015day1.partA('(())')).equals(0);
+  });
+});

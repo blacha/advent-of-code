@@ -25,7 +25,7 @@ export class Grid {
     }
   }
 
-  add(tasks: string, id: string) {
+  add(tasks: string, id: string): void {
     let x = 0;
     let y = 0;
     let steps = 0;
@@ -65,7 +65,7 @@ export class Grid {
     }
   }
 
-  hit(x: number, y: number, data: HitData[]) {
+  hit(x: number, y: number, data: HitData[]): void {
     const key = `${x}:${y}`;
     const existing = this.hits[key] || {
       key,
@@ -76,11 +76,11 @@ export class Grid {
     this.hits[key] = existing;
   }
 
-  getHits() {
+  getHits(): Hit {
     const keys = Object.values(this.hits).sort((a, b) => a.total - b.total);
     return keys[1];
   }
-  getBySum() {
+  getBySum(): Hit {
     const keys = Object.values(this.hits).sort((a, b) => a.sum - b.sum);
     return keys[1];
   }

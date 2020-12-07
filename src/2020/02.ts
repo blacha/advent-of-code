@@ -1,4 +1,4 @@
-import { AoC } from '../../framework/aoc';
+import { AoC } from '../framework/aoc';
 
 export interface Day2TestData {
   min: number;
@@ -43,3 +43,19 @@ export class AoC2020Day2 extends AoC<Day2TestData[]> {
 }
 
 export const aoc2020day2 = new AoC2020Day2();
+
+aoc2020day2.test((o) => {
+  o('should parse input', async () => {
+    const data = await aoc2020day2.dataTest;
+    o(data).deepEquals([
+      { min: 1, max: 3, char: 'a', pass: 'abcde' },
+      { min: 1, max: 3, char: 'b', pass: 'cdefg' },
+      { min: 2, max: 9, char: 'c', pass: 'ccccccccc' },
+    ]);
+  });
+  o('should validate test data', async () => {
+    const data = await aoc2020day2.dataTest;
+    o(aoc2020day2.partA(data)).equals(2);
+    o(aoc2020day2.partB(data)).equals(1);
+  });
+});

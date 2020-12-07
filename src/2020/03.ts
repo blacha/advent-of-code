@@ -1,4 +1,4 @@
-import { AoC } from '../../framework/aoc';
+import { AoC } from '../framework/aoc';
 
 export class AoC2020Day3 extends AoC<string[]> {
   constructor() {
@@ -44,3 +44,5 @@ export class AoC2020Day3 extends AoC<string[]> {
 }
 
 export const aoc2020day3 = new AoC2020Day3();
+
+aoc2020day3.test();

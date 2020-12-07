@@ -40,6 +40,17 @@ export class AoC2015Day3 extends AoC<string> {
   }
 }
 
-export const day3 = new AoC2015Day3();
+export const aoc2015day3 = new AoC2015Day3();
 
-day3.run();
+aoc2015day3.test((o) => {
+  o('should deliver', () => {
+    o(aoc2015day3.partA('>')).equals(2);
+    o(aoc2015day3.partA('^>v<')).equals(4);
+    o(aoc2015day3.partA('^v^v^v^v^v')).equals(2);
+  });
+  o('should robo deliver', () => {
+    o(aoc2015day3.partB('^v')).equals(3);
+    o(aoc2015day3.partB('^>v<')).equals(3);
+    o(aoc2015day3.partB('^v^v^v^v^v')).equals(11);
+  });
+});

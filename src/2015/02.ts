@@ -39,4 +39,13 @@ export class AoC2015Day2 extends AoC<number[][]> {
   }
 }
 
-export const day2 = new AoC2015Day2();
+export const aoc2015day2 = new AoC2015Day2();
+aoc2015day2.test((o) => {
+  o('should calculate', () => {
+    o(aoc2015day2.partA([[2, 3, 4]])).equals(58);
+    o(aoc2015day2.partA([[1, 1, 10]])).equals(43);
+
+    o(aoc2015day2.partB([[2, 3, 4]])).equals(34);
+    o(aoc2015day2.partB([[1, 1, 10]])).equals(14);
+  });
+});

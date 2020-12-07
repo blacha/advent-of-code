@@ -31,4 +31,5 @@ export class AoC2020Day5 extends AoC<string[]> {
   }
 }
 
-export const day5 = new AoC2020Day5();
+export const aoc2020day5 = new AoC2020Day5();
+aoc2020day5.test();
