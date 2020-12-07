@@ -1,8 +1,9 @@
 {
-    "extends": "@linzjs/style/tsconfig.base.json",
-    "compilerOptions": {
-        "lib": ["ES2020"],
-        "outDir": "build",
-	    "esModuleInterop": true
-    }
+    "files": [],
+    "references": [
+        { "path": "packages/framework"},
+        { "path": "packages/2015"},
+        { "path": "packages/2019"},
+        { "path": "packages/2020"}
+    ]
 }
