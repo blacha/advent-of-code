@@ -75,4 +75,4 @@ aoc2015day9.test((o) => {
 
     o(aoc2015day9.bestRoute(dag, new Set(Object.keys(dag)))).equals(605);
   });
-}, true);
+});
