@@ -1,8 +1,8 @@
 import { AoC } from '../framework/aoc';
 
-export class AoC2020Day6 extends AoC<string[]> {
+export class AoC2020Day7 extends AoC<string[]> {
   constructor() {
-    super(2020, 6);
+    super(2020, 7);
   }
 
   parse(input: string): string[] {
@@ -17,4 +17,4 @@ export class AoC2020Day6 extends AoC<string[]> {
   }
 }
 
-export const aoc2020day6 = new AoC2020Day6();
+export const aoc2020day7 = new AoC2020Day7();
