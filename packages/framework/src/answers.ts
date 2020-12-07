@@ -17,6 +17,7 @@ Answers.register('blacha', 2015, 2, 1586300, 3737498);
 Answers.register('blacha', 2015, 3, 2565, 2639);
 Answers.register('blacha', 2015, 4, 346386, 9958218);
 Answers.register('blacha', 2015, 5, 258, 53);
+Answers.register('blacha', 2015, 6, 569999, 17836115);
 
 Answers.register('blacha', 2019, 1, 3405637, 5105597);
 Answers.register('blacha', 2019, 2, 3516593, 7749);
