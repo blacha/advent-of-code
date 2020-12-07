@@ -4,7 +4,7 @@
   "description": "",
   "private": "true",
   "scripts": {
-    "lint": "eslint 'src/**/*.ts' --quiet --fix",
+    "lint": "eslint 'packages/*/src/**/*.ts' --quiet --fix",
     "build": "tsc -b --pretty",
     "test": "lerna run test"
   },
