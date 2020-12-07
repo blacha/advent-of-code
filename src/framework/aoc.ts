@@ -41,7 +41,7 @@ export abstract class AoC<T = string> {
 
   /** When this AoC question unlocks */
   get unlockDate(): Date {
-    return new Date(`${this.id}T07:00:00Z`);
+    return new Date(`${this.id}T05:00:00Z`);
   }
 
   /** is this question active */

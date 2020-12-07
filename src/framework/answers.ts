@@ -30,3 +30,5 @@ Answers.register('blacha', 2020, 2, 506, 443);
 Answers.register('blacha', 2020, 3, 148, 742481664);
 Answers.register('blacha', 2020, 4, 226, 160);
 Answers.register('blacha', 2020, 5, 933, 711);
+Answers.register('blacha', 2020, 6, 6683, 3122);
+Answers.register('blacha', 2020, 7, 126, 220149);
