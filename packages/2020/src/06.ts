@@ -1,4 +1,4 @@
-import { AoC } from '@blacha/aocf';
+import { AoC } from 'aocf';
 
 export class AoC2020Day6 extends AoC<string[]> {
   constructor() {

@@ -1,4 +1,4 @@
-import { AoC } from '@blacha/aocf';
+import { AoC } from 'aocf';
 
 export class AoC2015Day2 extends AoC<number[][]> {
   constructor() {

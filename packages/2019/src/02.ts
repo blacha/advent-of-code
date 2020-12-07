@@ -1,4 +1,4 @@
-import { AoC, toNumberArray } from '@blacha/aocf';
+import { AoC, toNumberArray } from 'aocf';
 
 export class AoC2019Day2 extends AoC<number[]> {
   constructor() {

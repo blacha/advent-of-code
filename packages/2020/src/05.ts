@@ -1,4 +1,4 @@
-import { AoC } from '@blacha/aocf';
+import { AoC } from 'aocf';
 
 function toNumber(row: string) {
   return parseInt(row.replace(/R/g, '1').replace(/L/g, '0').replace(/B/g, '1').replace(/F/g, '0'), 2);

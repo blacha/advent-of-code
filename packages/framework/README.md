@@ -1,9 +1,9 @@
-# Advent of Code Framework (acof)
+# Advent of Code Framework (aocf)
 
 
 ```typescript
 
-import {AoC} from 'acof'
+import {AoC} from 'aocf'
 
 export class AoC2020Day1 extends AoC {
     partA(input: string):number {

@@ -1,4 +1,4 @@
-import { AoC, toNumberArray } from '@blacha/aocf';
+import { AoC, toNumberArray } from 'aocf';
 
 const dupes = ['00', '11', '22', '33', '44', '55', '66', '77', '88', '99'];
 

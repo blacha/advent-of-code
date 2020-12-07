@@ -1,4 +1,4 @@
-import { AoC } from '@blacha/aocf';
+import { AoC } from 'aocf';
 
 const Vowels = new Set('aeiou');
 

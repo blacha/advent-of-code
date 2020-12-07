@@ -1,4 +1,4 @@
-import { AoC } from '@blacha/aocf';
+import { AoC } from 'aocf';
 
 export interface Day2TestData {
   min: number;

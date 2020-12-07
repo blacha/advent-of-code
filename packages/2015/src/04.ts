@@ -1,4 +1,4 @@
-import { AoC } from '@blacha/aocf';
+import { AoC } from 'aocf';
 import { createHash } from 'crypto';
 
 export class AoC2015Day4 extends AoC {
