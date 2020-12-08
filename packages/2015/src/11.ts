@@ -23,31 +23,6 @@ function fromNumber(num: number): string {
   return alpha.join('');
 }
 
-// const CodeA = 'a'.charCodeAt(0);
-
-// function toNumber(str: string): number {
-//   let output = 0;
-//   for (let i = str.length - 1; i >= 0; i--) {
-//     output += (str.charCodeAt(i) - CodeA) * Math.pow(26, str.length - i - 1);
-//   }
-//   return output;
-// }
-// function fromNumber(num: number): string {
-//   const chars = [];
-//   while (num > 0) {
-//     const mod = num % 26;
-//     num = (num / 26) | 0;
-
-//     if (mod == 0) {
-//       num--;
-//       chars.push('z');
-//     } else {
-//       chars.push(String.fromCharCode(CodeA + mod));
-//     }
-//   }
-//   return chars.reverse().join('');
-// }
-
 export class AoC2015Day11 extends AoC {
   constructor() {
     super(2015, 11);
