@@ -102,12 +102,10 @@ export const aoc2020day8 = new AoC2020Day8();
 
 aoc2020day8.test((o) => {
   o('should parse', () => {
-    o(
-      aoc2020day8.parse(`nop +0
-        acc -1`),
-    ).deepEquals([
+    o(aoc2020day8.parse(`nop +0\nacc -1\njmp +30`)).deepEquals([
       { op: OpType.Noop, val: 0 },
       { op: OpType.Accumulator, val: -1 },
+      { op: OpType.Jump, val: 30 },
     ]);
   });
 });
