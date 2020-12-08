@@ -62,8 +62,8 @@ export abstract class AoC<T = string> {
   }
 
   parse?(data: string): Promise<T> | T;
-  abstract partA(input: T): Promise<number> | number;
-  abstract partB(input: T): Promise<number> | number;
+  abstract partA(input: T): Promise<number | string> | number | string;
+  abstract partB(input: T): Promise<number | string> | number | string;
 
   test(fn?: (o: Ospec) => void, run = false): void {
     o.spec(this.id, () => {
@@ -91,7 +91,7 @@ export abstract class AoC<T = string> {
     if (run) o.run();
   }
 
-  async answers(): Promise<{ a: number; b: number | string }> {
+  async answers(): Promise<{ a: number | string; b: number | string }> {
     const data = await this.data();
     const a = await this.partA(data);
     const b = await this.partB(data);

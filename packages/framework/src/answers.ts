@@ -1,9 +1,9 @@
 export class AnswersRegistry {
-  map: Map<string, { a: number; b: number | string }> = new Map();
-  get(user: string, year: number, day: number): { a: number; b: number | string } | null {
+  map: Map<string, { a: number | string; b: number | string }> = new Map();
+  get(user: string, year: number, day: number): { a: number | string; b: number | string } | null {
     return this.map.get(`${user}:${year}:${day}`) ?? null;
   }
-  register(user: string, year: number, day: number, a: number, b: number | string): void {
+  register(user: string, year: number, day: number, a: number | string, b: number | string): void {
     const userKey = `${user}:${year}:${day}`;
     if (this.map.has(`${user}:${year}:${day}`)) throw new Error('Duplicate answer supplied ' + userKey);
     this.map.set(userKey, { a, b });
@@ -22,6 +22,7 @@ Answers.register('blacha', 2015, 7, 3176, 14710);
 Answers.register('blacha', 2015, 8, 1371, 2117);
 Answers.register('blacha', 2015, 9, 207, 804);
 Answers.register('blacha', 2015, 10, 492982, 6989950);
+Answers.register('blacha', 2015, 11, 'cqjxxyzz', 'cqkaabcc');
 
 Answers.register('blacha', 2019, 1, 3405637, 5105597);
 Answers.register('blacha', 2019, 2, 3516593, 7749);
