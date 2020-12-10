@@ -15,7 +15,7 @@ jobs:
         node-version: 12.x
     # Configure the .aocrc to look at .aoc-data
     - name: .aocrc
-      run: echo "AOC_DATA_PATH=." > .aocrc
+      run: echo "AOC_DATA_PATH=.\nAOC_USER=blacha" > .aocrc
 
     - name: Install
       run: yarn install
