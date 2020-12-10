@@ -55,4 +55,4 @@ aoc2020Day10.test((o) => {
     o(aoc2020Day10.partB(exampleA)).equals(8);
     o(aoc2020Day10.partB(exampleB)).equals(19208);
   });
-});
+}, true);

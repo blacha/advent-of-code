@@ -126,8 +126,8 @@ export class AoC<T = string> {
     if (run) o.run();
   }
 
-  async answers(): Promise<{ a: number | string; b: number | string }> {
-    const data = await this.data();
+  async answers(input: Promise<T> | T = this.data()): Promise<{ a: number | string; b: number | string }> {
+    const data = await input;
     if (this.partA == null) throw new Error('No answer A defined');
     const a = await this.partA(data);
     if (this.partB == null) throw new Error('No answer B defined');
@@ -135,8 +135,8 @@ export class AoC<T = string> {
     return { a, b };
   }
 
-  async run(): Promise<void> {
-    const { a, b } = await this.answers();
+  async run(input: Promise<string> | string = this.input): Promise<void> {
+    const { a, b } = await this.answers(this.parse ? this.parse(await input) : (input as any));
     console.log(`${this.id}.Question#1`, a);
     console.log(`${this.id}.Question#2`, b);
   }
