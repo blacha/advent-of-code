@@ -35,7 +35,7 @@ aoc2015day12.test((o) => {
     o(aoc2015day12.partB(`[[[3]]]`)).equals(3);
     o(aoc2015day12.partB(`{"a":{"b":4},"c":-1}`)).equals(3);
   });
-  o.only('partB', () => {
+  o('partB', () => {
     o(aoc2015day12.partB(`[1,2,3]`)).equals(6);
     o(aoc2015day12.partB(`{"d":"red","e":[1,2,3,4],"f":5}`)).equals(0);
     o(aoc2015day12.partB(`[1,{"c":"red","b":2},3]`)).equals(4);
