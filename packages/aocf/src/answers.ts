@@ -23,6 +23,9 @@ Answers.register('blacha', 2015, 8, 1371, 2117);
 Answers.register('blacha', 2015, 9, 207, 804);
 Answers.register('blacha', 2015, 10, 492982, 6989950);
 Answers.register('blacha', 2015, 11, 'cqjxxyzz', 'cqkaabcc');
+Answers.register('blacha', 2015, 12, 156366, 96852);
+Answers.register('blacha', 2015, 13, 618, 601);
+Answers.register('blacha', 2015, 14, 2696, 1084);
 
 Answers.register('blacha', 2019, 1, 3405637, 5105597);
 Answers.register('blacha', 2019, 2, 3516593, 7749);
