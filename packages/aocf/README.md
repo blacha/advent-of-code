@@ -79,10 +79,15 @@ export interface AoCJsonData {
 
 ## Configuration
 
-Session and data storage locations can be configured with a `.aocrc` 
+Session and data storage locations can be configured with a `.aocrc`  or environment variables
 
 ```bash
 AOC_SESSION=YourAoCSession
 AOC_USER=blacha # github user name
 AOC_DATA_PATH=. # Store the .aoc-data folder in the same folder as your .aocrc
 ```
+
+```bash
+export AOC_SESSION=YourAoCSession
+```
+
