@@ -1,2 +1,2 @@
 export { AoC } from './aoc';
-export { toNumberArray } from './parse';
+export { toNumberArray, toNumberArraySorted } from './parse';

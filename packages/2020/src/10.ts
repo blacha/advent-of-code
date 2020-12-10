@@ -1,13 +1,12 @@
-import { AoC, toNumberArray } from 'aocf';
+import { AoC } from 'aocf';
+import { toNumberArraySorted } from 'aocf';
 
 export class AoC2020Day10 extends AoC<number[]> {
   constructor() {
     super(2020, 10);
   }
 
-  parse(i: string): number[] {
-    return toNumberArray(i).sort((a, b) => a - b);
-  }
+  parse = toNumberArraySorted;
 
   partA(input: number[]): number {
     let last = 0;
