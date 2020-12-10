@@ -1,7 +1,7 @@
 {
     "files": [],
     "references": [
-        { "path": "packages/framework"},
+        { "path": "packages/aocf"},
         { "path": "packages/2015"},
         { "path": "packages/2019"},
         { "path": "packages/2020"}

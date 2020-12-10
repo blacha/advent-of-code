@@ -13,6 +13,7 @@ export class AoC2020Day9 extends AoC<number[]> {
     const value = input[offset];
     for (let i = offset - windowSize; i < offset; i++) {
       const iVal = input[i];
+      if (iVal > value) continue;
 
       for (let k = offset - windowSize + 1; k < offset; k++) {
         const kVal = input[k];
@@ -33,6 +34,8 @@ export class AoC2020Day9 extends AoC<number[]> {
     const searchNumber = this.partA(input, windowSize);
     for (let i = 0; i < input.length; i++) {
       let start = input[i];
+      if (start > searchNumber) continue;
+
       for (let k = i + 1; k < input.length; k++) {
         start += input[k];
         if (start > searchNumber) break;

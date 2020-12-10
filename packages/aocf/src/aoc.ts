@@ -3,7 +3,21 @@ import 'source-map-support/register';
 import { Answers } from './answers';
 import { AoCData } from './aoc.data';
 
-export abstract class AoC<T = string> {
+export interface AoCJsonData {
+  /** Github username for where the puzzle data came from */
+  user: string;
+  /** Advent of code year */
+  year: number;
+
+  puzzles: {
+    /** Raw puzzle input */
+    input: string;
+    /** Answers for the day */
+    answers: { a: string | number; b: string | number };
+  }[];
+}
+
+export class AoC<T = string> {
   static id(year: number, day: number): string {
     return `${year}-12-${day.toString().padStart(2, '0')}`;
   }
@@ -29,6 +43,27 @@ export abstract class AoC<T = string> {
     AoC.registry.set(this.id, this);
   }
 
+  static create<T = string>(year: number, day: number): AoC<T> {
+    return new AoC(year, day);
+  }
+
+  static async export(year: number): Promise<AoCJsonData> {
+    const data: AoCJsonData = {
+      user: AoCData.user,
+      year,
+      puzzles: [],
+    };
+    for (let day = 1; day < 31; day++) {
+      const aoc = AoC.get(year, day);
+      if (aoc == null) continue;
+
+      const input = await aoc.input;
+      const answers = await aoc.answers();
+      data.puzzles[day] = { input, answers };
+    }
+    return data;
+  }
+
   /** Day prefixed with a 0, 01, 02 etc */
   get dayId(): string {
     return this.day.toString().padStart(2, '0');
@@ -49,21 +84,21 @@ export abstract class AoC<T = string> {
     return this.unlockDate.getTime() <= Date.now();
   }
 
-  /**  */
-  get dataRaw(): Promise<string> {
+  /** Raw input data directly from AoC website */
+  get input(): Promise<string> {
     if (!this.isUnlocked) throw new Error('Unable to get data for puzzle which has not unlocked ');
     return AoCData.data(this);
   }
 
-  async data(source: Promise<string> | string = this.dataRaw): Promise<T> {
+  async data(source: Promise<string> | string = this.input): Promise<T> {
     const data = await source;
     if (this.parse) return this.parse(data);
     return (data as any) as T;
   }
 
   parse?(data: string): Promise<T> | T;
-  abstract partA(input: T): Promise<number | string> | number | string;
-  abstract partB(input: T): Promise<number | string> | number | string;
+  partA?(input: T): Promise<number | string> | number | string;
+  partB?(input: T): Promise<number | string> | number | string;
 
   test(fn?: (o: Ospec) => void, run = false): void {
     o.spec(this.id, () => {
@@ -71,7 +106,6 @@ export abstract class AoC<T = string> {
       o('Answer', async () => {
         o.timeout(2000);
 
-        const ans = Answers.get(AoCData.user, this.year, this.day);
         console.log('');
         const aocId = this.id;
         console.time(aocId);
@@ -80,6 +114,7 @@ export abstract class AoC<T = string> {
 
         console.log(`${this.id}.Question#1`, a);
         console.log(`${this.id}.Question#2`, b);
+        const ans = Answers.get(AoCData.user, this.year, this.day);
         if (ans) {
           o(a).equals(ans.a);
           o(b).equals(ans.b);
@@ -93,7 +128,9 @@ export abstract class AoC<T = string> {
 
   async answers(): Promise<{ a: number | string; b: number | string }> {
     const data = await this.data();
+    if (this.partA == null) throw new Error('No answer A defined');
     const a = await this.partA(data);
+    if (this.partB == null) throw new Error('No answer B defined');
     const b = await this.partB(data);
     return { a, b };
   }

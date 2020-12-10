@@ -10,6 +10,7 @@
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "dependencies": {
+    "arg": "^5.0.0",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {

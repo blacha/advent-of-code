@@ -1,21 +1,12 @@
 import { AoC } from './aoc';
 import { AoCData } from './aoc.data';
 
-export class FakeAoC extends AoC {
-  partA(input: string): number {
-    throw new Error('Method not implemented.');
-  }
-  partB(input: string): number {
-    throw new Error('Method not implemented.');
-  }
-}
-
 const currentYear = new Date().getUTCFullYear() - 1;
 const currentDay = new Date().getUTCDate();
 
 console.log(currentYear, currentDay);
 
-const currentPuzzle = new FakeAoC(currentYear, currentDay);
+const currentPuzzle = AoC.create(currentYear, currentDay);
 
 async function main() {
   while (!currentPuzzle.isUnlocked) {
