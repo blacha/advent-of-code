@@ -21,13 +21,15 @@ export class AoC2020Day1 extends AoC {
 // Download data using a $AOC_SESSION and run against your input
 new AoC2020Day1.run()
 // 2020-12-01: 0.934ms - Duration that the solution run in
-// 2020-12-01.Question#1 1371 // Answer to Q1
-// 2020-12-01.Question#2 2117 // Answer to Q2
+// 2020-12-01.Question#1 95 // Answer to Q1
+// 2020-12-01.Question#2 105 // Answer to Q2
 ```
 
 
 Or used as a script format
 ```typescript
+import {AoC} from 'aocf'
+
 const aoc = AoC.create(2020, 1)
 const input = await aoc.input
 ```
@@ -35,6 +37,8 @@ const input = await aoc.input
 
 Or as a combination
 ```typescript
+import {AoC} from 'aocf'
+
 const aoc = AoC.create(2020, 1);
 
 aoc.partA = (d) => {

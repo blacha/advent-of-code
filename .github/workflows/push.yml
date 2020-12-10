@@ -18,8 +18,6 @@ jobs:
     # Configure the .aocrc to look at .aoc-data
     - name: .aocrc
       run: echo "AOC_DATA_PATH=$GITHUB_WORKSPACE" > $GITHUB_WORKSPACE/.aocrc
-    - name: check
-      run: echo "AOC_DATA_PATH=$GITHUB_WORKSPACE" 
 
     - name: Install
       run: yarn install
