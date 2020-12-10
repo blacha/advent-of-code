@@ -1,8 +1,7 @@
 import { existsSync, promises as fs } from 'fs';
-import { AoC } from './aoc';
 import fetch from 'node-fetch';
-import * as os from 'os';
 import * as path from 'path';
+import { AoC } from './aoc';
 
 const EnvVars = {
   user: 'AOC_USER',
