@@ -1,4 +1,4 @@
-import { AoC, minMax } from 'aocf';
+import { AoC, Iter } from 'aocf';
 export interface Deer {
   name: string;
   duration: number;
@@ -36,15 +36,15 @@ export class AoC2015Day14 extends AoC<Deer[]> {
   }
 
   partA(input: Deer[], maxTime = 2503): number {
-    return this.distance(minMax(input, (t) => this.distance(t, maxTime)).max, maxTime);
+    return this.distance(Iter.minMax(input, (t) => this.distance(t, maxTime)).max, maxTime);
   }
 
   partB(input: Deer[], maxTime = 2503): number {
     for (let i = 1; i < maxTime; i++) {
-      const mm = minMax(input, (t) => this.distance(t, i));
+      const mm = Iter.minMax(input, (t) => this.distance(t, i));
       mm.max.score++;
     }
-    return minMax(input, (t) => t.score).max.score;
+    return Iter.minMax(input, (t) => t.score).max.score;
   }
 }
 
@@ -56,7 +56,7 @@ aoc2015day14.test((o) => {
   );
   o('partB', async () => {
     o(aoc2015day14.partB(example, 1000)).equals(688);
-    const mm = minMax(example, (t) => t.score);
+    const mm = Iter.minMax(example, (t) => t.score);
     // TODO why are these off by one
     o(mm.max.score).equals(688);
     o(mm.min.score).equals(311);
