@@ -61,4 +61,4 @@ aoc2015day14.test((o) => {
     o(mm.max.score).equals(688);
     o(mm.min.score).equals(311);
   });
-}, true);
+});

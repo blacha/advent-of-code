@@ -100,7 +100,7 @@ export class AoC<T = string> {
   partA?(input: T): Promise<number | string> | number | string;
   partB?(input: T): Promise<number | string> | number | string;
 
-  test(fn?: (o: Ospec) => void, run = false): void {
+  test(fn?: (o: Ospec) => void): void {
     o.spec(this.id, () => {
       if (fn) fn(o);
       o('Answer', async () => {
@@ -123,7 +123,6 @@ export class AoC<T = string> {
         }
       });
     });
-    if (run) o.run();
   }
 
   async answers(input: Promise<T> | T = this.data()): Promise<{ a: number | string; b: number | string }> {
