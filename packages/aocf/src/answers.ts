@@ -50,3 +50,4 @@ Answers.register('blacha', 2020, 7, 126, 220149);
 Answers.register('blacha', 2020, 8, 1675, 1532);
 Answers.register('blacha', 2020, 9, 1492208709, 238243506);
 Answers.register('blacha', 2020, 10, 1920, 1511207993344);
+Answers.register('blacha', 2020, 11, 2303, 2057);
