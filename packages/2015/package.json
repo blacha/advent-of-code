@@ -9,7 +9,8 @@
     "test": "node 'build/test.js'"
   },
   "dependencies": {
-    "aocf": "^0.1.0"
+    "aocf": "^0.1.0",
+    "typescript-memoize": "^1.0.0-alpha.4"
   },
   "devDependencies": {
     "@linzjs/style": "^0.4.1"
