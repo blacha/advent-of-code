@@ -7,38 +7,6 @@ export enum Cabin {
   SeatOccupied = '#',
 }
 
-// const Dirs = [
-//   { x: -1, y: -1 },
-//   { x: -1, y: 0 },
-//   { x: -1, y: 1 },
-//   { x: 0, y: -1 },
-
-//   { x: 0, y: 1 },
-//   { x: 1, y: -1 },
-//   { x: 1, y: 0 },
-//   { x: 1, y: 1 },
-// ];
-
-// function findPoint(input: string[][], startX: number, startY: number, move: { x: number; y: number }): string | null {
-//   if (startX < 0 || startY < 0) return null;
-//   const line = input[startY];
-//   if (line == null) return null;
-//   if (line[startX] != Cabin.Floor) {
-//     return line[startX];
-//   }
-//   if (startX >= line.length) return null;
-//   return findPoint(input, startX + move.x, startY + move.y, move);
-// }
-
-// function countAround(input: string[][], startX: number, startY: number) {
-//   let count = 0;
-//   for (const d of Dirs) {
-//     const pt = findPoint(input, startX + d.x, startY + d.y, d);
-//     if (pt == Cabin.SeatOccupied) count += 1;
-//   }
-//   return count;
-// }
-
 export class AoC2020Day11 extends AoC<Grid> {
   constructor() {
     super(2020, 11);
@@ -54,35 +22,31 @@ export class AoC2020Day11 extends AoC<Grid> {
     return line[x] === Cabin.SeatOccupied ? 1 : 0;
   }
 
-  tick(grid: Grid): Grid {
-    const output = grid.clone();
-    for (const { x, y, i } of grid) {
-      if (i == Cabin.Floor) continue;
-
-      let count = 0;
-      for (const pt of grid.around(x, y)) count += pt.i == Cabin.SeatOccupied ? 1 : 0;
-
-      if (i == Cabin.SeatEmpty && count == 0) {
-        output.set(x, y, Cabin.SeatOccupied);
-      } else if (i == Cabin.SeatOccupied && count > 3) {
-        output.set(x, y, Cabin.SeatEmpty);
-      }
-    }
-    return output;
-  }
-
   partA(input: Grid): number {
-    let nodes = input;
+    let grid = input;
     for (let i = 0; i < 1000; i++) {
-      const o = this.tick(nodes);
-      if (o.isEqual(nodes)) {
+      const output = grid.clone();
+      for (const { x, y, i } of grid) {
+        if (i == Cabin.Floor) continue;
+
         let count = 0;
-        for (const { i } of nodes) {
-          if (i == Cabin.SeatOccupied) count++;
+        for (const d of Grid.Around) {
+          count += grid.get(x + d.x, y + d.y) == Cabin.SeatOccupied ? 1 : 0;
         }
+
+        if (i == Cabin.SeatEmpty && count == 0) {
+          output.set(x, y, Cabin.SeatOccupied);
+        } else if (i == Cabin.SeatOccupied && count > 3) {
+          output.set(x, y, Cabin.SeatEmpty);
+        }
+      }
+
+      if (output.hasChanges == false) {
+        let count = 0;
+        for (const i of grid.values()) if (i == Cabin.SeatOccupied) count++;
         return count;
       }
-      nodes = o;
+      grid = output;
     }
 
     return -1;
@@ -92,34 +56,36 @@ export class AoC2020Day11 extends AoC<Grid> {
     let grid = input;
     for (let i = 0; i < 1000; i++) {
       const o = grid.clone();
-      let changes = false;
       for (const { x, y, i } of grid) {
         if (i == Cabin.Floor) continue;
 
         let count = 0;
-        for (const dir of Grid.Dirs) {
-          for (const it of grid.iterate(x, y, dir.x, dir.y)) {
-            if (it.i == null) break;
-            else if (it.i == Cabin.Floor) continue;
-            else if (it.i == Cabin.SeatEmpty) break;
-            else if (it.i == Cabin.SeatOccupied) {
+        for (const dir of Grid.Around) {
+          let cx = x;
+          let cy = y;
+          let it;
+          do {
+            cx = cx + dir.x;
+            cy = cy + dir.y;
+            it = grid.get(cx, cy);
+            if (it == Cabin.SeatEmpty) break;
+            if (it == Cabin.SeatOccupied) {
               count++;
               break;
             }
-          }
+          } while (it != null);
         }
+
         if (i == Cabin.SeatEmpty && count == 0) {
-          changes = true;
           o.set(x, y, Cabin.SeatOccupied);
         } else if (i == Cabin.SeatOccupied && count > 4) {
-          changes = true;
           o.set(x, y, Cabin.SeatEmpty);
         }
       }
 
-      if (changes == false) {
+      if (o.hasChanges == false) {
         let count = 0;
-        for (const { i } of grid) if (i == Cabin.SeatOccupied) count++;
+        for (const i of grid.values()) if (i == Cabin.SeatOccupied) count++;
         return count;
       }
 
@@ -136,22 +102,11 @@ aoc2020Day11.test((o) => {
   const start = aoc2020Day11.parse(
     `L.LL.LL.LL\nLLLLLLL.LL\nL.L.L..L..\nLLLL.LL.LL\nL.LL.LL.LL\nL.LLLLL.LL\n..L.L.....\nLLLLLLLLLL\nL.LLLLLL.L\nL.LLLLL.LL`,
   );
-  const tick1 = aoc2020Day11.parse(
-    `#.##.##.##\n#######.##\n#.#.#..#..\n####.##.##\n#.##.##.##\n#.#####.##\n..#.#.....\n##########\n#.######.#\n#.#####.##`,
-  );
-  const tick2 = aoc2020Day11.parse(
-    `#.LL.L#.##\n#LLLLLL.L#\nL.L.L..L..\n#LLL.LL.L#\n#.LL.LL.LL\n#.LLLL#.##\n..L.L.....\n#LLLLLLLL#\n#.LLLLLL.L\n#.#LLLL.##`,
-  );
-  const tick3 = aoc2020Day11.parse(
-    `#.##.L#.##\n#L###LL.L#\nL.#.#..#..\n#L##.##.L#\n#.##.LL.LL\n#.###L#.##\n..#.#.....\n#L######L#\n#.LL###L.L\n#.#L###.##`,
-  );
-  o('tick', () => {
-    o(aoc2020Day11.tick(start).toString()).deepEquals(tick1.toString());
-    o(aoc2020Day11.tick(tick1).toString()).deepEquals(tick2.toString());
-    o(aoc2020Day11.tick(tick2).toString()).deepEquals(tick3.toString());
+
+  o('partA', () => {
     o(aoc2020Day11.partA(start)).equals(37);
   });
-  o('tickLine', () => {
+  o('partB', () => {
     o(aoc2020Day11.partB(start)).equals(26);
   });
 });
