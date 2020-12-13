@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc -b --pretty",
     "lint": "eslint 'src/**/*.ts' --quiet --fix",
-    "test": "node build/test.js"
+    "test": "echo 'noop'"
   },
   "dependencies": {
     "@blacha/advent-of-code-2015": "^0.1.0",

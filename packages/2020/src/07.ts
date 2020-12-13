@@ -13,7 +13,7 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
   }
 
   parse(input: string): Map<string, BagList> {
-    const Bags = new Map<string, BagList>();
+    const bags = new Map<string, BagList>();
     input
       .trim()
       .split('\n')
@@ -23,7 +23,7 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
         const color = line.slice(0, line.indexOf('bags')).trim();
         const bagSet: BagList = { color, bags: [], shiny: 0, count: 0 };
 
-        Bags.set(color, bagSet);
+        bags.set(color, bagSet);
 
         if (c.includes('no other bags')) return;
         const otherBags = c.slice(c.indexOf('contain') + 8, c.length - 1);
@@ -35,7 +35,9 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
         }
       });
 
-    return Bags;
+    for (const bag of bags.values()) this.countBag(bag, bags);
+
+    return bags;
   }
 
   countShiny(bag: BagList, bags: Map<string, BagList>): number {
@@ -76,8 +78,6 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
     return total;
   }
   partB(bags: Map<string, BagList>): number {
-    for (const bag of bags.values()) this.countBag(bag, bags);
-
     const shiny = bags.get('shiny gold');
     if (shiny == null) throw new Error('Cannot find bag');
     return shiny.count;
