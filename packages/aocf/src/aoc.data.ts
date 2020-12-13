@@ -16,19 +16,22 @@ const BasePath = '.aoc-data';
 export class AoCDataRegistry {
   state: AocRc = {};
 
-  private isInit = false;
+  private isInit: Promise<void> | null = null;
   cache: Map<string, Promise<string>> = new Map();
 
-  async init(): Promise<void> {
-    if (this.isInit) return;
-    this.isInit = true;
-    this.stateFromEnv();
-    let currentPath = __dirname;
+  init(): Promise<void> {
+    if (this.isInit) return this.isInit;
+    this.isInit = new Promise(async (resolve) => {
+      this.stateFromEnv();
+      let currentPath = __dirname;
 
-    while (path.join(currentPath, '..') != currentPath) {
-      await this.stateFromRcFile(path.join(currentPath, EnvRcFileName));
-      currentPath = path.join(currentPath, '..');
-    }
+      while (path.join(currentPath, '..') != currentPath) {
+        await this.stateFromRcFile(path.join(currentPath, EnvRcFileName));
+        currentPath = path.join(currentPath, '..');
+      }
+      resolve();
+    });
+    return this.isInit;
   }
 
   private stateFromEnv(): void {
