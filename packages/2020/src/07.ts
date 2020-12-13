@@ -2,7 +2,7 @@ import { AoC } from 'aocf';
 
 interface BagList {
   color: string;
-  bags: Record<string, number>;
+  bags: { color: string; count: number }[];
   shiny: number;
   count: number;
 }
@@ -21,7 +21,7 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
         const line = c.trim();
         if (line == '') return;
         const color = line.slice(0, line.indexOf('bags')).trim();
-        const bagSet: BagList = { color, bags: {}, shiny: 0, count: 0 };
+        const bagSet: BagList = { color, bags: [], shiny: 0, count: 0 };
 
         Bags.set(color, bagSet);
 
@@ -29,22 +29,24 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
         const otherBags = c.slice(c.indexOf('contain') + 8, c.length - 1);
         const allBags = otherBags.split(', ');
         for (const bag of allBags) {
-          const number = Number(bag.slice(0, bag.indexOf(' ')));
+          const count = Number(bag.slice(0, bag.indexOf(' ')));
           const color = bag.slice(bag.indexOf(' '), bag.lastIndexOf(' ')).trim();
-          bagSet.bags[color] = number;
+          bagSet.bags.push({ color, count });
         }
       });
 
-    for (const bag of Bags.values()) this.countBag(bag, Bags);
     return Bags;
   }
 
   countShiny(bag: BagList, bags: Map<string, BagList>): number {
-    for (const [bagName, count] of Object.entries(bag.bags)) {
-      if (bagName == 'shiny gold') {
+    if (bag.shiny > 0) return bag.shiny;
+
+    for (const { color, count } of bag.bags) {
+      if (color == 'shiny gold') {
         bag.shiny += count;
       } else {
-        const intBag = bags.get(bagName)!;
+        const intBag = bags.get(color);
+        if (intBag == null) throw new Error('Failed to find bag: ' + color);
         bag.shiny += this.countShiny(intBag, bags) * count;
       }
     }
@@ -52,13 +54,13 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
   }
 
   countBag(bag: BagList, bags: Map<string, BagList>, indent = ' '): number {
-    const subBags = Object.entries(bag.bags);
     if (bag.count > 1) return bag.count;
+    const subBags = bag.bags;
 
-    for (const [bagName, count] of subBags) {
-      const intBag = bags.get(bagName);
-      if (intBag == null) throw new Error('Failed bag lookup:' + bagName);
-      const bagCount = count + this.countBag(intBag!, bags, indent + ' ') * count;
+    for (const { color, count } of subBags) {
+      const intBag = bags.get(color);
+      if (intBag == null) throw new Error('Failed bag lookup:' + color);
+      const bagCount = count + this.countBag(intBag, bags, indent + ' ') * count;
       bag.count += bagCount;
     }
     return bag.count;
@@ -74,6 +76,8 @@ export class AoC2020Day7 extends AoC<Map<string, BagList>> {
     return total;
   }
   partB(bags: Map<string, BagList>): number {
+    for (const bag of bags.values()) this.countBag(bag, bags);
+
     const shiny = bags.get('shiny gold');
     if (shiny == null) throw new Error('Cannot find bag');
     return shiny.count;
