@@ -1,7 +1,10 @@
 import o, { Ospec } from 'ospec';
+import { performance } from 'perf_hooks';
 import 'source-map-support/register';
 import { Answers } from './answers';
 import { AoCData } from './aoc.data';
+import { log } from './util/log';
+import { timer } from './util/timer';
 
 export interface AoCJsonData {
   /** Github username for where the puzzle data came from */
@@ -13,9 +16,11 @@ export interface AoCJsonData {
     /** Raw puzzle input */
     input: string;
     /** Answers for the day */
-    answers: { a: string | number; b: string | number };
+    answers: { a: AoCAnswer; b: AoCAnswer };
   }[];
 }
+
+export type AoCAnswer = number | string | undefined;
 
 export class AoC<T = string> {
   static id(year: number, day: number): string {
@@ -107,13 +112,10 @@ export class AoC<T = string> {
         o.timeout(2000);
 
         console.log('');
-        const aocId = this.id;
-        console.time(aocId);
-        const { a, b } = await this.answers();
-        console.timeEnd(aocId);
+        const { a, b, duration } = await this.answers();
 
-        console.log(`${this.id}.Question#1`, a);
-        console.log(`${this.id}.Question#2`, b);
+        console.log(`${this.id}.Question#1`, a, duration.a);
+        console.log(`${this.id}.Question#2`, b, duration.b);
         const ans = Answers.get(AoCData.user, this.year, this.day);
         if (ans) {
           o(a).equals(ans.a);
@@ -125,18 +127,25 @@ export class AoC<T = string> {
     });
   }
 
-  async answers(input: Promise<T> | T = this.data()): Promise<{ a: number | string; b: number | string }> {
+  async answers(
+    input: Promise<T> | T = this.data(),
+  ): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
     const data = await input;
-    if (this.partA == null) throw new Error('No answer A defined');
-    const a = await this.partA(data);
-    if (this.partB == null) throw new Error('No answer B defined');
-    const b = await this.partB(data);
-    return { a, b };
+    const tA = await timer(() => this.partA && this.partA(data));
+    const tB = await timer(() => this.partB && this.partB(data));
+    const duration = { a: tA.duration, b: tB.duration };
+    return { a: tA.v, b: tB.v, duration };
   }
 
   async run(input: Promise<string> | string = this.input): Promise<void> {
-    const { a, b } = await this.answers(this.parse ? this.parse(await input) : (input as any));
-    console.log(`${this.id}.Question#1`, a);
-    console.log(`${this.id}.Question#2`, b);
+    const data = this.parse ? this.parse(await input) : (input as any);
+    const { a, b, duration } = await this.answers(data);
+    const ans = Answers.get(AoCData.user, this.year, this.day);
+    log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
+    log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
+    if (ans) {
+      if (ans.a == a && ans.b == b) log.debug({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated');
+      else log.error({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated:Failed');
+    }
   }
 }
