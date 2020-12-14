@@ -138,16 +138,19 @@ export class AoC<T = string> {
   }
 
   async run(
-    input: Promise<string> | string = this.input,
+    input?: Promise<string> | string,
   ): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
     await AoCData.init();
+    const isReal = input == null;
+
+    input = input ?? this.input;
     const data = this.parse ? this.parse(await input) : (input as any);
     const { a, b, duration } = await this.answers(data);
 
     const ans = Answers.get(AoCData.user, this.year, this.day);
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
     log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
-    if (ans) {
+    if (ans && isReal) {
       if (ans.a == a && ans.b == b) log.debug({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated');
       else log.error({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated:Failed');
     }
