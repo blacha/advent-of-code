@@ -11,16 +11,6 @@ export interface OpMask {
   value: string;
 }
 
-function parseBigInt(numberString: string, keyspace = '01'): bigint {
-  let result = 0n;
-  const keyspaceLength = BigInt(keyspace.length);
-  for (let i = numberString.length - 1; i >= 0; i--) {
-    const value = keyspace.indexOf(numberString[i]);
-    if (value === -1) throw new Error('invalid string');
-    result = result * keyspaceLength + BigInt(value);
-  }
-  return result;
-}
 export class AoC2020Day14 extends AoC<Op[]> {
   constructor() {
     super(2020, 14);
@@ -106,4 +96,4 @@ export class AoC2020Day14 extends AoC<Op[]> {
 
 export const aoc2020day14 = new AoC2020Day14();
 
-aoc2020day14.run();
+aoc2020day14.test();
