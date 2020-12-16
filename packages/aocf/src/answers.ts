@@ -56,3 +56,5 @@ Answers.register('blacha', 2020, 11, 2303, 2057);
 Answers.register('blacha', 2020, 12, 1441, 61616);
 Answers.register('blacha', 2020, 13, 8063, 775230782877242);
 Answers.register('blacha', 2020, 14, 7611244640053, 3705162613854);
+Answers.register('blacha', 2020, 15, 1194, 48710);
+Answers.register('blacha', 2020, 16, 24980, 809376774329);

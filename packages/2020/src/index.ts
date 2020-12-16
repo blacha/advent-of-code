@@ -1,4 +1,3 @@
-import { AoC } from 'aocf';
 import './01';
 import './02';
 import './03';
@@ -14,3 +13,4 @@ import './12';
 import './13';
 import './14';
 import './15';
+import './16';
