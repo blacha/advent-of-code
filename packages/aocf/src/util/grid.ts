@@ -36,6 +36,7 @@ export class Grid<T = string> {
   }
 
   set(x: number, y: number, i: T): void {
+    if (this.data[y] == null) this.data[y] = [];
     const oldVal = this.data[y][x];
     if (oldVal == i) return;
     this.data[y][x] = i;
@@ -52,7 +53,8 @@ export class Grid<T = string> {
   *[Symbol.iterator](): Generator<{ i: T; x: number; y: number }> {
     for (let y = 0; y < this.data.length; y++) {
       const line = this.data[y];
-      for (let x = 0; x < line.length; x++) {
+
+      for (let x = 0; x < this.maxX; x++) {
         yield { i: line[x], x, y };
       }
     }
@@ -79,7 +81,7 @@ export class Grid<T = string> {
   }
 
   toString(): string {
-    return this.data.map((c) => c.join('')).join('\n');
+    return this.data.map((c) => c.join('  ')).join('\n');
   }
 
   clone(): Grid<T> {

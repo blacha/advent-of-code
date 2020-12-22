@@ -10,6 +10,11 @@ export interface Point {
   x: number;
   y: number;
 }
-export interface Vector extends Point {
+
+export interface Vec3 extends Point {
   z: number;
+}
+
+export interface Vec4 extends Vec3 {
+  w: number;
 }

@@ -1,5 +1,4 @@
 import { AoC } from 'aocf';
-import { timeStamp } from 'console';
 
 export type Req = Record<string, number[][]>;
 
