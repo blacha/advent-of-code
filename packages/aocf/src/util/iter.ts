@@ -11,6 +11,10 @@ export const Iter = {
     else for (const y of t) yield y;
   },
 
+  first<T>(t: Generator<T> | IterableIterator<T>): T {
+    return t.next().value;
+  },
+
   /** Find the min and max items inside of a set of items */
   minMax<T>(t: IterUtilType<T>, fn: (t: T) => number): { min: T; max: T } {
     if (Iter.size(t) == 0) throw new Error('No items to min/max');
