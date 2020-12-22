@@ -65,4 +65,4 @@ export class AoC2020Day19 extends AoC<AoC2020Day19Input> {
 }
 
 export const aoc2020day19 = new AoC2020Day19();
-aoc2020day19.run();
+aoc2020day19.test();
