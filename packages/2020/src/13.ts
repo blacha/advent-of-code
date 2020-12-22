@@ -83,7 +83,6 @@ aoc2020day13.test((o) => {
   o('small', async () => {
     const res = await aoc2020day13.run(`939\n7,13,x,x,59,x,31,19`);
     o(res.a).equals(295);
-    console.log({ res });
   });
 
   o('partB', async () => {
