@@ -114,8 +114,8 @@ export class AoC<T = string> {
         console.log('');
         const { a, b, duration } = await this.answers();
 
-        console.log(`${this.id}.Question#1`, a, duration.a);
-        console.log(`${this.id}.Question#2`, b, duration.b);
+        console.log(`${this.id}.Question#1`, a, `${duration.a} ms`);
+        console.log(`${this.id}.Question#2`, b, `${duration.b} ms`);
         const ans = Answers.get(AoCData.user, this.year, this.day);
         if (ans) {
           o(a).equals(ans.a);
