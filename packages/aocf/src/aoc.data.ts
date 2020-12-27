@@ -2,6 +2,8 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
 import { AoC } from './aoc';
+import { AoCDataFile, AoCJson } from './export';
+import { log } from './util/log';
 
 const EnvVars = {
   user: 'AOC_USER',
@@ -13,10 +15,93 @@ export type AocRc = Partial<Record<keyof typeof EnvVars, string>>;
 const EnvRcFileName = `.aocrc`;
 const BasePath = '.aoc-data';
 
+export class AoCDataYear {
+  year: number;
+  puzzles: Map<number, AoCJson[]> = new Map();
+
+  constructor(year: number) {
+    this.year = year;
+  }
+
+  add(user: string, puzzle: AoCJson): void {
+    log.trace({ year: puzzle.year, user: puzzle.user, day: puzzle.day }, 'PuzzleLoad');
+
+    if (puzzle.user == null || puzzle.user != user)
+      throw new Error('Failed parsing input invalid user: ' + puzzle.user);
+    if (this.get(puzzle.day, user) != null)
+      throw new Error(`Duplicate puzzle found: ${puzzle.user} ${puzzle.year}-${puzzle.day}`);
+
+    const p = this.puzzles.get(puzzle.day) ?? [];
+    p.push(puzzle);
+    this.puzzles.set(puzzle.day, p);
+  }
+
+  userData(user: string): AoCDataFile {
+    const output = [];
+    for (const pzs of this.puzzles.values()) {
+      for (const p of pzs) {
+        if (p.user == user) output.push(p);
+      }
+    }
+    return output.sort((a, b) => a.day - b.day);
+  }
+
+  get(day: number, user?: string): AoCJson | null {
+    const data = this.puzzles.get(day);
+    if (data == null) return null;
+
+    let puzzleData;
+    if (user == null) puzzleData = data[0];
+    else puzzleData = data.find((f) => f.user == user);
+    if (puzzleData == null) return null;
+    return puzzleData;
+  }
+
+  puzzle(day: number, user?: string): AoCJson {
+    const p = this.get(day, user);
+    if (p == null) throw new Error(`Failed to find puzzle data for ${this.year}-${day}`);
+    return p;
+  }
+}
+
 export class AoCDataRegistry {
   state: AocRc = {};
   isInit = false;
-  cache: Map<string, string> = new Map();
+
+  cache: Map<number, AoCDataYear> = new Map();
+
+  getDb(year: number): AoCDataYear {
+    let db = this.cache.get(year);
+    if (db != null) return db;
+
+    db = new AoCDataYear(year);
+    this.cache.set(year, db);
+    return db;
+  }
+
+  loaded = new Set<string>();
+  loadFromFile(year: number, user: string, force = false): void {
+    const filePath = this.path(year, user);
+    if (this.loaded.has(filePath) && force == false) return;
+    this.loaded.add(filePath);
+    log.debug({ path: filePath }, 'DataLoad');
+    if (!existsSync(filePath)) {
+      log.warn({ path: filePath }, 'DataMissing');
+      return;
+    }
+
+    const fileData = JSON.parse(readFileSync(filePath).toString()) as AoCDataFile;
+    if (!Array.isArray(fileData)) throw new Error(`Failed to read ${filePath}, data invalid`);
+
+    for (const p of fileData) {
+      this.getDb(p.year).add(p.user, p);
+    }
+  }
+
+  get(aoc: AoC<any>): AoCJson {
+    if (this.state.user) this.loadFromFile(aoc.year, this.state.user);
+    return this.getDb(aoc.year).puzzle(aoc.day, this.state.user);
+  }
 
   init(): void {
     if (this.isInit) return;
@@ -61,53 +146,54 @@ export class AoCDataRegistry {
     throw new Error(`Unable to fetch data cannot find AoC session`);
   }
 
-  private folder(aoc: AoC): string {
-    let basePath = BasePath;
-    if (this.state.data) basePath = path.join(this.state.data, BasePath);
-    return path.join(basePath, this.user, String(aoc.year));
+  private get folder(): string {
+    if (this.state.data) return path.join(this.state.data, BasePath);
+    return BasePath;
   }
 
-  private path(aoc: AoC): string {
-    return path.join(this.folder(aoc), aoc.dayId);
+  private path(year: number, user: string): string {
+    return path.join(this.folder, `${year}.${user}.json`);
   }
 
-  dataLocal(aoc: AoC<any>): string | undefined {
-    const aocId = aoc.id;
-
-    let cachedData = this.cache.get(aocId);
-    if (cachedData != null) return cachedData;
-
-    const dataPath = this.path(aoc);
-    if (existsSync(dataPath)) {
-      cachedData = readFileSync(dataPath).toString();
-      this.cache.set(aocId, cachedData);
-      return cachedData;
-    }
-
-    return undefined;
+  save(data: AoCDataFile): void {
+    if (data.length == 0) throw new Error('No Data to save');
+    const first = data[0];
+    mkdirSync(this.folder, { recursive: true });
+    writeFileSync(this.path(first.year, first.user), JSON.stringify(data, null, 2));
   }
 
-  async fetch(aoc: AoC<any>): Promise<string> {
+  async fetch(aoc: AoC<any>): Promise<AoCJson> {
     this.init();
     if (!aoc.isUnlocked) throw new Error(`Puzzle ${aoc.id} has not unlocked yet`);
 
     // Cache hit
-    const dataLocal = this.dataLocal(aoc);
+    const dataLocal = this.get(aoc);
     if (dataLocal) return dataLocal;
 
-    console.log('FetchingData...', `https://adventofcode.com/${aoc.year}/day/${aoc.day}/input`);
+    const user = this.state.user;
+    if (user == null) throw new Error('Failed to find username');
+
+    log.info('FetchingData...', { url: `https://adventofcode.com/${aoc.year}/day/${aoc.day}/input` });
 
     const headers = { cookie: `session=${this.session}` };
     const fetched = await fetch(`https://adventofcode.com/${aoc.year}/day/${aoc.day}/input`, { headers });
     if (!fetched.ok) throw new Error(`Failed to fetch data for ${aoc.id}: ` + fetched.statusText);
     const text = await fetched.text();
 
-    const dataPath = this.path(aoc);
+    const db = this.getDb(aoc.year);
+    const puzzle = {
+      user,
+      year: aoc.year,
+      day: aoc.day,
+      input: text.trim(),
+      answers: null,
+    };
+    db.add(user, puzzle);
 
-    mkdirSync(this.folder(aoc), { recursive: true });
-    writeFileSync(dataPath, text.trim());
-    this.cache.set(aoc.id, text.trim());
-    return text.trim();
+    const allData = db.userData(user);
+    this.save(allData);
+
+    return puzzle;
   }
 }
 

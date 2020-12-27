@@ -21,7 +21,7 @@ async function main() {
   }
   console.log(currentPuzzle.id, 'Checking data exists');
   const val = await AoCData.fetch(currentPuzzle);
-  console.log(currentPuzzle.id, 'Puzzle input length', val.length);
+  console.log(currentPuzzle.id, 'Puzzle input length', val.input.length);
 }
 
 main();

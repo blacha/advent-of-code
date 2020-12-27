@@ -1,25 +1,9 @@
 import o, { Ospec } from 'ospec';
 import 'source-map-support/register';
-import { Answers } from './answers';
 import { AoCData } from './aoc.data';
+import { AoCAnswer, AoCDataFile } from './export';
 import { log } from './util/log';
 import { timer } from './util/timer';
-
-export interface AoCJsonData {
-  /** Github username for where the puzzle data came from */
-  user: string;
-  /** Advent of code year */
-  year: number;
-
-  puzzles: {
-    /** Raw puzzle input */
-    input: string;
-    /** Answers for the day */
-    answers: { a: AoCAnswer; b: AoCAnswer };
-  }[];
-}
-
-export type AoCAnswer = number | string | undefined;
 
 export class AoC<T = string> {
   static id(year: number, day: number): string {
@@ -51,19 +35,17 @@ export class AoC<T = string> {
     return new AoC(year, day);
   }
 
-  static async export(year: number): Promise<AoCJsonData> {
-    const data: AoCJsonData = {
-      user: AoCData.user,
-      year,
-      puzzles: [],
-    };
-    for (let day = 1; day < 31; day++) {
+  static async export(year: number): Promise<AoCDataFile> {
+    const data: AoCDataFile = [];
+    for (let day = 1; day < 26; day++) {
+      if (!AoC.registry.has(AoC.id(year, day))) continue;
       const aoc = AoC.get(year, day);
       if (aoc == null) continue;
 
-      const input = await AoCData.fetch(aoc);
-      const answers = aoc.answers(input);
-      data.puzzles[day] = { input, answers };
+      const puzzle = await AoCData.fetch(aoc);
+      const answers = aoc.answers(puzzle.input) as any;
+      delete answers.duration;
+      data.push({ year, day, user: AoCData.user, input: puzzle.input, answers });
     }
     return data;
   }
@@ -80,7 +62,7 @@ export class AoC<T = string> {
 
   /** When this AoC question unlocks */
   get unlockDate(): Date {
-    return new Date(`${this.id}T05:00:00Z`);
+    return new Date(`${this.year}-12-${this.dayId}T05:00:00Z`);
   }
 
   /** is this question active */
@@ -90,10 +72,10 @@ export class AoC<T = string> {
 
   /** Raw input data directly from AoC website */
   get input(): string {
-    if (!this.isUnlocked) throw new Error('Unable to get data for puzzle which has not unlocked ');
-    const local = AoCData.dataLocal(this);
+    if (!this.isUnlocked) throw new Error('Unable to get data for puzzle which has not unlocked: ' + this.id);
+    const local = AoCData.get(this);
     if (local == null) throw new Error('No local data found for puzzle: ' + this.id);
-    return local;
+    return local.input;
   }
 
   data(data: string): T {
@@ -110,17 +92,16 @@ export class AoC<T = string> {
       if (fn) fn(o);
       o('Answer', async () => {
         o.timeout(2000);
-        const data = await AoCData.fetch(this);
+        const puzzle = await AoCData.fetch(this);
 
         console.log('');
-        const { a, b, duration } = this.answers(data);
+        const { a, b, duration } = this.answers(puzzle.input);
 
         console.log(`${this.id}.Question#1`, a, `${duration.a} ms`);
         console.log(`${this.id}.Question#2`, b, `${duration.b} ms`);
-        const ans = Answers.get(AoCData.user, this.year, this.day);
-        if (ans) {
-          o(a).equals(ans.a);
-          o(b).equals(ans.b);
+        if (puzzle.answers) {
+          o(a).equals(puzzle.answers.a);
+          o(b).equals(puzzle.answers.b);
         } else {
           console.log('No known answers for ', this.id);
         }
@@ -143,12 +124,14 @@ export class AoC<T = string> {
     input = input ?? this.input;
     const { a, b, duration } = this.answers(input);
 
-    const ans = Answers.get(AoCData.user, this.year, this.day);
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
     log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
-    if (ans && isReal) {
-      if (ans.a == a && ans.b == b) log.debug({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated');
-      else log.error({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated:Failed');
+    if (isReal) {
+      const ans = AoCData.get(this).answers;
+      if (ans) {
+        if (ans.a == a && ans.b == b) log.info({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated');
+        else log.error({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated:Failed');
+      }
     }
     return { a, b, duration };
   }
