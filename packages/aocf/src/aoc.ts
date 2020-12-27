@@ -1,5 +1,4 @@
 import o, { Ospec } from 'ospec';
-import { performance } from 'perf_hooks';
 import 'source-map-support/register';
 import { Answers } from './answers';
 import { AoCData } from './aoc.data';
@@ -62,8 +61,8 @@ export class AoC<T = string> {
       const aoc = AoC.get(year, day);
       if (aoc == null) continue;
 
-      const input = await aoc.input;
-      const answers = await aoc.answers();
+      const input = await AoCData.fetch(aoc);
+      const answers = aoc.answers(input);
       data.puzzles[day] = { input, answers };
     }
     return data;
@@ -90,29 +89,31 @@ export class AoC<T = string> {
   }
 
   /** Raw input data directly from AoC website */
-  get input(): Promise<string> {
+  get input(): string {
     if (!this.isUnlocked) throw new Error('Unable to get data for puzzle which has not unlocked ');
-    return AoCData.data(this);
+    const local = AoCData.dataLocal(this);
+    if (local == null) throw new Error('No local data found for puzzle: ' + this.id);
+    return local;
   }
 
-  async data(source: Promise<string> | string = this.input): Promise<T> {
-    const data = await source;
+  data(data: string): T {
     if (this.parse) return this.parse(data);
     return (data as any) as T;
   }
 
-  parse?(data: string): Promise<T> | T;
-  partA?(input: T): Promise<number | string> | number | string;
-  partB?(input: T): Promise<number | string> | number | string;
+  parse?(data: string): T;
+  partA?(input: T): number | string;
+  partB?(input: T): number | string;
 
   test(fn?: (o: Ospec) => void): void {
     o.spec(this.id, () => {
       if (fn) fn(o);
       o('Answer', async () => {
         o.timeout(2000);
+        const data = await AoCData.fetch(this);
 
         console.log('');
-        const { a, b, duration } = await this.answers();
+        const { a, b, duration } = this.answers(data);
 
         console.log(`${this.id}.Question#1`, a, `${duration.a} ms`);
         console.log(`${this.id}.Question#2`, b, `${duration.b} ms`);
@@ -127,25 +128,20 @@ export class AoC<T = string> {
     });
   }
 
-  async answers(
-    input: Promise<T> | T = this.data(),
-  ): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
-    const data = await input;
-    const tA = await timer(() => this.partA && this.partA(data));
-    const tB = await timer(() => this.partB && this.partB(data));
+  answers(input: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } } {
+    const data = this.data(input);
+    const tA = timer(() => this.partA && this.partA(data));
+    const tB = timer(() => this.partB && this.partB(data));
     const duration = { a: tA.duration, b: tB.duration };
     return { a: tA.v, b: tB.v, duration };
   }
 
-  async run(
-    input?: Promise<string> | string,
-  ): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
-    await AoCData.init();
+  run(input?: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } } {
+    AoCData.init();
     const isReal = input == null;
 
     input = input ?? this.input;
-    const data = this.parse ? this.parse(await input) : (input as any);
-    const { a, b, duration } = await this.answers(data);
+    const { a, b, duration } = this.answers(input);
 
     const ans = Answers.get(AoCData.user, this.year, this.day);
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');

@@ -20,7 +20,7 @@ async function main() {
     await new Promise((resolve) => setTimeout(resolve, 500));
   }
   console.log(currentPuzzle.id, 'Checking data exists');
-  const val = await AoCData.data(currentPuzzle);
+  const val = await AoCData.fetch(currentPuzzle);
   console.log(currentPuzzle.id, 'Puzzle input length', val.length);
 }
 

@@ -18,12 +18,12 @@ export class AoC2019Day1 extends AoC<number[]> {
     return input + this.getFuelOfFuel(newFuel, count + 1);
   }
 
-  partA(input: number[]): number | Promise<number> {
+  partA(input: number[]): number {
     let total = 0;
     for (const val of input) total += this.getFuel(val);
     return total;
   }
-  partB(input: number[]): number | Promise<number> {
+  partB(input: number[]): number {
     let total = 0;
     for (const val of input) {
       const fuel = this.getFuel(val);

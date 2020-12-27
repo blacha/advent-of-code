@@ -80,21 +80,21 @@ export class AoC2020Day13 extends AoC<BusInfo> {
 export const aoc2020day13 = new AoC2020Day13();
 
 aoc2020day13.test((o) => {
-  o('small', async () => {
-    const res = await aoc2020day13.run(`939\n7,13,x,x,59,x,31,19`);
+  o('small', () => {
+    const res = aoc2020day13.answers(`939\n7,13,x,x,59,x,31,19`);
     o(res.a).equals(295);
   });
 
-  o('partB', async () => {
+  o('partB', () => {
     let res: { a: AoCAnswer; b: AoCAnswer } | null = null;
-    res = await aoc2020day13.run(`939\n17,x,13,19`);
+    res = aoc2020day13.answers(`939\n17,x,13,19`);
     o(res.b).equals(3417);
 
-    res = await aoc2020day13.run(`39\n3,5,x,7`);
+    res = aoc2020day13.answers(`39\n3,5,x,7`);
     o(res.b).equals(39);
-    res = await aoc2020day13.run(`21\n3,x,x,4,5`);
+    res = aoc2020day13.answers(`21\n3,x,x,4,5`);
     o(res.b).equals(21);
-    res = await aoc2020day13.run(`21\n67,7,59,61`);
+    res = aoc2020day13.answers(`21\n67,7,59,61`);
     o(res.b).equals(754018);
   });
 });

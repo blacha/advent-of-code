@@ -1,4 +1,4 @@
-import { existsSync, promises as fs } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
 import { AoC } from './aoc';
@@ -15,23 +15,19 @@ const BasePath = '.aoc-data';
 
 export class AoCDataRegistry {
   state: AocRc = {};
+  isInit = false;
+  cache: Map<string, string> = new Map();
 
-  private isInit: Promise<void> | null = null;
-  cache: Map<string, Promise<string>> = new Map();
+  init(): void {
+    if (this.isInit) return;
+    this.isInit = true;
+    this.stateFromEnv();
+    let currentPath = __dirname;
 
-  init(): Promise<void> {
-    if (this.isInit) return this.isInit;
-    this.isInit = new Promise(async (resolve) => {
-      this.stateFromEnv();
-      let currentPath = __dirname;
-
-      while (path.join(currentPath, '..') != currentPath) {
-        await this.stateFromRcFile(path.join(currentPath, EnvRcFileName));
-        currentPath = path.join(currentPath, '..');
-      }
-      resolve();
-    });
-    return this.isInit;
+    while (path.join(currentPath, '..') != currentPath) {
+      this.stateFromRcFile(path.join(currentPath, EnvRcFileName));
+      currentPath = path.join(currentPath, '..');
+    }
   }
 
   private stateFromEnv(): void {
@@ -40,9 +36,9 @@ export class AoCDataRegistry {
     this.state.data = this.state.data ?? process.env[EnvVars.data];
   }
 
-  private async stateFromRcFile(rcPath: string): Promise<void> {
+  private stateFromRcFile(rcPath: string): void {
     if (existsSync(rcPath)) {
-      const data = await fs.readFile(rcPath);
+      const data = readFileSync(rcPath);
       for (const line of data.toString().trim().split('\n')) {
         if (!line.includes('=')) continue;
         let value = line.split('=')[1].trim();
@@ -65,30 +61,39 @@ export class AoCDataRegistry {
     throw new Error(`Unable to fetch data cannot find AoC session`);
   }
 
-  folder(aoc: AoC): string {
+  private folder(aoc: AoC): string {
     let basePath = BasePath;
     if (this.state.data) basePath = path.join(this.state.data, BasePath);
     return path.join(basePath, this.user, String(aoc.year));
   }
 
-  path(aoc: AoC): string {
+  private path(aoc: AoC): string {
     return path.join(this.folder(aoc), aoc.dayId);
   }
 
-  data(aoc: AoC<any>): Promise<string> {
-    if (!aoc.isUnlocked) throw new Error(`Puzzle ${aoc.id} has not unlocked yet`);
-
+  dataLocal(aoc: AoC<any>): string | undefined {
     const aocId = aoc.id;
+
     let cachedData = this.cache.get(aocId);
-    if (cachedData == null) cachedData = this.fetchData(aoc);
-    this.cache.set(aocId, cachedData);
-    return cachedData;
+    if (cachedData != null) return cachedData;
+
+    const dataPath = this.path(aoc);
+    if (existsSync(dataPath)) {
+      cachedData = readFileSync(dataPath).toString();
+      this.cache.set(aocId, cachedData);
+      return cachedData;
+    }
+
+    return undefined;
   }
 
-  async fetchData(aoc: AoC<any>): Promise<string> {
-    await this.init();
-    const dataPath = this.path(aoc);
-    if (existsSync(dataPath)) return await fs.readFile(dataPath).then((f) => f.toString());
+  async fetch(aoc: AoC<any>): Promise<string> {
+    this.init();
+    if (!aoc.isUnlocked) throw new Error(`Puzzle ${aoc.id} has not unlocked yet`);
+
+    // Cache hit
+    const dataLocal = this.dataLocal(aoc);
+    if (dataLocal) return dataLocal;
 
     console.log('FetchingData...', `https://adventofcode.com/${aoc.year}/day/${aoc.day}/input`);
 
@@ -96,8 +101,12 @@ export class AoCDataRegistry {
     const fetched = await fetch(`https://adventofcode.com/${aoc.year}/day/${aoc.day}/input`, { headers });
     if (!fetched.ok) throw new Error(`Failed to fetch data for ${aoc.id}: ` + fetched.statusText);
     const text = await fetched.text();
-    await fs.mkdir(this.folder(aoc), { recursive: true });
-    await fs.writeFile(dataPath, text.trim());
+
+    const dataPath = this.path(aoc);
+
+    mkdirSync(this.folder(aoc), { recursive: true });
+    writeFileSync(dataPath, text.trim());
+    this.cache.set(aoc.id, text.trim());
     return text.trim();
   }
 }

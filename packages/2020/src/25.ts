@@ -4,13 +4,15 @@ export class Aoc2020Day25 extends AoC<number[]> {
   constructor() {
     super(2020, 25);
   }
-  parse = toNumberArray;
+
+  parse(str: string): number[] {
+    return toNumberArray(str);
+  }
 
   partA(data: number[]): number {
     const [cardKey, doorKey] = data;
     function findLoop(input: number): number {
       let current = 1;
-
       for (let i = 0; i < 100000000; i++) {
         current = (current * 7) % 20201227;
         if (current == input) return i;
@@ -39,4 +41,4 @@ export class Aoc2020Day25 extends AoC<number[]> {
 }
 
 export const aoc2020day25 = new Aoc2020Day25();
-aoc2020day25.run();
+aoc2020day25.test();
