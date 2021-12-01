@@ -1,0 +1,16 @@
+{
+  "name": "@blacha/advent-of-code-2021",
+  "version": "0.1.0",
+  "description": "Advent of Code 2021",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc -b --pretty",
+    "lint": "eslint 'src/**/*.ts' --quiet --fix",
+    "test": "node build/test.js"
+  },
+  "dependencies": {
+    "aocf": "^0.1.0"
+  },
+  "author": "Blayne Chard <blayne@chard.com>",
+  "license": "MIT"
+}
