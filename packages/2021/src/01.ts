@@ -5,13 +5,12 @@ export class Aoc2021Day1 extends AoC<number[]> {
     super(2021, 1);
   }
 
-
   parse(input: string): number[] {
     return toNumberArray(input);
   }
 
   partA(data: number[]): number {
-    return -1
+    return -1;
   }
 
   partB(data: number[]): number {

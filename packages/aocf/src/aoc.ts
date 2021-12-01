@@ -80,7 +80,7 @@ export class AoC<T = string> {
 
   data(data: string): T {
     if (this.parse) return this.parse(data);
-    return (data as any) as T;
+    return data as any as T;
   }
 
   parse?(data: string): T;

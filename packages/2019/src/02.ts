@@ -55,18 +55,7 @@ const aoc2019day2 = new AoC2019Day2();
 aoc2019day2.test((o) => {
   o('RunCodes', () => {
     o(aoc2019day2.execute(toNumberArray('1,9,10,3,2,3,11,0,99,30,40,50', ','))).deepEquals([
-      3500,
-      9,
-      10,
-      70,
-      2,
-      3,
-      11,
-      0,
-      99,
-      30,
-      40,
-      50,
+      3500, 9, 10, 70, 2, 3, 11, 0, 99, 30, 40, 50,
     ]);
     o(aoc2019day2.execute(toNumberArray('1,0,0,0,99', ','))).deepEquals([2, 0, 0, 0, 99]);
     o(aoc2019day2.execute(toNumberArray('2,4,4,5,99,0', ','))).deepEquals([2, 4, 4, 5, 99, 9801]);

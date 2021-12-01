@@ -1,12 +1,11 @@
 import { AoC } from 'aocf';
-import { createHash } from 'crypto';
 
 export class AoC2015Day10 extends AoC {
   constructor() {
     super(2015, 10);
   }
 
-  translate(s: string) {
+  translate(s: string): string {
     const output = [];
     let current: string | null = null;
     let count = 0;

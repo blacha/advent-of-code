@@ -12,12 +12,8 @@
   "dependencies": {
     "arg": "^5.0.0",
     "node-fetch": "^2.6.1",
-    "pino": "^6.8.0",
+    "pino": "^7.5.0",
     "pretty-json-log": "^0.3.2"
-  },
-  "devDependencies": {
-    "@linzjs/style": "^0.4.1",
-    "@types/pino": "^6.3.4"
   },
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT"

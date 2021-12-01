@@ -29,7 +29,7 @@ export class AoC2015Day16 extends AoC<Sue[]> {
       const opts = c.slice(c.indexOf(':') + 1).trim();
       for (const o of opts.split(',')) {
         const [key, value] = o.trim().split(':');
-        sue[(key.trim() as any) as 'cars'] = Number(value.trim());
+        sue[key.trim() as any as 'cars'] = Number(value.trim());
       }
       return sue;
     });

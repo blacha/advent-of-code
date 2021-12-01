@@ -1,5 +1,4 @@
 import { AoC, permutations } from 'aocf';
-import { stringify } from 'querystring';
 
 export interface SeatingChart {
   a: string;
@@ -27,7 +26,7 @@ export class AoC2015Day13 extends AoC<SeatingChart[]> {
     return moods;
   }
 
-  bestSeats(input: SeatingChart[]) {
+  bestSeats(input: SeatingChart[]): number {
     const index: Record<string, Record<string, number>> = {};
     for (const i of input) {
       index[i.a] = index[i.a] ?? {};

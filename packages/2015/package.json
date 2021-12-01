@@ -13,9 +13,6 @@
     "aocf": "^0.1.0",
     "typescript-memoize": "^1.0.0-alpha.4"
   },
-  "devDependencies": {
-    "@linzjs/style": "^0.4.1"
-  },
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT"
 }

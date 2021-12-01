@@ -64,13 +64,13 @@ export class AoCDataYear {
   }
 }
 
-function timeTo(date:Date): string {
+function timeTo(date: Date): string {
   const timeDiff = date.getTime() - Date.now();
   const seconds = timeDiff / 1000;
   if (seconds < 60) return Math.round(seconds) + ' seconds';
   const minutes = seconds / 60;
   if (minutes < 60) return Math.round(minutes) + ' minutes';
-  return Math.round(minutes / 60) + ' hours'
+  return Math.round(minutes / 60) + ' hours';
 }
 
 export class AoCDataRegistry {
