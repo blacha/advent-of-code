@@ -64,6 +64,15 @@ export class AoCDataYear {
   }
 }
 
+function timeTo(date:Date): string {
+  const timeDiff = date.getTime() - Date.now();
+  const seconds = timeDiff / 1000;
+  if (seconds < 60) return Math.round(seconds) + ' seconds';
+  const minutes = seconds / 60;
+  if (minutes < 60) return Math.round(minutes) + ' minutes';
+  return Math.round(minutes / 60) + ' hours'
+}
+
 export class AoCDataRegistry {
   state: AocRc = {};
   isInit = false;
@@ -164,7 +173,7 @@ export class AoCDataRegistry {
 
   async fetch(aoc: AoC<any>): Promise<AoCJson> {
     this.init();
-    if (!aoc.isUnlocked) throw new Error(`Puzzle ${aoc.id} has not unlocked yet`);
+    if (!aoc.isUnlocked) throw new Error(`Puzzle ${aoc.id} has not unlocked yet! unlocks in ${timeTo(aoc.unlockDate)}`);
 
     // Cache hit
     const dataLocal = this.get(aoc);

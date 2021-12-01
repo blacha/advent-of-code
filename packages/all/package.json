@@ -12,6 +12,7 @@
     "@blacha/advent-of-code-2015": "^0.1.0",
     "@blacha/advent-of-code-2019": "^0.1.0",
     "@blacha/advent-of-code-2020": "^0.1.0",
+    "@blacha/advent-of-code-2021": "^0.1.0",
     "aocf": "^0.1.0",
     "arg": "^5.0.0"
   },
