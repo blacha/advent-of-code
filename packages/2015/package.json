@@ -9,7 +9,6 @@
     "test": "node 'build/test.js'"
   },
   "dependencies": {
-    "@types/node": "^14.14.10",
     "aocf": "^0.1.0",
     "typescript-memoize": "^1.0.0-alpha.4"
   },
