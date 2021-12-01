@@ -57,9 +57,9 @@ export class AoCDataYear {
     return puzzleData;
   }
 
-  puzzle(day: number, user?: string): AoCJson {
+  puzzle(day: number, user?: string): AoCJson | null{
     const p = this.get(day, user);
-    if (p == null) throw new Error(`Failed to find puzzle data for ${this.year}-${day}`);
+    if (p == null) return null;
     return p;
   }
 }
@@ -107,7 +107,7 @@ export class AoCDataRegistry {
     }
   }
 
-  get(aoc: AoC<any>): AoCJson {
+  get(aoc: AoC<any>): AoCJson | null {
     if (this.state.user) this.loadFromFile(aoc.year, this.state.user);
     return this.getDb(aoc.year).puzzle(aoc.day, this.state.user);
   }

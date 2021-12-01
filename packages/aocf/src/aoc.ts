@@ -127,7 +127,7 @@ export class AoC<T = string> {
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
     log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
     if (isReal) {
-      const ans = AoCData.get(this).answers;
+      const ans = AoCData.get(this)?.answers;
       if (ans) {
         if (ans.a == a && ans.b == b) log.info({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated');
         else log.error({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated:Failed');
