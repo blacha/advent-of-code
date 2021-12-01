@@ -21,14 +21,14 @@ export class Aoc2021Day1 extends AoC<number[]> {
 
 export const aoc2021day1 = new Aoc2021Day1();
 
-aoc2021day1.test((o) => {
-  const testValues = [1721, 979, 366, 299, 675, 1456];
+// aoc2021day1.test((o) => {
+//   const testValues = [1721, 979, 366, 299, 675, 1456];
 
-  o('twoFor2021', () => {
-    o(aoc2021day1.partA(testValues)).equals(-1);
-  });
+//   o('2021partA', () => {
+//     o(aoc2021day1.partA(testValues)).equals(-1);
+//   });
 
-  o('threeFor2021', () => {
-    o(aoc2021day1.partB(testValues)).equals(-1);
-  });
-});
+//   o('2021partB', () => {
+//     o(aoc2021day1.partB(testValues)).equals(-1);
+//   });
+// });
