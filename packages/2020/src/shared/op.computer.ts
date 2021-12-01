@@ -40,7 +40,7 @@ export class OpComputer {
   }
 
   /** Count the operations and which operations are being called */
-  private hit() {
+  private hit(): number {
     this.opCount++;
     const prevHits = this.opHits[this.index] ?? 0;
     this.opHits[this.index] = prevHits + 1;

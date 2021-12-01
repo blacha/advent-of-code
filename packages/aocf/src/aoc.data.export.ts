@@ -6,7 +6,7 @@ import { AoCDataFile } from './export';
 
 const Args = arg({ '--user': String, '--year': Number });
 
-async function main() {
+async function main(): Promise<void> {
   const user = Args['--user'];
   const year = Args['--year'] as 2105;
   if (user == null) throw new Error('Missing --user');

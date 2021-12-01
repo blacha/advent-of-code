@@ -1,5 +1,4 @@
 import { AoC, Grid } from 'aocf';
-import o from 'ospec';
 
 export enum Cabin {
   Floor = '.',

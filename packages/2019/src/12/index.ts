@@ -14,15 +14,15 @@ export class Vector {
     this.z = z;
   }
 
-  get asbTotal() {
+  get asbTotal(): number {
     return Math.abs(this.x) + Math.abs(this.y) + Math.abs(this.z);
   }
 
-  clone() {
+  clone(): Vector {
     return new Vector(this.x, this.y, this.z);
   }
 
-  toString() {
+  toString(): string {
     return `<x=${Vector.p(this.x)}, y=${Vector.p(this.y)}, z=${Vector.p(this.z)}>`;
   }
 }
@@ -35,7 +35,7 @@ export class Moon {
     this.position = position;
   }
 
-  static getVelocity(offsetA: number, offsetB: number) {
+  static getVelocity(offsetA: number, offsetB: number): number {
     if (offsetA == offsetB) {
       return 0;
     }
@@ -44,30 +44,30 @@ export class Moon {
     }
     return -1;
   }
-  gravity(otherMoon: Moon) {
+  gravity(otherMoon: Moon): void {
     this.velocity.x += Moon.getVelocity(this.position.x, otherMoon.position.x);
     this.velocity.y += Moon.getVelocity(this.position.y, otherMoon.position.y);
     this.velocity.z += Moon.getVelocity(this.position.z, otherMoon.position.z);
   }
 
-  move() {
+  move(): void {
     this.position.x += this.velocity.x;
     this.position.y += this.velocity.y;
     this.position.z += this.velocity.z;
   }
 
-  get potential() {
+  get potential(): number {
     return this.position.asbTotal;
   }
-  get kinetic() {
+  get kinetic(): number {
     return this.velocity.asbTotal;
   }
 
-  get energy() {
+  get energy(): number {
     return this.potential * this.kinetic;
   }
 
-  toString() {
+  toString(): string {
     return `pos=${this.position.toString()}, vel=${this.velocity.toString()}`;
   }
 }
@@ -94,7 +94,7 @@ export class Scanner {
     this.moons = moons.map((c) => new Moon(c.clone()));
   }
 
-  step() {
+  step(): void {
     this.count++;
     for (const moon of this.moons) {
       for (const otherMoon of this.moons) {
@@ -116,7 +116,7 @@ export class Scanner {
     return lcm(xDupe, lcm(yDupe, zDupe));
   }
 
-  private hashAxis(axis: 'x' | 'y' | 'z') {
+  private hashAxis(axis: 'x' | 'y' | 'z'): string {
     return this.moons.map((c) => c.position[axis] + '_' + c.velocity[axis]).join('');
   }
 
@@ -141,7 +141,7 @@ export class Scanner {
     this.count = 0;
   }
 
-  get energy() {
+  get energy(): number {
     let total = 0;
     for (const moon of this.moons) {
       total += moon.energy;
@@ -149,7 +149,7 @@ export class Scanner {
     return total;
   }
 
-  print() {
+  print(): void {
     console.log(`After ${this.count} steps:`);
     this.moons.forEach((m) => console.log(m.toString()));
   }

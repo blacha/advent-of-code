@@ -52,7 +52,7 @@ export class Computer {
     return computer;
   }
 
-  static register(cmd: ComputerCommand) {
+  static register(cmd: ComputerCommand): void {
     Commands[cmd.code] = cmd;
   }
 
@@ -109,24 +109,24 @@ export class Computer {
     this.print('--Done: ', this.state.state);
   }
 
-  debugger(debug = true) {
+  debugger(debug = true): void {
     this._debug = debug;
   }
 
   private _debug = false;
-  print(...args: any[]) {
+  print(...args: any[]): void {
     if (this._debug == false) {
       return;
     }
     console.log(...args);
   }
 
-  quit() {
+  quit(): void {
     this.state.state = ComputerState.Ended;
     this.print('-- Quit\n\n');
   }
 
-  wait() {
+  wait(): void {
     this.state.state = ComputerState.WaitingInput;
     this.print('-- Wait\n\n');
   }
@@ -191,11 +191,11 @@ export class Computer {
     return this.state.output[this.state.output.length - 1];
   }
 
-  get isWaiting() {
+  get isWaiting(): boolean {
     return this.state.state == ComputerState.WaitingInput || this.state.state == ComputerState.Ready;
   }
 
-  get isEnded() {
+  get isEnded(): boolean {
     return this.state.state == ComputerState.Ended;
   }
 }

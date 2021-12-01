@@ -5,7 +5,7 @@ import './puzzles';
 
 const a = arg({ '--year': Number, '--day': Number, '--export': Boolean });
 const usage = 'Usage: aoc-run --year :year [--day :day] [--export]';
-async function main() {
+async function main(): Promise<void> {
   const year = a['--year'];
   const day = a['--day'];
   if (year == null) return console.log(usage);

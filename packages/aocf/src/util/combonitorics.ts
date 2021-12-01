@@ -13,7 +13,7 @@ function* heaps<T>(arr: T[], index: number, size: number): Generator<T[]> {
   }
 }
 
-function swap<T>(arr: T[], i: number, j: number) {
+function swap<T>(arr: T[], i: number, j: number): T[] {
   if (i >= arr.length || j >= arr.length) throw new Error('Swap out of bounds');
   const temp = arr[j];
   arr[j] = arr[i];

@@ -5,7 +5,7 @@ export class CodeEnd extends ComputerCommand {
   name = 'end';
   code = 99;
 
-  run(computer: Computer, offset: number, modes: number[]): number {
+  run(computer: Computer): number {
     computer.quit();
     return 0;
   }

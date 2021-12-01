@@ -8,7 +8,7 @@ console.log(currentYear, currentDay);
 
 const currentPuzzle = AoC.create(currentYear, currentDay);
 
-async function main() {
+async function main(): Promise<void> {
   while (!currentPuzzle.isUnlocked) {
     if (currentPuzzle.isUnlocked) {
     }
