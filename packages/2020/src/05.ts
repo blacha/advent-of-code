@@ -1,6 +1,6 @@
 import { AoC } from 'aocf';
 
-function toNumber(row: string) {
+function toNumber(row: string): number {
   return parseInt(row.replace(/R/g, '1').replace(/L/g, '0').replace(/B/g, '1').replace(/F/g, '0'), 2);
 }
 export class AoC2020Day5 extends AoC<string[]> {

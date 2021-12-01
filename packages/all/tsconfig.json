@@ -1,9 +1,15 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "./src",
-        "outDir": "./build"
-    },
-    "include": ["src/**/*"],
-    "references": [{ "path": "../2021"}, { "path": "../2020"}, { "path": "../2019"}, { "path": "../2015"}, {"path": "../aocf"}]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "./src",
+    "outDir": "./build"
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../2021" },
+    { "path": "../2020" },
+    { "path": "../2019" },
+    { "path": "../2015" },
+    { "path": "../aocf" }
+  ]
 }

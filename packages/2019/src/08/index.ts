@@ -14,11 +14,11 @@ export class ElfImage {
     this.height = height;
   }
 
-  offset(x: number, y: number) {
+  offset(x: number, y: number): number {
     return y * this.width + x;
   }
 
-  load(bytes: number[]) {
+  load(bytes: number[]): void {
     const bytesPerLayer = this.width * this.height;
     const totalLayers = bytes.length / bytesPerLayer;
     const layers: number[][][] = [];
@@ -37,7 +37,7 @@ export class ElfImage {
     this.layers = layers;
   }
 
-  findLayerZeros() {
+  findLayerZeros(): { zero: number; one: number; two: number } {
     const bestLayer = {
       zero: Number.MAX_SAFE_INTEGER,
       one: 0,

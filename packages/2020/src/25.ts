@@ -35,7 +35,7 @@ export class Aoc2020Day25 extends AoC<number[]> {
     return encryptKey;
   }
 
-  partB(data: number[]): number {
+  partB(): number {
     return -1;
   }
 }

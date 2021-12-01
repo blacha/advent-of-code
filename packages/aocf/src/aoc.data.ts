@@ -57,7 +57,7 @@ export class AoCDataYear {
     return puzzleData;
   }
 
-  puzzle(day: number, user?: string): AoCJson | null{
+  puzzle(day: number, user?: string): AoCJson | null {
     const p = this.get(day, user);
     if (p == null) return null;
     return p;

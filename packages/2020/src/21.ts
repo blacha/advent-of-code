@@ -27,7 +27,7 @@ export class AoC2015Day21 extends AoC<AoC2015Day21Input> {
     }
     input.safe = new Set(input.all);
     input.allergies = new Map<string, Set<string>>();
-    function cleanUp(val: string) {
+    function cleanUp(val: string): void {
       input.safe.delete(val);
       for (const set of input.allergies.values()) {
         if (!set.has(val)) continue;

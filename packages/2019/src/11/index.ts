@@ -1,4 +1,3 @@
-import { Grid } from '../shared/grid';
 import { Computer } from '../shared/computer/int.computer';
 import { RobotProgram } from './robot';
 export enum PanelColor {
@@ -40,7 +39,7 @@ export class Robot {
     return this.grid.get(`${x}:${y}`) || PanelColor.Black;
   }
 
-  paint(color: PanelColor) {
+  paint(color: PanelColor): Map<string, PanelColor> {
     const { x, y } = this.robot;
 
     const lastColor = this.grid.get(`${x}:${y}`);
@@ -50,13 +49,11 @@ export class Robot {
     }
     return this.grid.set(`${x}:${y}`, color);
   }
-  run() {
-    while (!this.computer.isEnded) {
-      this.step();
-    }
+  run(): void {
+    while (!this.computer.isEnded) this.step();
   }
 
-  step() {
+  step(): void {
     // console.log('Resume', this.currentPanelColor)
     this.computer.resume([this.currentPanelColor]);
     const paintColor = this.computer.state.output.shift();
@@ -70,10 +67,8 @@ export class Robot {
     this.move();
   }
 
-  changeDirection(direction?: RobotDirection) {
-    if (direction == null) {
-      throw new Error('Failed');
-    }
+  changeDirection(direction?: RobotDirection): void {
+    if (direction == null) throw new Error('Failed');
     let currentIndex = RobotDirections.indexOf(this.robot.type);
     if (direction == RobotDirection.Left) {
       currentIndex--;
@@ -89,7 +84,7 @@ export class Robot {
     this.robot.type = RobotDirections[currentIndex];
   }
 
-  move() {
+  move(): void {
     switch (this.robot.type) {
       case GridType.North:
         this.robot.y--;

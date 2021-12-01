@@ -1,6 +1,6 @@
 import { AoC, Point } from 'aocf';
 
-function rotate(p: { x: number; y: number }, deg: number) {
+function rotate(p: { x: number; y: number }, deg: number): void {
   if (deg > 360) deg -= 360;
   if (deg < 0) deg += 360;
   if (deg == 0 || deg == 360) return;
@@ -17,7 +17,7 @@ function rotate(p: { x: number; y: number }, deg: number) {
     p.x = -1 * y;
   } else throw new Error('Weird Rotation');
 }
-function move(ch: string, p: Point, amount: number) {
+function move(ch: string, p: Point, amount: number): void {
   if (ch == 'N') p.y += amount;
   else if (ch == 'S') p.y -= amount;
   else if (ch == 'E') p.x += amount;

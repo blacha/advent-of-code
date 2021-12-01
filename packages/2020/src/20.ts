@@ -111,7 +111,8 @@ export class Tile {
   }
 
   find(fn: (f: Tile) => boolean): boolean {
-    for (const pos of this.positions()) if (fn(this)) return true;
+    /*  eslint-disable @typescript-eslint/no-unused-vars */
+    for (const x of this.positions()) if (fn(this)) return true;
     return false;
   }
 

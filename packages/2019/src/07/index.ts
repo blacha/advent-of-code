@@ -42,29 +42,27 @@ export class AmplifierControl {
     }
   }
 
-  clone() {
+  clone(): AmplifierControl {
     const amp = new AmplifierControl();
     amp.amps = this.amps.map((comp) => comp.clone());
     return amp;
   }
 
-  get isWaiting() {
+  get isWaiting(): boolean {
     for (const amp of this.amps) {
-      if (amp.isWaiting) {
-        return true;
-      }
+      if (amp.isWaiting) return true;
     }
     return false;
   }
 
-  setPhase(phases: number[]) {
+  setPhase(phases: number[]): void {
     for (let i = 0; i < phases.length; i++) {
       const computer = this.amps[i];
       computer.state.input = [phases[i]];
     }
   }
 
-  run(lastVal = 0) {
+  run(lastVal = 0): number {
     for (let i = 0; i < this.amps.length; i++) {
       const comp = this.amps[i];
       comp.resume([lastVal]);
@@ -76,7 +74,7 @@ export class AmplifierControl {
     return lastVal;
   }
 
-  static brute(program: string, inputs = [0, 1, 2, 3, 4]) {
+  static brute(program: string, inputs = [0, 1, 2, 3, 4]): BestState {
     const base = new AmplifierControl(program);
     const allInputs = combinations(inputs);
 

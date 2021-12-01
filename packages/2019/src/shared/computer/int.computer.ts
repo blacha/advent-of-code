@@ -40,7 +40,7 @@ export class Computer {
     this.state = this.reset();
   }
 
-  init(ops: string) {
+  init(ops: string): void {
     this.state.memory = ops.split(',').map((c) => parseInt(c, 10));
     this.state.state = ComputerState.Ready;
   }
@@ -183,7 +183,7 @@ export class Computer {
     return this.state.memory[offset] || 0;
   }
 
-  set(offset: number, value: number) {
+  set(offset: number, value: number): void {
     this.state.memory[offset] = value;
   }
 

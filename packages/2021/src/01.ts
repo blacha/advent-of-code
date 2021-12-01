@@ -12,10 +12,10 @@ export class Aoc2021Day1 extends AoC<number[]> {
   partA(data: number[]): number {
     let count = 0;
     let last = data[0];
-    for (let i = 1; i < data.length; i ++) {
-      let num = data[i]
-      if (last !== -0 && num > last) count++
-      last = num
+    for (let i = 1; i < data.length; i++) {
+      const num = data[i];
+      if (last !== -0 && num > last) count++;
+      last = num;
     }
     return count;
   }
@@ -23,8 +23,8 @@ export class Aoc2021Day1 extends AoC<number[]> {
   partB(data: number[]): number {
     let count = 0;
     for (let i = 0; i < data.length - 3; i++) {
-      const winA = data[i] + data[i + 1] + data[i + 2]
-      const winB = data[i + 1] + data[i + 2] + data[i + 3]
+      const winA = data[i] + data[i + 1] + data[i + 2];
+      const winB = data[i + 1] + data[i + 2] + data[i + 3];
       if (winB > winA) count++;
     }
     return count;

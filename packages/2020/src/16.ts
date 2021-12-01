@@ -84,7 +84,7 @@ export class AoC2020Day16 extends AoC<Tickets> {
 
   partB(input: Tickets): number {
     const validTickets = input.others.filter((f) => this.isPossiblyValid(f, input.reqs).length == 0);
-    const ticketOptions = input.me.map((c) => new Set(Object.keys(input.reqs)));
+    const ticketOptions = input.me.map(() => new Set(Object.keys(input.reqs)));
 
     for (const [key, [orA, orB]] of Object.entries(input.reqs)) {
       for (const ticket of validTickets) {

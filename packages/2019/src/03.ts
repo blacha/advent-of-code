@@ -1,4 +1,4 @@
-import { AoC, toNumberArray } from 'aocf';
+import { AoC } from 'aocf';
 import { Grid } from './shared/grid';
 
 export class AoC2019Day3 extends AoC<string> {

@@ -1,3 +1,5 @@
+import { Point } from 'aocf';
+
 export interface BestScanner {
   count: number;
   asteroid: Asteroid;
@@ -31,7 +33,7 @@ export class Asteroid {
   distance(other: Asteroid): number {
     return Math.hypot(this.x - other.x, this.y - other.y);
   }
-  get point() {
+  get point(): Point {
     return { x: this.x, y: this.y };
   }
 }
@@ -51,11 +53,9 @@ export class Sensors {
       }
     }
   }
-  get(x: number, y: number) {
+  get(x: number, y: number): Asteroid {
     const astro = this.asteroids.find((a) => a.x == x && a.y == y);
-    if (astro == null) {
-      throw new Error('Cannot find asteroid');
-    }
+    if (astro == null) throw new Error('Cannot find asteroid');
     return astro;
   }
 
@@ -130,7 +130,7 @@ export class Sensors {
     return source;
   }
 
-  static scan(grid: string) {
+  static scan(grid: string): BestScanner {
     const sensors = new Sensors(grid);
     return sensors.scan();
   }

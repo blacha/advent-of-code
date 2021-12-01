@@ -1,7 +1,6 @@
-import 'source-map-support/register';
-
 import o from 'ospec';
-import { Scanner, Vector, Moon } from './index';
+import 'source-map-support/register';
+import { Scanner, Vector } from './index';
 
 o.spec('2019:Day12', () => {
   o('should do first example', () => {

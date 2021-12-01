@@ -10,16 +10,14 @@ export class Node {
     this.name = name;
   }
 
-  link(node: Node) {
+  link(node: Node): void {
     if (this.children == null) {
       this.children = [node];
       return;
     }
 
     const existing = this.children.find((f) => f.name == node.name);
-    if (existing) {
-      throw Error('Duplicate Node');
-    }
+    if (existing) throw Error('Duplicate Node');
     this.children.push(node);
   }
 }
@@ -27,7 +25,7 @@ export class Node {
 export class Tree {
   tree: Record<string, Node> = {};
 
-  static build(orbits: string[]) {
+  static build(orbits: string[]): Tree {
     const tree = new Tree();
     for (const orb of orbits) {
       const [first, second] = orb.split(')');
@@ -54,7 +52,7 @@ export class Tree {
     return existing;
   }
 
-  path(nodeA: string, nodeB: string) {
+  path(nodeA: string, nodeB: string): number {
     const nA = this.get(nodeA);
     const nB = this.get(nodeB);
 
@@ -80,7 +78,7 @@ export class Tree {
     return level;
   }
 
-  getOrbits() {
+  getOrbits(): number {
     let count = 0;
     for (const val of Object.values(this.tree)) {
       if (val.parent == null) {
@@ -104,7 +102,7 @@ export class Tree {
     return count;
   }
 
-  link(first: string, second: string) {
+  link(first: string, second: string): void {
     const nodeA = this.get(first);
     const nodeB = this.get(second, nodeA);
     nodeA.link(nodeB);

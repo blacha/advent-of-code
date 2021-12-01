@@ -11,7 +11,7 @@ const Surrounding = [
 
 const MaxSize = 230;
 
-function toXy(x: number, y: number) {
+function toXy(x: number, y: number): number {
   return y * MaxSize + x;
 }
 

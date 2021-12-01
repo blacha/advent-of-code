@@ -23,7 +23,7 @@ export class Grid<T = string> {
       this.maxX = Math.max(x.length, this.maxX);
     }
   }
-  static create<T>(str: string, parse: (s: string) => T = (s) => s as any): Grid<T> {
+  static create<T>(str: string, parse: (s: string) => T = (s): T => s as any): Grid<T> {
     const data = str.split('\n').map((c) => c.split('').map((char) => parse(char)));
     return new Grid(data);
   }

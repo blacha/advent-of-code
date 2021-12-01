@@ -1,11 +1,11 @@
 {
-    "files": [],
-    "references": [
-        { "path": "packages/aocf"},
-        { "path": "packages/2015"},
-        { "path": "packages/2019"},
-        { "path": "packages/2020"},
-        { "path": "packages/2021"},
-        { "path": "packages/all"},
-    ]
+  "files": [],
+  "references": [
+    { "path": "packages/aocf" },
+    { "path": "packages/2015" },
+    { "path": "packages/2019" },
+    { "path": "packages/2020" },
+    { "path": "packages/2021" },
+    { "path": "packages/all" }
+  ]
 }

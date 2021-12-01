@@ -34,7 +34,7 @@ export class AoC2015Day15 extends AoC<Ingredient[]> {
     return opts;
   }
 
-  *pickUpTo<T>(max: number, maxSize: number, currentIndex = 0, current: number[] = []): Generator<number[]> {
+  *pickUpTo(max: number, maxSize: number, currentIndex = 0, current: number[] = []): Generator<number[]> {
     if (currentIndex == maxSize - 1) {
       current[currentIndex] = max;
       yield current;
@@ -46,7 +46,7 @@ export class AoC2015Day15 extends AoC<Ingredient[]> {
     }
   }
 
-  score(inputs: Ingredient[], qty: number[], cals = 0): Ingredient & { total: number } {
+  score(inputs: Ingredient[], qty: number[]): Ingredient & { total: number } {
     const r = { name: '', capacity: 0, durability: 0, flavor: 0, texture: 0, calories: 0, total: 0 };
 
     const maxIng = Math.min(inputs.length, qty.length);
@@ -73,7 +73,7 @@ export class AoC2015Day15 extends AoC<Ingredient[]> {
     let bestScore = 0;
     let bestScoreCalories = 0;
     for (const item of this.pickUpTo(100, input.length)) {
-      const s = this.score(input, item, 500);
+      const s = this.score(input, item);
       if (s.total > bestScore) bestScore = s.total;
       if (s.calories == 500 && s.total > bestScoreCalories) bestScoreCalories = s.total;
     }

@@ -8,7 +8,7 @@ export type Chunk = {
   right: number | Chunk;
 };
 
-function findMatchingBracket(input: string | string[], offset: number) {
+function findMatchingBracket(input: string | string[], offset: number): number {
   let count = 1;
   for (let j = offset; j < input.length; j++) {
     const o = input[j];

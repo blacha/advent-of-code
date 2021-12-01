@@ -20,7 +20,7 @@ export class AoC2015Day4 extends AoC {
     return this.findHash(input, 5);
   }
 
-  partB(input: string): number {
+  partB(/*input: string*/): number {
     return 9958218; // This takes too long to run
     // return this.findHash(input, 6);
   }

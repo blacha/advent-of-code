@@ -4,7 +4,7 @@ export class Vector {
   x: number;
   y: number;
   z: number;
-  static p(x: number) {
+  static p(x: number): string {
     return String(x).padStart(Vector.PadCount, ' ');
   }
 
@@ -136,7 +136,7 @@ export class Scanner {
     throw new Error('Dead');
   }
 
-  reset() {
+  reset(): void {
     this.moons = this.initial.map((c) => new Moon(c.position.clone()));
     this.count = 0;
   }
