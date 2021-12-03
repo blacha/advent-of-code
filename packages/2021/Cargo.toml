@@ -1,0 +1,26 @@
+[package]
+name = "aoc-2021"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name="aoc-2021-01"
+path = "rust/01.rs"
+
+[[bin]]
+name="aoc-2021-02"
+path = "rust/02.rs"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
