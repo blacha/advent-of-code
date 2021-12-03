@@ -19,7 +19,7 @@ async function main(): Promise<void> {
     const aoc = AoC.create<string>(year, day);
     if (!aoc.isUnlocked) break;
     const input = await AoCData.fetch(aoc);
-    output.push({ year, day, user, input: input.input, answers: null });
+    output.push({ year, day, user, input: input.input });
   }
   const json = JSON.stringify(output, null, 2);
   console.log('Writing ', output.length, ' questions into file');

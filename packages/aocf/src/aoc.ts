@@ -45,7 +45,7 @@ export class AoC<T = string> {
       const puzzle = await AoCData.fetch(aoc);
       const answers = aoc.answers(puzzle.input) as any;
       delete answers.duration;
-      data.push({ year, day, user: AoCData.user, input: puzzle.input, answers });
+      data.push({ year, day, user: AoCData.user, input: puzzle.input, a: answers.a, b: answers.b });
     }
     return data;
   }
@@ -99,12 +99,8 @@ export class AoC<T = string> {
 
         console.log(`${this.id}.Question#1`, a, `${duration.a} ms`);
         console.log(`${this.id}.Question#2`, b, `${duration.b} ms`);
-        if (puzzle.answers) {
-          o(a).equals(puzzle.answers.a);
-          o(b).equals(puzzle.answers.b);
-        } else {
-          console.log('No known answers for ', this.id);
-        }
+        if (puzzle.a != null) o(a).equals(puzzle.a);
+        if (puzzle.b != null) o(b).equals(puzzle.b);
       });
     });
   }
@@ -127,8 +123,8 @@ export class AoC<T = string> {
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
     log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
     if (isReal) {
-      const ans = AoCData.get(this)?.answers;
-      if (ans) {
+      const ans = AoCData.get(this);
+      if (ans && ans.a != null && ans.b != null) {
         if (ans.a == a && ans.b == b) log.info({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated');
         else log.error({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated:Failed');
       }

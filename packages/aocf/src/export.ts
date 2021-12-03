@@ -10,6 +10,8 @@ export interface AoCJson {
   user: string;
   /** Advent of code data input */
   input: string;
-  /** Optional answers */
-  answers: { a: AoCAnswer; b: AoCAnswer } | null;
+  /** Optional answer for part one*/
+  a?: AoCAnswer;
+  /** Optional answer for part two*/
+  b?: AoCAnswer; 
 }
