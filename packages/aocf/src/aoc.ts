@@ -105,11 +105,11 @@ export class AoC<T = string> {
     });
   }
 
-  answers(input: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } } {
-    const data = this.data(input);
-    const tA = timer(() => this.partA && this.partA(data));
-    const tB = timer(() => this.partB && this.partB(data));
-    const duration = { a: tA.duration, b: tB.duration };
+  answers(input: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number, parse: number } } {
+    const data = timer(() => this.data(input));
+    const tA = timer(() => this.partA && this.partA(data.v));
+    const tB = timer(() => this.partB && this.partB(data.v));
+    const duration = { a: tA.duration, b: tB.duration, parse:data.duration };
     return { a: tA.v, b: tB.v, duration };
   }
 
@@ -120,6 +120,7 @@ export class AoC<T = string> {
     input = input ?? this.input;
     const { a, b, duration } = this.answers(input);
 
+    log.info({ aoc: this.id, duration: duration.parse }, 'Parse');
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
     log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
     if (isReal) {
