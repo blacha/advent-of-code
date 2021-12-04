@@ -13,5 +13,5 @@ export interface AoCJson {
   /** Optional answer for part one*/
   a?: AoCAnswer;
   /** Optional answer for part two*/
-  b?: AoCAnswer; 
+  b?: AoCAnswer;
 }
