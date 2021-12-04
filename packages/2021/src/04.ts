@@ -113,11 +113,11 @@ const testValues = `
  2  0 12  3  7`.trim();
 
 aoc.test((o) => {
-  o('2021partA', () => {
+  o('partA', () => {
     o(aoc.answers(testValues).a).equals(4512);
   });
 
-  o('2021partB', () => {
+  o('partB', () => {
     o(aoc.answers(testValues).b).equals(1924);
   });
 });

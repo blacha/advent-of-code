@@ -59,11 +59,11 @@ aoc.partB = (input: Input[]): number => {
 aoc.test((o) => {
   const testValues = `forward 5\ndown 5\nforward 8\nup 3\ndown 8\nforward 2`;
 
-  o('2021partA', () => {
+  o('PartA', () => {
     o(aoc.answers(testValues).a).equals(150);
   });
 
-  o('2021partB', () => {
+  o('PartB', () => {
     o(aoc.answers(testValues).b).equals(900);
   });
 });

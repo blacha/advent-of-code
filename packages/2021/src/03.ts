@@ -46,11 +46,11 @@ aoc.partB = (input: string[]): number => {
 aoc.test((o) => {
   const testValues = `00100\n11110\n10110\n10111\n10101\n01111\n00111\n11100\n10000\n11001\n00010\n01010`;
 
-  o('2021partA', () => {
+  o('PartA', () => {
     o(aoc.answers(testValues).a).equals(198);
   });
 
-  o('2021partB', () => {
+  o('PartB', () => {
     o(aoc.answers(testValues).b).equals(230);
   });
 });

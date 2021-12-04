@@ -27,16 +27,16 @@ export class Aoc2021Day1 extends AoC<number[]> {
   }
 }
 
-export const aoc2021day1 = new Aoc2021Day1();
+export const aoc = new Aoc2021Day1();
 
-aoc2021day1.test((o) => {
+aoc.test((o) => {
   const testValues = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
 
-  o('2021partA', () => {
-    o(aoc2021day1.partA(testValues)).equals(7);
+  o('PartA', () => {
+    o(aoc.partA(testValues)).equals(7);
   });
 
-  o('2021partB', () => {
-    o(aoc2021day1.partB(testValues)).equals(5);
+  o('PartB', () => {
+    o(aoc.partB(testValues)).equals(5);
   });
 });
