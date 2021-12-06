@@ -8,25 +8,25 @@ enum Direction {
 
 struct Movement {
     direction: Direction,
-    count: u32,
+    count: usize,
 }
 
 #[inline]
-fn puzzle_a(input: &Vec<Movement>) -> u32 {
+fn puzzle_a(input: &Vec<Movement>) -> usize {
     let mut x = 0;
     let mut y = 0;
     for vm in input.iter() {
         match vm.direction {
             Direction::Forward => x += vm.count,
             Direction::Up => y -= vm.count,
-            Direction::Down => y += vm.count
+            Direction::Down => y += vm.count,
         }
     }
     return x * y;
 }
 
 #[inline]
-fn puzzle_b(input: &Vec<Movement>) -> u32 {
+fn puzzle_b(input: &Vec<Movement>) -> usize {
     let mut x = 0;
     let mut y = 0;
     let mut aim = 0;
@@ -35,9 +35,9 @@ fn puzzle_b(input: &Vec<Movement>) -> u32 {
             Direction::Forward => {
                 x += vm.count;
                 y += vm.count * aim;
-            },
+            }
             Direction::Up => aim -= vm.count,
-            Direction::Down => aim += vm.count
+            Direction::Down => aim += vm.count,
         }
     }
     return x * y;
@@ -58,9 +58,9 @@ fn puzzle_parse(input: &String) -> Vec<Movement> {
             "up" => Direction::Up,
             "down" => Direction::Down,
             "forward" => Direction::Forward,
-            unk => panic!("Invalid direction {}", unk)
+            unk => panic!("Invalid direction {}", unk),
         };
-        movement.count = splits.next().unwrap().parse::<u32>().unwrap();
+        movement.count = splits.next().unwrap().parse::<usize>().unwrap();
         movements.push(movement);
     }
 

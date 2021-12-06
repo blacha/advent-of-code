@@ -1,8 +1,8 @@
 mod aoc;
 
 #[inline]
-fn puzzle_a(input: &Vec<u32>) -> u32 {
-    let mut count: u32 = 0;
+fn puzzle_a(input: &Vec<usize>) -> usize {
+    let mut count: usize = 0;
     for i in 0..input.len() - 1 {
         if input[i + 1] > input[i] {
             count = count + 1
@@ -12,7 +12,7 @@ fn puzzle_a(input: &Vec<u32>) -> u32 {
 }
 
 #[inline]
-fn puzzle_b(input: &Vec<u32>) -> u32 {
+fn puzzle_b(input: &Vec<usize>) -> usize {
     let mut count = 0;
     for i in 0..input.len() - 3 {
         if input[i + 3] > input[i] {
@@ -22,10 +22,10 @@ fn puzzle_b(input: &Vec<u32>) -> u32 {
     return count;
 }
 
-fn puzzle_parse(input: &String) -> Vec<u32> {
+fn puzzle_parse(input: &String) -> Vec<usize> {
     return input
         .lines()
-        .map(|line| line.parse::<u32>().unwrap())
+        .map(|line| line.parse::<usize>().unwrap())
         .collect();
 }
 
@@ -34,7 +34,13 @@ fn main() {
     let puzzle = aoc::puzzle_load(&user_name, 2021, 1);
     let data = puzzle_parse(&puzzle.input);
 
-    println!("Puzzle {}-{} a:{} b:{}", puzzle.year, puzzle.day, puzzle.a.unwrap(), puzzle.b.unwrap());
+    println!(
+        "Puzzle {}-{} a:{} b:{}",
+        puzzle.year,
+        puzzle.day,
+        puzzle.a.unwrap(),
+        puzzle.b.unwrap()
+    );
 
     let res_a = puzzle_a(&data);
     if let Some(ans_a) = puzzle.a {

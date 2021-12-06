@@ -6,12 +6,12 @@ const AOC_DATA_PATH: &str = ".aoc-data";
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Puzzle {
-    pub year: u16,
-    pub day: u8,
+    pub year: usize,
+    pub day: usize,
     pub user: String,
     pub input: String,
-    pub a: Option<u32>,
-    pub b: Option<u32>,
+    pub a: Option<usize>,
+    pub b: Option<usize>,
 }
 
 pub trait PuzzleId {
@@ -41,7 +41,7 @@ fn find_aoc_data() -> Result<std::path::PathBuf, ()> {
     }
 }
 
-pub fn puzzle_load(user: &str, year: u16, day: u8) -> Puzzle {
+pub fn puzzle_load(user: &str, year: usize, day: usize) -> Puzzle {
     let aoc_data_path = find_aoc_data().expect("Failed to find .aoc-data folder");
     let target_file_name = format!("{}.{}.json", year, user);
 
@@ -58,5 +58,3 @@ pub fn puzzle_load(user: &str, year: u16, day: u8) -> Puzzle {
     }
     panic!("Unable to find puzzle");
 }
-
-
