@@ -16,12 +16,17 @@ export class Grid<T = string> {
   maxY = -1;
 
   hasChanges = false;
-  constructor(data: T[][]) {
+  constructor(data: T[][], maxX = -1, maxY = -1) {
     this.data = data;
     this.maxY = data.length;
-    for (const x of data) {
-      this.maxX = Math.max(x.length, this.maxX);
+    if (maxX > -1) {
+      this.maxX = maxX;
+    } else {
+      for (const x of data) {
+        this.maxX = Math.max(x.length, this.maxX);
+      }
     }
+    if (maxY > -1) this.maxY = maxY;
   }
   static create<T>(str: string, parse: (s: string) => T = (s): T => s as any): Grid<T> {
     const data = str.split('\n').map((c) => c.split('').map((char) => parse(char)));
@@ -31,14 +36,14 @@ export class Grid<T = string> {
   get(x: number, y: number): T | null {
     if (x < 0 || y < 0) return null;
     if (x >= this.maxX || y >= this.maxY) return null;
-    const line = this.data[y];
+    const line = this.data[y] ?? [];
     return line[x] ?? null;
   }
 
   set(x: number, y: number, i: T): void {
     if (this.data[y] == null) this.data[y] = [];
     const oldVal = this.data[y][x];
-    if (oldVal == i) return;
+    if (oldVal === i) return;
     this.data[y][x] = i;
     this.hasChanges = true;
   }
@@ -80,8 +85,15 @@ export class Grid<T = string> {
     }
   }
 
-  toString(): string {
-    return this.data.map((c) => c.join('  ')).join('\n');
+  toString(fmt: (t: T) => string = (t: T): string => (t ? String(t) : '.')): string {
+    const output = [];
+    for (let y = 0; y < this.maxY; y++) {
+      const lineOut: string[] = [];
+      const line = this.data[y] ?? [];
+      for (let x = 0; x < this.maxX; x++) lineOut.push(fmt(line[x]));
+      output.push(lineOut.join(' '));
+    }
+    return output.join('\n');
   }
 
   clone(): Grid<T> {

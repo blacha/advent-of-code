@@ -105,11 +105,11 @@ export class AoC<T = string> {
     });
   }
 
-  answers(input: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number, parse: number } } {
+  answers(input: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number; parse: number } } {
     const data = timer(() => this.data(input));
     const tA = timer(() => this.partA && this.partA(data.v));
     const tB = timer(() => this.partB && this.partB(data.v));
-    const duration = { a: tA.duration, b: tB.duration, parse:data.duration };
+    const duration = { a: tA.duration, b: tB.duration, parse: data.duration };
     return { a: tA.v, b: tB.v, duration };
   }
 
