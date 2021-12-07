@@ -2,38 +2,23 @@ use crate::aoc::{Puzzle, PuzzleAnswer, Solution};
 
 struct Input {
     input: Vec<usize>,
-    min: usize,
-    max: usize,
     total: usize,
 }
 
 fn puzzle_parse(puzzle: &Puzzle) -> Input {
-    let mut min: usize = usize::MAX;
-    let mut max: usize = 0;
     let mut total: usize = 0;
     let mut input: Vec<usize> = puzzle
         .input
         .split(',')
         .map(|ch| {
             let ret = ch.parse::<usize>().unwrap();
-            if ret < min {
-                min = ret
-            };
-            if ret > max {
-                max = ret
-            };
             total = total + ret;
             return ret;
         })
         .collect();
     input.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
-    return Input {
-        input,
-        min,
-        max,
-        total,
-    };
+    return Input { input, total };
 }
 
 #[inline]
@@ -56,18 +41,20 @@ fn puzzle_a(input: &Input) -> usize {
 fn puzzle_b(input: &Input) -> usize {
     let input_len = input.input.len();
     let average = input.total / input_len;
-    let mut min = usize::MAX;
-    for i in average..average + 1 {
-        let mut sum: usize = 0;
-        for j in 0..input_len {
-            let val = delta(input.input[j], i);
-            sum = sum + (val * (val + 1) / 2)
-        }
-        if sum < min {
-            min = sum;
-        }
+    let mut sum_floor = 0;
+    let mut sum_ceil = 0;
+
+    for j in 0..input_len {
+        let val_floor = delta(input.input[j], average);
+        sum_floor = sum_floor + (val_floor * (val_floor + 1) / 2);
+
+        let val_ceil = delta(input.input[j], average + 1);
+        sum_ceil = sum_ceil + (val_ceil * (val_ceil + 1) / 2);
     }
-    return min;
+    if sum_floor < sum_ceil {
+        return sum_floor;
+    }
+    return sum_ceil;
 }
 
 pub struct Day07 {
