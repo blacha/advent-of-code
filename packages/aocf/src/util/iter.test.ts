@@ -8,30 +8,30 @@ o.spec('Iter', () => {
   const map = new Map<string, number>();
   for (const i of items) map.set(i.toString(), i);
 
-  o.spec('MinMax', () => {
+  o.spec('stats', () => {
     o('should min/max numbers', () => {
-      const { min, max } = Iter.minMax(items, (s) => s);
-      o(min).equals(1);
-      o(max).equals(90);
+      const mm = Iter.stats(items);
+      o(mm.min.v).equals(1);
+      o(mm.max.v).equals(90);
     });
 
     o('should min/max sets', () => {
-      const { min, max } = Iter.minMax(set, (s) => s);
-      o(min).equals(1);
-      o(max).equals(90);
+      const mm = Iter.stats(set);
+      o(mm.min.v).equals(1);
+      o(mm.max.v).equals(90);
     });
 
     o('should min/max maps', () => {
-      const { min, max } = Iter.minMax(map, (s) => s);
-      o(min).equals(1);
-      o(max).equals(90);
+      const mm = Iter.stats(map);
+      o(mm.min.v).equals(1);
+      o(mm.max.v).equals(90);
     });
 
     const objects = [{ a: 1 }, { a: 5 }, { a: -1 }];
     o('should min/max objects', () => {
-      const { min, max } = Iter.minMax(objects, (s) => s.a);
-      o(min.a).equals(-1);
-      o(max.a).equals(5);
+      const mm = Iter.stats(objects, (s) => s.a);
+      o(mm.min.item.a).equals(-1);
+      o(mm.max.item.a).equals(5);
     });
   });
 

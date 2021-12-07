@@ -36,15 +36,15 @@ export class AoC2015Day14 extends AoC<Deer[]> {
   }
 
   partA(input: Deer[], maxTime = 2503): number {
-    return this.distance(Iter.minMax(input, (t) => this.distance(t, maxTime)).max, maxTime);
+    return this.distance(Iter.stats(input, (t) => this.distance(t, maxTime)).max.item, maxTime);
   }
 
   partB(input: Deer[], maxTime = 2503): number {
     for (let i = 1; i < maxTime; i++) {
-      const mm = Iter.minMax(input, (t) => this.distance(t, i));
-      mm.max.score++;
+      const mm = Iter.stats(input, (t) => this.distance(t, i));
+      mm.max.item.score++;
     }
-    return Iter.minMax(input, (t) => t.score).max.score;
+    return Iter.stats(input, (t) => t.score).max.item.score;
   }
 }
 
@@ -56,9 +56,9 @@ aoc2015day14.test((o) => {
   );
   o('partB', async () => {
     o(aoc2015day14.partB(example, 1000)).equals(688);
-    const mm = Iter.minMax(example, (t) => t.score);
+    const mm = Iter.stats(example, (t) => t.score);
     // TODO why are these off by one
-    o(mm.max.score).equals(688);
-    o(mm.min.score).equals(311);
+    o(mm.max.item.score).equals(688);
+    o(mm.min.item.score).equals(311);
   });
 });

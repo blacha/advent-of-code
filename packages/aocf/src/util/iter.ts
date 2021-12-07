@@ -1,5 +1,12 @@
 export type IterUtilType<T> = T[] | Set<T> | Map<any, T>;
 
+export interface IterStats<T> {
+  min: { item: T; v: number };
+  max: { item: T; v: number };
+  total: number;
+  average: number;
+}
+
 export const Iter = {
   size<T>(t: IterUtilType<T>): number {
     if (Array.isArray(t)) return t.length;
@@ -16,8 +23,9 @@ export const Iter = {
   },
 
   /** Find the min and max items inside of a set of items */
-  minMax<T>(t: IterUtilType<T>, fn: (t: T) => number): { min: T; max: T } {
-    if (Iter.size(t) == 0) throw new Error('No items to min/max');
+  stats<T>(t: IterUtilType<T>, fn: (t: T) => number = (t: T): number => Number(t)): IterStats<T> {
+    const size = Iter.size(t);
+    if (Iter.size(t) == 0) throw new Error('No items to stats');
     const it = Iter.iterate(t);
     const first = it.next();
     const startVal = fn(first.value);
@@ -26,8 +34,11 @@ export const Iter = {
     let minItem: T = first.value;
     let maxItem: T = first.value;
 
+    let total = 0;
+
     for (const o of it) {
       const val = fn(o);
+      total += val;
       if (val > max) {
         max = val;
         maxItem = o;
@@ -38,6 +49,6 @@ export const Iter = {
       }
     }
 
-    return { min: minItem, max: maxItem };
+    return { min: { item: minItem, v: min }, max: { item: maxItem, v: max }, total, average: total / size };
   },
 };

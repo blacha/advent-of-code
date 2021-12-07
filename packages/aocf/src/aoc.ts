@@ -132,4 +132,8 @@ export class AoC<T = string> {
     }
     return { a, b, duration };
   }
+
+  fetch(): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
+    return AoCData.fetch(this).then((f) => this.run(f.input));
+  }
 }
