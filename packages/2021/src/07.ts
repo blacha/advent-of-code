@@ -22,17 +22,20 @@ aoc.partA = (input: Input): number => {
 
 aoc.partB = (input: Input): number => {
   const stats = Iter.stats(input);
-  const fuelCost: number[] = [];
-  for (let i = 0; i < stats.max.item; i++) fuelCost[i] = (fuelCost[i - 1] ?? 0) + i;
+  const searchFloor = Math.floor(stats.average);
+  const searchCeil = Math.ceil(stats.average);
 
-  let minOut = Number.MAX_VALUE;
-  for (let i = stats.min.v; i < stats.max.v; i++) {
-    let sum = 0;
-    for (const j of input) sum += fuelCost[Math.abs(j - i)];
-    if (sum < minOut) minOut = sum;
+  let sumFloor = 0;
+  let sumCeil = 0;
+  for (const j of input) {
+    const valFloor = Math.abs(j - searchFloor);
+    const valCeil = Math.abs(j - searchCeil);
+    sumFloor += (valFloor * (valFloor + 1)) / 2;
+    sumCeil += (valCeil * (valCeil + 1)) / 2;
   }
 
-  return minOut;
+  if (sumFloor < sumCeil) return sumFloor;
+  return sumCeil;
 };
 
 const testValues = `16,1,2,0,4,2,7,1,2,14`.trim();

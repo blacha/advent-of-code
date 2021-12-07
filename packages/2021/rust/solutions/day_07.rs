@@ -4,11 +4,13 @@ struct Input {
     input: Vec<usize>,
     min: usize,
     max: usize,
+    total: usize,
 }
 
 fn puzzle_parse(puzzle: &Puzzle) -> Input {
     let mut min: usize = usize::MAX;
     let mut max: usize = 0;
+    let mut total: usize = 0;
     let mut input: Vec<usize> = puzzle
         .input
         .split(',')
@@ -20,12 +22,18 @@ fn puzzle_parse(puzzle: &Puzzle) -> Input {
             if ret > max {
                 max = ret
             };
+            total = total + ret;
             return ret;
         })
         .collect();
     input.sort_by(|a, b| a.partial_cmp(b).unwrap());
 
-    return Input { input, min, max };
+    return Input {
+        input,
+        min,
+        max,
+        total,
+    };
 }
 
 #[inline]
@@ -46,23 +54,17 @@ fn puzzle_a(input: &Input) -> usize {
 }
 
 fn puzzle_b(input: &Input) -> usize {
-    let mut fuel_cost: Vec<usize> = vec![0];
-    for i in 1..input.max + 1 {
-        let fuel = fuel_cost[i - 1] + i;
-        fuel_cost.push(fuel);
-    }
-
+    let input_len = input.input.len();
+    let average = input.total / input_len;
     let mut min = usize::MAX;
-    for i in input.min..input.max {
+    for i in average..average + 1 {
         let mut sum: usize = 0;
-        for j in 0..input.input.len() {
+        for j in 0..input_len {
             let val = delta(input.input[j], i);
             sum = sum + (val * (val + 1) / 2)
         }
         if sum < min {
             min = sum;
-        } else {
-            break;
         }
     }
     return min;
