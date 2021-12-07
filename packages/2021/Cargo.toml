@@ -15,6 +15,10 @@ path = "rust/02.rs"
 name="aoc-2021-06"
 path = "rust/06.rs"
 
+[[bin]]
+name="aoc-2021-07"
+path = "rust/07.rs"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [profile.dev]
