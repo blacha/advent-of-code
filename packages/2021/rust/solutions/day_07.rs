@@ -1,4 +1,6 @@
-mod aoc;
+
+use crate::aoc::{Solution, Puzzle, PuzzleAnswer};
+
 
 struct Input {
     input: Vec<usize>,
@@ -6,10 +8,10 @@ struct Input {
     max: usize,
 }
 
-fn puzzle_parse(input: &String) -> Input {
+fn puzzle_parse(puzzle: &Puzzle) -> Input {
     let mut min: usize = usize::MAX;
     let mut max: usize = 0;
-    let mut input: Vec<usize> = input
+    let mut input: Vec<usize> = puzzle.input
         .split(',')
         .map(|ch| {
             let ret = ch.parse::<usize>().unwrap();
@@ -60,31 +62,31 @@ fn puzzle_b(input: &Input) -> usize {
         }
         if sum < min {
             min = sum;
+        } else {
+            break;
         }
     }
     return min;
 }
 
-fn main() {
-    let user_name = "blacha";
-    let puzzle = aoc::puzzle_load(&user_name, 2021, 7);
-    let data = puzzle_parse(&puzzle.input);
+pub struct Day07 {
+    pub day: usize,
+    pub year: usize,
+}
 
-    println!(
-        "Puzzle {}-{} a:{} b:{}",
-        puzzle.year,
-        puzzle.day,
-        puzzle.a.unwrap(),
-        puzzle.b.unwrap(),
-    );
-
-    let res_a = puzzle_a(&data);
-    if let Some(ans_a) = puzzle.a {
-        assert_eq!(res_a, ans_a);
+impl Solution for Day07 {
+    fn get_year(&self) -> usize {
+        return self.year;
+    }
+    fn get_day(&self) -> usize {
+        return self.day;
     }
 
-    let res_b = puzzle_b(&data);
-    if let Some(ans_b) = puzzle.b {
-        assert_eq!(res_b, ans_b);
+    fn run(&self, puzzle: &Puzzle) -> PuzzleAnswer {
+        let input = puzzle_parse(puzzle);
+        return PuzzleAnswer {
+            a: puzzle_a(&input),
+            b: puzzle_b(&input),
+        };
     }
 }

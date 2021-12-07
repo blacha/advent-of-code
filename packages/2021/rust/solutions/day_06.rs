@@ -1,7 +1,8 @@
-mod aoc;
+use crate::aoc::{Solution, Puzzle, PuzzleAnswer};
 
-fn puzzle_parse(input: &String) -> Vec<usize> {
-    return input
+
+fn puzzle_parse(puzzle: &Puzzle) -> Vec<usize> {
+    return puzzle.input
         .split(',')
         .map(|ch| ch.parse::<usize>().unwrap())
         .collect();
@@ -42,26 +43,25 @@ fn puzzle_b(input: &Vec<usize>) -> usize {
     return calc_fish(input, 256);
 }
 
-fn main() {
-    let user_name = "blacha";
-    let puzzle = aoc::puzzle_load(&user_name, 2021, 6);
-    let data = puzzle_parse(&puzzle.input);
 
-    println!(
-        "Puzzle {}-{} a:{} b:{}",
-        puzzle.year,
-        puzzle.day,
-        puzzle.a.unwrap(),
-        puzzle.b.unwrap()
-    );
+pub struct Day06 {
+    pub day: usize,
+    pub year: usize,
+}
 
-    let res_a = puzzle_a(&data);
-    if let Some(ans_a) = puzzle.a {
-        assert_eq!(res_a, ans_a);
+impl Solution for Day06 {
+    fn get_year(&self) -> usize {
+        return self.year;
+    }
+    fn get_day(&self) -> usize {
+        return self.day;
     }
 
-    let res_b = puzzle_b(&data);
-    if let Some(ans_b) = puzzle.b {
-        assert_eq!(res_b, ans_b);
+    fn run(&self, puzzle: &Puzzle) -> PuzzleAnswer {
+        let input = puzzle_parse(puzzle);
+        return PuzzleAnswer {
+            a: puzzle_a(&input),
+            b: puzzle_b(&input),
+        };
     }
 }

@@ -10,8 +10,8 @@ pub struct Puzzle {
     pub day: usize,
     pub user: String,
     pub input: String,
-    pub a: Option<usize>,
-    pub b: Option<usize>,
+    pub a: usize,
+    pub b: usize,
 }
 
 pub trait PuzzleId {
@@ -22,6 +22,17 @@ impl PuzzleId for Puzzle {
     fn to_id(&self) -> String {
         return format!("{}-{}.{}", self.year, self.day, self.user);
     }
+}
+
+pub struct PuzzleAnswer {
+    pub a: usize,
+    pub b: usize,
+}
+
+pub trait Solution {
+    fn get_day(&self) -> usize;
+    fn get_year(&self) -> usize;
+    fn run(&self, puzzle:&Puzzle) -> PuzzleAnswer;
 }
 
 fn find_aoc_data() -> Result<std::path::PathBuf, ()> {
@@ -41,7 +52,7 @@ fn find_aoc_data() -> Result<std::path::PathBuf, ()> {
     }
 }
 
-pub fn puzzle_load(user: &str, year: usize, day: usize) -> Puzzle {
+pub fn puzzle_load_all(user : & str, year: usize) -> Vec<Puzzle> {
     let aoc_data_path = find_aoc_data().expect("Failed to find .aoc-data folder");
     let target_file_name = format!("{}.{}.json", year, user);
 
@@ -50,11 +61,5 @@ pub fn puzzle_load(user: &str, year: usize, day: usize) -> Puzzle {
     let file = fs::File::open(&target_file).expect("Failed to open data file");
 
     let puzzles: Vec<Puzzle> = serde_json::from_reader(file).expect("Failed to parse data file");
-
-    for x in puzzles {
-        if x.day == day {
-            return x;
-        }
-    }
-    panic!("Unable to find puzzle");
+    return puzzles;
 }
