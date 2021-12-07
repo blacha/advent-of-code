@@ -27,7 +27,7 @@ fn puzzle_a(input: &Vec<&str>) -> usize {
     let mut out_a = 0;
     let mut out_b = 0;
     for i in 0..input_size {
-        let val = 1 << (input_size - i -1);
+        let val = 1 << (input_size - i - 1);
         let bits = count_ones(input, i);
 
         if bits >= input_count {

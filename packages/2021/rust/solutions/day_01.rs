@@ -1,5 +1,4 @@
-use crate::aoc::{Solution, Puzzle, PuzzleAnswer};
-
+use crate::aoc::{Puzzle, PuzzleAnswer, Solution};
 
 pub struct Day01 {
     pub day: usize,
@@ -7,7 +6,8 @@ pub struct Day01 {
 }
 
 fn puzzle_parse(puzzle: &Puzzle) -> Vec<usize> {
-    return puzzle.input
+    return puzzle
+        .input
         .lines()
         .map(|line| line.parse::<usize>().unwrap())
         .collect();
@@ -24,13 +24,13 @@ fn puzzle_a(input: &Vec<usize>) -> usize {
 }
 
 fn puzzle_b(input: &Vec<usize>) -> usize {
-           let mut count = 0;
-        for i in 0..input.len() - 3 {
-            if input[i + 3] > input[i] {
-                count = count + 1
-            }
+    let mut count = 0;
+    for i in 0..input.len() - 3 {
+        if input[i + 3] > input[i] {
+            count = count + 1
         }
-        return count;
+    }
+    return count;
 }
 
 impl Solution for Day01 {
@@ -43,6 +43,9 @@ impl Solution for Day01 {
 
     fn run(&self, puzzle: &Puzzle) -> PuzzleAnswer {
         let input = puzzle_parse(puzzle);
-        return PuzzleAnswer { a: puzzle_a(&input), b: puzzle_b(&input) };
+        return PuzzleAnswer {
+            a: puzzle_a(&input),
+            b: puzzle_b(&input),
+        };
     }
 }

@@ -1,8 +1,8 @@
-use crate::aoc::{Solution, Puzzle, PuzzleAnswer};
-
+use crate::aoc::{Puzzle, PuzzleAnswer, Solution};
 
 fn puzzle_parse(puzzle: &Puzzle) -> Vec<usize> {
-    return puzzle.input
+    return puzzle
+        .input
         .split(',')
         .map(|ch| ch.parse::<usize>().unwrap())
         .collect();
@@ -42,7 +42,6 @@ fn puzzle_a(input: &Vec<usize>) -> usize {
 fn puzzle_b(input: &Vec<usize>) -> usize {
     return calc_fish(input, 256);
 }
-
 
 pub struct Day06 {
     pub day: usize,

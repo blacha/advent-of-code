@@ -15,9 +15,6 @@ impl Solution for Day05 {
 
     fn run(&self, puzzle: &Puzzle) -> PuzzleAnswer {
         // let input = puzzle_parse(puzzle);
-        return PuzzleAnswer {
-            a: 0,
-            b: 0,
-        };
+        return PuzzleAnswer { a: 0, b: 0 };
     }
 }

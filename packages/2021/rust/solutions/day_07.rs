@@ -1,6 +1,4 @@
-
-use crate::aoc::{Solution, Puzzle, PuzzleAnswer};
-
+use crate::aoc::{Puzzle, PuzzleAnswer, Solution};
 
 struct Input {
     input: Vec<usize>,
@@ -11,7 +9,8 @@ struct Input {
 fn puzzle_parse(puzzle: &Puzzle) -> Input {
     let mut min: usize = usize::MAX;
     let mut max: usize = 0;
-    let mut input: Vec<usize> = puzzle.input
+    let mut input: Vec<usize> = puzzle
+        .input
         .split(',')
         .map(|ch| {
             let ret = ch.parse::<usize>().unwrap();

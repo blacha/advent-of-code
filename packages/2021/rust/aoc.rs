@@ -32,7 +32,7 @@ pub struct PuzzleAnswer {
 pub trait Solution {
     fn get_day(&self) -> usize;
     fn get_year(&self) -> usize;
-    fn run(&self, puzzle:&Puzzle) -> PuzzleAnswer;
+    fn run(&self, puzzle: &Puzzle) -> PuzzleAnswer;
 }
 
 fn find_aoc_data() -> Result<std::path::PathBuf, ()> {
@@ -52,7 +52,7 @@ fn find_aoc_data() -> Result<std::path::PathBuf, ()> {
     }
 }
 
-pub fn puzzle_load_all(user : & str, year: usize) -> Vec<Puzzle> {
+pub fn puzzle_load_all(user: &str, year: usize) -> Vec<Puzzle> {
     let aoc_data_path = find_aoc_data().expect("Failed to find .aoc-data folder");
     let target_file_name = format!("{}.{}.json", year, user);
 

@@ -1,7 +1,7 @@
 mod aoc;
 mod solutions;
 
-use std::time::{Instant};
+use std::time::Instant;
 
 fn get_puzzle(puzzles: &Vec<aoc::Puzzle>, day: usize) -> &aoc::Puzzle {
     for x in puzzles {
