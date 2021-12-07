@@ -34,7 +34,7 @@ pub fn main() {
         let duration = now.elapsed();
 
         println!(
-            "Puzzle {}-{} a:{} {} b:{} {} - {:?}",
+            "Puzzle {}-{:02} a:{} {} b:{} {} - {:?}",
             sol.get_year(),
             sol.get_day(),
             res.a,
