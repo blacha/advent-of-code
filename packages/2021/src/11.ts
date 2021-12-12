@@ -16,7 +16,7 @@ function flash(input: Input, x: number, y: number, flashed: Map<string, Point>):
     const nY = pt.y + y;
 
     if (nY < 0 || nY >= input.length) continue;
-    if (nX < 0 || nX > input[nY].length) continue;
+    if (nX < 0 || nX >= input.length) continue;
     const currentVal = input[nY][nX] + 1;
     input[nY][nX] = currentVal;
     if (currentVal > 9) flash(input, nX, nY, flashed);
@@ -29,7 +29,7 @@ function runStep(input: Input): number {
   const toFlash = [];
   for (let y = 0; y < input.length; y++) {
     const line = input[y];
-    for (let x = 0; x < line.length; x++) {
+    for (let x = 0; x < input.length; x++) {
       const inputVal = line[x] + 1;
       if (inputVal > 9) {
         line[x] = 0;
