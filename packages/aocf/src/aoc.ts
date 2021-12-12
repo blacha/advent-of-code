@@ -1,5 +1,6 @@
 import o, { Ospec } from 'ospec';
 import 'source-map-support/register';
+import { Memoize } from 'typescript-memoize';
 import { AoCData } from './aoc.data';
 import { AoCAnswer, AoCDataFile } from './export';
 import { log } from './util/log';
@@ -105,6 +106,7 @@ export class AoC<T = string> {
     });
   }
 
+  @Memoize()
   answers(input: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number; parse: number } } {
     const data = timer(() => this.data(input));
     const tA = timer(() => this.partA && this.partA(data.v));

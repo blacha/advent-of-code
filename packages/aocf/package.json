@@ -13,7 +13,8 @@
     "arg": "^5.0.0",
     "node-fetch": "^2.6.1",
     "pino": "^7.5.0",
-    "pretty-json-log": "^0.3.2"
+    "pretty-json-log": "^0.3.2",
+    "typescript-memoize": "^1.1.0"
   },
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT"
