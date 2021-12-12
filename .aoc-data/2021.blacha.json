@@ -82,6 +82,14 @@
   {
     "user": "blacha",
     "year": 2021,
+    "day": 11,
+    "input": "8271653836\n7567626775\n2315713316\n6542655315\n2453637333\n1247264328\n2325146614\n2115843171\n6182376282\n2384738675",
+    "a": 1562,
+    "b": 268
+  },
+  {
+    "user": "blacha",
+    "year": 2021,
     "day": 12,
     "input": "fw-ll\nend-dy\ntx-fw\ntx-tr\ndy-jb\nZD-dy\ndy-BL\ndy-tr\ndy-KX\nKX-start\nKX-tx\nfw-ZD\ntr-end\nfw-jb\nfw-yi\nZD-nr\nstart-fw\ntx-ll\nll-jb\nyi-jb\nyi-ll\nyi-start\nZD-end\nZD-jb\ntx-ZD",
     "a": 4573,
