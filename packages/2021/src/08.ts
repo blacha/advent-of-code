@@ -8,8 +8,6 @@ const Signals = ['abcefg', 'cf', 'acdeg', 'acdfg', 'bcdf', 'abdfg', 'abdefg', 'a
   (c) => new Set(c.split('')),
 );
 
-console.log(Signals);
-
 aoc.parse = (l: string): Input => {
   return l.split('\n').map((line) => {
     const [input, output] = line
