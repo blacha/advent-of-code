@@ -1,3 +1,4 @@
+/** All points around including diagonals */
 const Around = [
   { x: -1, y: -1 },
   { x: -1, y: 0 },
@@ -8,9 +9,17 @@ const Around = [
   { x: 1, y: 0 },
   { x: 1, y: 1 },
 ];
+/** Around only including up down left and right */
+const TopRightDownLeft = [
+  { x: 0, y: -1 },
+  { x: 1, y: 0 },
+  { x: 0, y: 1 },
+  { x: -1, y: 0 },
+];
 
 export class Grid<T = string> {
   static Around = Around;
+  static AroundTopRightDownLeft = TopRightDownLeft;
   data: T[][];
   maxX = -1;
   maxY = -1;
