@@ -51,7 +51,6 @@ fn bit_count(input: &Vec<usize>, offset: usize) -> BitCount {
 }
 
 fn puzzle_a(input: &Day03Input) -> usize {
-    let input_count = input.values.len() / 2;
     let mut out_a: usize = 0;
     let mut out_b: usize = 0;
     for i in 0..input.bits {

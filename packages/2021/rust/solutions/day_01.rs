@@ -34,6 +34,7 @@ fn puzzle_b(input: &Vec<usize>) -> usize {
 }
 
 impl Solution for Day01 {
+
     fn get_year(&self) -> usize {
         return self.year;
     }
