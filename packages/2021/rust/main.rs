@@ -27,6 +27,7 @@ pub fn main() {
     let user_name = "blacha";
     let puzzles = aoc::puzzle_load_all(&user_name, 2021);
 
+    let start_time = Instant::now();
     for sol in solutions::ALL {
         let puzzle = get_puzzle(&puzzles, sol.get_day());
         let now = Instant::now();
@@ -34,16 +35,22 @@ pub fn main() {
         let duration = now.elapsed();
 
         println!(
-            "Puzzle {}-{:02} a:{} {} b:{} {} - {:?}",
+            "Puzzle {}-{:02} \ta:{: >16} {}\tb:{: >16} {}\t {:.3}ms",
             sol.get_year(),
             sol.get_day(),
             res.a,
             get_puzzle_ok(res.a, puzzle.a),
             res.b,
             get_puzzle_ok(res.b, puzzle.b),
-            duration
+            duration.as_secs_f64() * 1000.0
         );
     }
+
+    println!(
+        "\nDone {} puzzles in {:.3}ms",
+        solutions::ALL.len(),
+        start_time.elapsed().as_secs_f64() * 1000.0
+    );
     // solutions::ALL[0].run(&puzzle_01);
 
     // let puzzle_01_input = day_01::puzzle_parse(&puzzle_01.input)
