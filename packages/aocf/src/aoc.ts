@@ -1,10 +1,18 @@
 import o, { Ospec } from 'ospec';
 import 'source-map-support/register';
 import { Memoize } from 'typescript-memoize';
+import { AoCJson } from '.';
 import { AoCData } from './aoc.data';
 import { AoCAnswer, AoCDataFile } from './export';
 import { log } from './util/log';
 import { timer } from './util/timer';
+
+function getTick(puzzle: AoCJson, a: AoCAnswer, b: AoCAnswer): { a: string; b: string } {
+  const output = { a: '', b: '' };
+  if (puzzle.a != null) output.a = puzzle.a == a ? '✔️' : '✘';
+  if (puzzle.b != null) output.b = puzzle.b == b ? '✔️' : '✘';
+  return output;
+}
 
 export class AoC<T = string> {
   static id(year: number, day: number): string {
@@ -36,21 +44,6 @@ export class AoC<T = string> {
     return new AoC(year, day);
   }
 
-  static async export(year: number): Promise<AoCDataFile> {
-    const data: AoCDataFile = [];
-    for (let day = 1; day < 26; day++) {
-      if (!AoC.registry.has(AoC.id(year, day))) continue;
-      const aoc = AoC.get(year, day);
-      if (aoc == null) continue;
-
-      const puzzle = await AoCData.fetch(aoc);
-      const answers = aoc.answers(puzzle.input) as any;
-      delete answers.duration;
-      data.push({ year, day, user: AoCData.user, input: puzzle.input, a: answers.a, b: answers.b });
-    }
-    return data;
-  }
-
   /** Day prefixed with a 0, 01, 02 etc */
   get dayId(): string {
     return this.day.toString().padStart(2, '0');
@@ -72,11 +65,11 @@ export class AoC<T = string> {
   }
 
   /** Raw input data directly from AoC website */
-  get input(): string {
+  get input(): Promise<string> {
     if (!this.isUnlocked) throw new Error('Unable to get data for puzzle which has not unlocked: ' + this.id);
-    const local = AoCData.get(this);
-    if (local == null) throw new Error('No local data found for puzzle: ' + this.id);
-    return local.input;
+    return AoCData.fetch(this).then((f) => f.input);
+    // if (local == null) throw new Error('No local data found for puzzle: ' + this.id);
+    // return local.input;
   }
 
   data(data: string): T {
@@ -97,9 +90,10 @@ export class AoC<T = string> {
 
         console.log('');
         const { a, b, duration } = this.answers(puzzle.input);
+        const isCorrect = getTick(puzzle, a, b);
 
-        console.log(`${this.id}.Question#1`, a, `${duration.a} ms`);
-        console.log(`${this.id}.Question#2`, b, `${duration.b} ms`);
+        console.log(`${this.id}.Question#1`, String(a).padStart(14, ' '), isCorrect.a, `\t${duration.a} ms`);
+        console.log(`${this.id}.Question#2`, String(b).padStart(14, ' '), isCorrect.b, `\t${duration.b} ms`);
         if (puzzle.a != null) o(a).equals(puzzle.a);
         if (puzzle.b != null) o(b).equals(puzzle.b);
       });
@@ -115,18 +109,18 @@ export class AoC<T = string> {
     return { a: tA.v, b: tB.v, duration };
   }
 
-  run(input?: string): { a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } } {
-    AoCData.init();
+  async run(input?: string): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
+    await AoCData.init();
     const isReal = input == null;
 
-    input = input ?? this.input;
+    input = input ?? (await this.input);
     const { a, b, duration } = this.answers(input);
 
     log.info({ aoc: this.id, duration: duration.parse }, 'Parse');
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
     log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
     if (isReal) {
-      const ans = AoCData.get(this);
+      const ans = await AoCData.get(this);
       if (ans && ans.a != null && ans.b != null) {
         if (ans.a == a && ans.b == b) log.info({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated');
         else log.error({ aoc: this.id, a: ans.a == a, b: ans.b == b }, 'Validated:Failed');

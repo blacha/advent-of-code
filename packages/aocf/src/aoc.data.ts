@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync, promises as fs } from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
 import { AoC } from './aoc';
@@ -88,28 +88,64 @@ export class AoCDataRegistry {
     return db;
   }
 
+  getDay(year: number, day: number, user: string): AoCJson | null {
+    return this.getDb(year).get(day, user);
+  }
+
   loaded = new Set<string>();
-  loadFromFile(year: number, user: string, force = false): void {
-    const filePath = this.path(year, user);
-    if (this.loaded.has(filePath) && force == false) return;
-    this.loaded.add(filePath);
-    log.debug({ path: filePath }, 'DataLoad');
-    if (!existsSync(filePath)) {
-      log.warn({ path: filePath }, 'DataMissing');
-      return;
+  async loadFromFile(year: number, day: number, user: string): Promise<AoCJson | null> {
+    const existing = this.getDay(year, day, user);
+    if (existing != null) return existing;
+
+    const targetFolder = path.join(this.folder, user, String(year));
+    const dayId = String(day).padStart(2, '0');
+    const inputFile = path.join(targetFolder, dayId);
+    const answerFile = path.join(targetFolder, dayId + '_answer');
+
+    const aocJson: AoCJson = {
+      year,
+      day,
+      user,
+      input: '',
+    };
+    try {
+      aocJson.input = (await fs.readFile(inputFile)).toString();
+    } catch (e) {
+      return null;
     }
 
-    const fileData = JSON.parse(readFileSync(filePath).toString()) as AoCDataFile;
-    if (!Array.isArray(fileData)) throw new Error(`Failed to read ${filePath}, data invalid`);
-
-    for (const p of fileData) {
-      this.getDb(p.year).add(p.user, p);
+    try {
+      const [a, b] = (await fs.readFile(answerFile)).toString().split('\n');
+      aocJson.a = Number(a);
+      if (isNaN(aocJson.a)) aocJson.a = a;
+      aocJson.b = Number(b);
+      if (isNaN(aocJson.b)) aocJson.b = b;
+    } catch (e) {
+      // noop
+    } finally {
+      return aocJson;
     }
   }
 
-  get(aoc: AoC<any>): AoCJson | null {
-    if (this.state.user) this.loadFromFile(aoc.year, this.state.user);
-    return this.getDb(aoc.year).puzzle(aoc.day, this.state.user);
+  async saveFlatFile(puzzle: AoCJson): Promise<void> {
+    const targetFolder = path.join(this.folder, puzzle.user, String(puzzle.year));
+
+    const dayId = String(puzzle.day).padStart(2, '0');
+    await fs.mkdir(targetFolder, { recursive: true });
+
+    const targetFile = path.join(targetFolder, `${dayId}`);
+    await fs.writeFile(targetFile, puzzle.input);
+
+    if (puzzle.a != null || puzzle.b != null) {
+      const puzzleA = path.join(targetFolder, `${dayId}_answer`);
+      await fs.writeFile(puzzleA, [puzzle.a ?? '', puzzle.b ?? ''].join('\n'));
+    }
+  }
+
+  async get(aoc: AoC<unknown>): Promise<AoCJson | null> {
+    const existing = this.getDb(aoc.year).puzzle(aoc.day, this.state.user);
+    if (existing == null) return this.loadFromFile(aoc.year, aoc.day, this.state.user!);
+    return existing;
   }
 
   init(): void {
@@ -160,23 +196,12 @@ export class AoCDataRegistry {
     return BasePath;
   }
 
-  private path(year: number, user: string): string {
-    return path.join(this.folder, `${year}.${user}.json`);
-  }
-
-  save(data: AoCDataFile): void {
-    if (data.length == 0) throw new Error('No Data to save');
-    const first = data[0];
-    mkdirSync(this.folder, { recursive: true });
-    writeFileSync(this.path(first.year, first.user), JSON.stringify(data, null, 2));
-  }
-
-  async fetch(aoc: AoC<any>): Promise<AoCJson> {
+  async fetch(aoc: AoC<unknown>): Promise<AoCJson> {
     this.init();
     if (!aoc.isUnlocked) throw new Error(`Puzzle ${aoc.id} has not unlocked yet! unlocks in ${timeTo(aoc.unlockDate)}`);
 
     // Cache hit
-    const dataLocal = this.get(aoc);
+    const dataLocal = await this.get(aoc);
     if (dataLocal) return dataLocal;
 
     const user = this.state.user;
@@ -190,18 +215,9 @@ export class AoCDataRegistry {
     const text = await fetched.text();
 
     const db = this.getDb(aoc.year);
-    const puzzle = {
-      user,
-      year: aoc.year,
-      day: aoc.day,
-      input: text.trim(),
-      answers: null,
-    };
+    const puzzle: AoCJson = { user, year: aoc.year, day: aoc.day, input: text.trim() };
     db.add(user, puzzle);
-
-    const allData = db.userData(user);
-    this.save(allData);
-
+    await this.saveFlatFile(puzzle);
     return puzzle;
   }
 }

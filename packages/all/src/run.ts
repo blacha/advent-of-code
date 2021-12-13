@@ -18,13 +18,6 @@ async function main(): Promise<void> {
     const aoc = AoC.get(year, day);
     aoc.run();
   }
-
-  if (a['--export']) {
-    if (day) throw new Error('Can only export a full year\n\n' + usage);
-    log.info('Exporting');
-    const data = await AoC.export(year);
-    AoCData.save(data);
-  }
 }
 
 main();
