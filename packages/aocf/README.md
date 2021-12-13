@@ -50,33 +50,6 @@ aoc.partA = (d) => {
 aoc.run();
 ```
 
-## Export
-
-All answers and input can be export into a JSON file for sharing
-
-```typescript
-import '@blacha/advent-of-code-2020';
-const data = await AoC.export(2020);
-writeFileSync(`./aoc-${data.user}-${data.year}.json`, JSON.stringify(data, null, 2));
-```
-
-Format: 
-```typescript 
-export interface AoCJsonData {
-    /** Github username for where the puzzle data came from */
-    user: string;
-    /** Advent of code year */ 
-    year: number;
-
-    puzzles: {
-        /** Raw puzzle input */
-        input: string;
-        /** Answers for the day */
-        answers: { a: string | number, b: string | number}
-    }[]
-}
-```
-
 ## Configuration
 
 Session and data storage locations can be configured with a `.aocrc`  or environment variables
