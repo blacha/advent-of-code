@@ -5,6 +5,7 @@
   "private": "true",
   "scripts": {
     "lint": "eslint packages/ --quiet --fix --ignore-path .gitignore",
+    "version": "lerna version --conventional-commits --no-push --sign-git-commit --sign-git-tag",
     "build": "tsc -b --pretty",
     "test": "lerna run test"
   },
