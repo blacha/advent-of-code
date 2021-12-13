@@ -7,14 +7,14 @@
 import {AoCOcr} from 'aoc-ocr';
 
 const A = `
-░██░
-█░░█
-█░░█
-████
-█░░█
-█░░█
+⬛⬜⬜⬛
+⬜⬛⬛⬜
+⬜⬛⬛⬜
+⬜⬜⬜⬜
+⬜⬛⬛⬜
+⬜⬛⬛⬜
 `
-AoCOcr.parse(A, '█') // "A"
+AoCOcr.parse(A, '⬜') // "A"
 
 const Aaa = 
 [
