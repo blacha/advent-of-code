@@ -3,7 +3,7 @@ import 'source-map-support/register';
 import { Memoize } from 'typescript-memoize';
 import { AoCJson } from '.';
 import { AoCData } from './aoc.data';
-import { AoCAnswer, AoCDataFile } from './export';
+import { AoCAnswer } from './export';
 import { log } from './util/log';
 import { timer } from './util/timer';
 

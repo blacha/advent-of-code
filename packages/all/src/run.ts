@@ -1,5 +1,4 @@
-import { AoC, log, AoCData } from 'aocf';
-
+import { AoC } from 'aocf';
 import arg from 'arg';
 import './puzzles';
 
