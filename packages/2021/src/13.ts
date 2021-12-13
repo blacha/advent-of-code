@@ -1,4 +1,5 @@
-import { AoC, GridCharacter, Point } from 'aocf';
+import { AoC, Point } from 'aocf';
+import { AoCOcr } from 'aoc-ocr';
 
 export type Input = { points: Map<string, Point>; todo: string[][] };
 
@@ -37,10 +38,13 @@ aoc.partB = (input: Input): string => {
 
   for (const f of input.todo) fold(points, f[0] as 'x', Number(f[1]));
 
-  const grid = new GridCharacter(8);
-  for (const pt of points.values()) grid.set(pt.x, pt.y);
+  const grid: number[][] = [];
+  for (const pt of points.values()) {
+    grid[pt.y] = grid[pt.y] ?? [];
+    grid[pt.y][pt.x] = 1;
+  }
 
-  return grid.toChars();
+  return AoCOcr.parseAll(grid, 1);
 };
 
 const testValues = `6,10
