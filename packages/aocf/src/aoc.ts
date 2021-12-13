@@ -88,12 +88,20 @@ export class AoC<T = string> {
         o.timeout(2000);
         const puzzle = await AoCData.fetch(this);
 
-        console.log('');
         const { a, b, duration } = this.answers(puzzle.input);
         const isCorrect = getTick(puzzle, a, b);
 
-        console.log(`${this.id}.Question#1`, String(a).padStart(14, ' '), isCorrect.a, `\t${duration.a} ms`);
-        console.log(`${this.id}.Question#2`, String(b).padStart(14, ' '), isCorrect.b, `\t${duration.b} ms`);
+        console.log(
+          `${this.id}`,
+          'a:',
+          String(a).padStart(14, ' '),
+          isCorrect.a,
+          `\t${duration.a} ms`,
+          '\tb:',
+          String(b).padStart(14, ' '),
+          isCorrect.b,
+          `\t${duration.b} ms`,
+        );
         if (puzzle.a != null) o(a).equals(puzzle.a);
         if (puzzle.b != null) o(b).equals(puzzle.b);
       });
