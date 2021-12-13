@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync, promises as fs } from 'fs';
+import { existsSync, promises as fs, readFileSync } from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
 import { AoC } from './aoc';
