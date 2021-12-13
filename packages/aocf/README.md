@@ -20,9 +20,7 @@ export class AoC2020Day1 extends AoC {
 
 // Download data using a $AOC_SESSION and run against your input
 new AoC2020Day1.run()
-// 2020-12-01: 0.934ms - Duration that the solution run in
-// 2020-12-01.Question#1 95 // Answer to Q1
-// 2020-12-01.Question#2 105 // Answer to Q2
+// 2020-12-01 a:        95 ✔️ 	0.067 ms 	b:       105 ✔️ 	0.556 ms
 ```
 
 
