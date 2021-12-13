@@ -28,3 +28,15 @@ const Aaa =
 
 AoCOcr.parseAll(Aaa, 1) // "AAA"
 ```
+
+And can work in reverse
+```typescript
+console.log(AoCOcr.toAoC('ABC'))
+```
+
+⬛⬜⬜⬛ ⬜⬜⬜⬛ ⬛⬜⬜⬛
+⬜⬛⬛⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬜
+⬜⬛⬛⬜ ⬜⬜⬜⬛ ⬜⬛⬛⬛
+⬜⬜⬜⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬛
+⬜⬛⬛⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬜
+⬜⬛⬛⬜ ⬜⬜⬜⬛ ⬛⬜⬜⬛

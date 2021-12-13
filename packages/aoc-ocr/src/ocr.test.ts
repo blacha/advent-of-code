@@ -55,7 +55,7 @@ o.spec('AoCOcr', () => {
         Characters.trim()
           .split('\n')
           .map((c) => c.split('')),
-        '█',
+        Glyphs.fill,
       ),
     ).equals(Glyphs.letters);
   });
@@ -79,5 +79,33 @@ o.spec('AoCOcr', () => {
   o('should parse some examples', () => {
     const res = AoCOcr.parseAll(TextString, '#');
     o(res).equals('PGHZBFJC');
+  });
+
+  o('should convert to text', () => {
+    const res = AoCOcr.toAoC('ABC');
+    o(res).equals(
+      `
+⬛⬜⬜⬛ ⬜⬜⬜⬛ ⬛⬜⬜⬛
+⬜⬛⬛⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬜
+⬜⬛⬛⬜ ⬜⬜⬜⬛ ⬜⬛⬛⬛
+⬜⬜⬜⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬛
+⬜⬛⬛⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬜
+⬜⬛⬛⬜ ⬜⬜⬜⬛ ⬛⬜⬜⬛
+`.trim(),
+    );
+  });
+
+  o('should convert to text with different fill and blanks', () => {
+    const res = AoCOcr.toAoC('ABC', '#', '.');
+    o(res).equals(
+      `
+.##. ###. .##.
+#..# #..# #..#
+#..# ###. #...
+#### #..# #...
+#..# #..# #..#
+#..# ###. .##.
+`.trim(),
+    );
   });
 });

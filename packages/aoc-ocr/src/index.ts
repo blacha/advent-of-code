@@ -17,10 +17,14 @@ export const Glyphs = {
 };
 
 export const Alphabet = new Map<string, string>();
+export const Symbols = new Map<string, string[]>();
+
 for (let i = 0; i < Glyphs.letters.length; i++) {
   const char = Glyphs.letters[i];
   const grid = Glyphs.glyphs.map((line) => line[i]);
   Alphabet.set(grid.join(''), char);
+
+  Symbols.set(char, grid);
 }
 
 function normalizeFill<T>(c: T, fill: T): string {
@@ -28,6 +32,50 @@ function normalizeFill<T>(c: T, fill: T): string {
 }
 export class AoCOcr {
   static Width = 4;
+
+  /**
+   * Create a output text string with the desired fill blank and spacing
+   *
+   * @example
+   * ```typescript
+   * toAoC('ABC')
+   *
+   * ⬛⬜⬜⬛ ⬜⬜⬜⬛ ⬛⬜⬜⬛
+   * ⬜⬛⬛⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬜
+   * ⬜⬛⬛⬜ ⬜⬜⬜⬛ ⬜⬛⬛⬛
+   * ⬜⬜⬜⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬛
+   * ⬜⬛⬛⬜ ⬜⬛⬛⬜ ⬜⬛⬛⬜
+   * ⬜⬛⬛⬜ ⬜⬜⬜⬛ ⬛⬜⬜⬛
+   * ```
+   * @param input text string
+   * @param fill character to use for a fill defaults to '⬜'
+   * @param blank character to use for blank spots defaults to '⬛'
+   * @param space character to use between letters defaults to ' '
+   * @returns Ascii art of the letters
+   */
+  static toAoC(input: string, fill = '⬜', blank = '⬛', space = ' '): string {
+    const lines: string[] = [];
+    for (const ch of input) {
+      const grid = Symbols.get(ch);
+      if (grid == null) throw new Error(`Cannot translate "${ch}"`);
+      for (let i = 0; i < grid.length; i++) {
+        const existing = lines[i];
+        if (existing == null) {
+          lines[i] = grid[i];
+        } else {
+          lines[i] = existing + space + grid[i];
+        }
+      }
+    }
+
+    if (fill !== '⬜' || blank !== '⬛') {
+      for (let i = 0; i < lines.length; i++) {
+        lines[i] = lines[i].replace(/⬜/g, fill).replace(/⬛/g, blank);
+      }
+    }
+
+    return lines.join('\n');
+  }
 
   static parse(input: string, fill: string): string | null;
   static parse<T>(input: T[][], fill: T): string | null;
