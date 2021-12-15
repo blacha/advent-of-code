@@ -28,13 +28,10 @@ function partA(input: Input): number {
   distances[end.y][end.x] = Number.MAX_VALUE;
   distances[start.y][start.x] = 0;
 
-  const seen: boolean[] = [];
-
   const todo = new Heap<[number, number, number]>((a, b) => a[2] - b[2]);
   todo.push([start.x, start.y, 0]);
   while (todo.size() > 0) {
     const [x, y, dist] = todo.pop()!;
-    if (seen[y * size + x]) continue;
 
     for (const next of TopRightDownLeft) {
       const nX = next.x + x;
