@@ -1,4 +1,5 @@
-import { AoC, Point } from 'aocf';
+import { AoC } from 'aocf';
+import Heap from 'heap-js';
 
 export type Input = number[][];
 
@@ -27,11 +28,13 @@ function partA(input: Input): number {
   distances[end.y][end.x] = Number.MAX_VALUE;
   distances[start.y][start.x] = 0;
 
-  const todo: [number, number][] = [[start.x, start.y]];
-  while (todo.length > 0) {
-    const [x, y] = todo.shift()!;
-    const dist = distances[y][x];
-    if (dist == null) throw new Error('Failed to find pt');
+  const seen: boolean[] = [];
+
+  const todo = new Heap<[number, number, number]>((a, b) => a[2] - b[2]);
+  todo.push([start.x, start.y, 0]);
+  while (todo.size() > 0) {
+    const [x, y, dist] = todo.pop()!;
+    if (seen[y * size + x]) continue;
 
     for (const next of TopRightDownLeft) {
       const nX = next.x + x;
@@ -42,9 +45,9 @@ function partA(input: Input): number {
       const nextDist = distances[nY][nX] ?? Number.MAX_VALUE;
 
       const nextVal = dist + input[nY][nX];
-      if (nextDist > nextVal) {
+      if (nextVal < nextDist) {
         distances[nY][nX] = nextVal;
-        todo.push([nX, nY]);
+        todo.push([nX, nY, nextVal]);
       }
     }
   }

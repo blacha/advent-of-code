@@ -9,8 +9,9 @@
     "test": "node build/test.js"
   },
   "dependencies": {
+    "aoc-ocr": "^0.1.0",
     "aocf": "^0.1.0",
-    "aoc-ocr": "^0.1.0"
+    "heap-js": "^2.1.6"
   },
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT"
