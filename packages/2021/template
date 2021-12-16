@@ -1,0 +1,28 @@
+import { AoC } from 'aocf';
+
+export type Input = number[][];
+
+const aoc = AoC.create<Input>(2021, 16);
+
+aoc.parse = (l: string): Input => {
+  return l.split('\n').map((c) => c.split('').map(Number));
+};
+
+aoc.partA = (input: Input): number => {
+  return -1;
+};
+aoc.partB = (input: Input): number => {
+  return -1;
+};
+
+const testValues = ``.trim();
+
+aoc.test((o) => {
+  o('partA', () => {
+    o(aoc.answers(testValues).a).equals(-1);
+  });
+
+  o('partB', () => {
+    o(aoc.answers(testValues).b).equals(-1);
+  });
+});
