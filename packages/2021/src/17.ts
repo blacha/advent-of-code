@@ -1,5 +1,4 @@
 import { AoC } from 'aocf';
-import { json } from 'stream/consumers';
 
 export type Input = { x: number[]; y: number[] };
 
@@ -23,30 +22,26 @@ aoc.parse = (l: string): Input => {
 const Values = new Map<string, { hitCount: number; highestY: number }>();
 
 function calcValues(input: Input): { hitCount: number; highestY: number } {
-  const inputKey = JSON.stringify(input);
+  const [minY, maxY] = input.y;
+  const [minX, maxX] = input.x;
+  const inputKey = `${minX}..${maxY},${minY}..${maxY}`;
   if (Values.has(inputKey)) return Values.get(inputKey)!;
-  const stepCount = 500;
   let hitCount = 0;
   let highestY = 0;
 
-  const minY = input.y[0];
-  const maxY = input.y[1];
-  const minX = input.x[0];
-  const maxX = input.x[1];
-  for (let y = minY; y < 5000; y++) {
+  for (let y = minY; y < Math.abs(minY); y++) {
     for (let x = 0; x <= maxX; x++) {
       const velocity = { x, y };
       const position = { x: 0, y: 0 };
       let hit = false;
 
       let maxHeight = 0;
-      for (let step = 0; step < stepCount; step++) {
+      while (true) {
         maxHeight = Math.max(position.y, maxHeight);
         position.x += velocity.x;
         position.y += velocity.y;
-
-        if (position.x >= minX && position.x <= maxX) {
-          if (position.y >= minY && position.y <= maxY) {
+        if (position.y >= minY && position.y <= maxY) {
+          if (position.x >= minX && position.x <= maxX) {
             hit = true;
             break;
           }
@@ -69,12 +64,8 @@ function calcValues(input: Input): { hitCount: number; highestY: number } {
   return { hitCount, highestY };
 }
 
-aoc.partA = (input: Input): number => {
-  return calcValues(input).highestY;
-};
-aoc.partB = (input: Input): number => {
-  return calcValues(input).hitCount;
-};
+aoc.partA = (input: Input): number => calcValues(input).highestY;
+aoc.partB = (input: Input): number => calcValues(input).hitCount;
 
 const testValues = `target area: x=20..30, y=-10..-5`.trim();
 
