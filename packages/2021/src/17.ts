@@ -25,7 +25,8 @@ function calcValues(input: Input): { hitCount: number; highestY: number } {
   const [minY, maxY] = input.y;
   const [minX, maxX] = input.x;
   const inputKey = `${minX}..${maxY},${minY}..${maxY}`;
-  if (Values.has(inputKey)) return Values.get(inputKey)!;
+  const existing = Values.get(inputKey);
+  if (existing != null) return existing;
   let hitCount = 0;
   let highestY = 0;
 
