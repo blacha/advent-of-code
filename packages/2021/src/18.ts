@@ -108,31 +108,26 @@ export class Node {
     return node;
   }
 
-  explode(): { leaf: Leaf; left: Leaf; right: Leaf } | null {
-    if (this.parent != null && this.left.isLeaf() && this.right.isLeaf() && this.depth >= 4) {
+  explode(depth = 0): { leaf: Leaf; left: Leaf; right: Leaf } | null {
+    if (depth >= 4 && this.left.isLeaf() && this.right.isLeaf()) {
+      if (this.parent == null) throw new Error('Parent missing at depth #4');
       const leaf = new Leaf(0, this.parent);
       if (this.isLeft) this.parent.left = leaf;
       else this.parent.right = leaf;
 
       return { leaf, left: this.left, right: this.right };
-    } else {
-      const left = this.left.explode();
-      if (left) return left;
-      const right = this.right.explode();
-      if (right) return right;
     }
-    return null;
+
+    return this.left.explode(depth + 1) ?? this.right.explode(depth + 1);
   }
 
   split(): { leaf: Leaf; node: Node } | null {
-    const left = this.left.split();
-    if (left) return left;
-    return this.right.split();
+    return this.left.split() ?? this.right.split();
   }
 
   stepAll(): Node {
     while (this.step()) {
-      //noop
+      // noop
     }
     return this;
   }
@@ -141,11 +136,20 @@ export class Node {
     const explode = this.explode();
 
     if (explode) {
-      const nodes: Leaf[] = [...this].filter((f) => f.isLeaf()) as Leaf[];
-      const nodeIndex = nodes.indexOf(explode.leaf);
-
-      if (nodeIndex > 0) nodes[nodeIndex - 1].v += explode.left.v;
-      if (nodeIndex < nodes.length - 1) nodes[nodeIndex + 1].v += explode.right.v;
+      let lastLeaf: Leaf | null = null;
+      let found = false;
+      for (const pt of this) {
+        if (!pt.isLeaf()) continue;
+        if (found) {
+          pt.v += explode.right.v;
+          break;
+        }
+        if (pt == explode.leaf) {
+          if (lastLeaf) lastLeaf.v += explode.left.v;
+          found = true;
+        }
+        lastLeaf = pt;
+      }
       return true;
     }
 
