@@ -124,7 +124,8 @@ export class AoC<T = string> {
     input = input ?? (await this.input);
     const { a, b, duration } = this.answers(input);
 
-    log.info({ aoc: this.id, duration: duration.parse }, 'Parse');
+    const url = `https://adventofcode.com/${this.year}/day/${this.day}`;
+    log.info({ aoc: this.id, duration: duration.parse, url }, 'Parse');
     log.info({ aoc: this.id, value: a, duration: duration.a }, 'PartA');
     log.info({ aoc: this.id, value: b, duration: duration.b }, 'PartB');
     if (isReal) {
