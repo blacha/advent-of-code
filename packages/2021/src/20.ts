@@ -93,5 +93,3 @@ aoc.test((o) => {
     o(aoc.answers(testValues).b).equals(3351);
   });
 });
-
-aoc.run();
