@@ -2,7 +2,7 @@ import { AoC } from 'aocf';
 
 export type Input = number[][];
 
-const aoc = AoC.create<Input>(2021, 16);
+const aoc = AoC.create<Input>($YEAR, $DAY);
 
 aoc.parse = (l: string): Input => {
   return l.split('\n').map((c) => c.split('').map(Number));

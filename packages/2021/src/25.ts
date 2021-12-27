@@ -23,7 +23,7 @@ aoc.partA = (input: Input): number => {
       const ol = newGrid[y];
       for (let x = 0; x < width; x++) {
         let nextX = x + 1;
-        if (nextX >= width) nextX -= width;
+        if (nextX >= width) nextX = 0;
         if (gl[x] === '>' && gl[nextX] === '.') {
           ol[x] = '.';
           ol[nextX] = '>';
@@ -35,7 +35,7 @@ aoc.partA = (input: Input): number => {
     grid = newGrid.map((c) => c.slice());
     for (let y = 0; y < height; y++) {
       let nextY = y + 1;
-      if (nextY >= height) nextY -= height;
+      if (nextY >= height) nextY = 0;
       for (let x = 0; x < width; x++) {
         if (newGrid[y][x] === 'v' && newGrid[nextY][x] === '.') {
           grid[y][x] = '.';
