@@ -1,5 +1,4 @@
 import { AoC } from 'aocf';
-import o from 'ospec';
 
 export type Input = string[][];
 
