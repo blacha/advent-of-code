@@ -12,12 +12,10 @@
   "dependencies": {},
   "devDependencies": {
     "@linzjs/style": "^3.14.0",
-    "@types/node": "^16.11.11",
-    "@types/node-fetch": "^2.5.7",
+    "@types/node": "^18.11.10",
     "@types/ospec": "^4.0.4",
     "lerna": "^6.1.0",
-    "ospec": "^4.1.6",
-    "source-map-support": "^0.5.19"
+    "ospec": "^4.1.6"
   },
   "author": "Blayne Chard <blayne@chard.com>",
   "license": "MIT",
