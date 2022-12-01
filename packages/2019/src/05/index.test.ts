@@ -1,6 +1,5 @@
 import o from 'ospec';
 import { Computer } from '../shared/computer/int.computer';
-import 'source-map-support/register';
 
 o.spec('2019:Day05', () => {
   const computer = new Computer();

@@ -1,5 +1,5 @@
-import { AoC } from './aoc';
-import { AoCData } from './aoc.data';
+import { AoC } from './aoc.js';
+import { AoCData } from './aoc.data.js';
 
 const currentYear = new Date().getUTCFullYear() - 1;
 const currentDay = new Date().getUTCDate();

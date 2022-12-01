@@ -1,4 +1,4 @@
-import { Computer } from '../shared/computer/int.computer';
+import { Computer } from '../shared/computer/int.computer.js';
 
 export interface AmplifierOutput {
   key: number[];

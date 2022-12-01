@@ -1,11 +1,9 @@
 import o, { Ospec } from 'ospec';
-import 'source-map-support/register';
 import { Memoize } from 'typescript-memoize';
-import { AoCJson } from '.';
-import { AoCData } from './aoc.data';
-import { AoCAnswer } from './export';
-import { log } from './util/log';
-import { timer } from './util/timer';
+import { AoCData } from './aoc.data.js';
+import { AoCAnswer, AoCJson } from './export.js';
+import { log } from './util/log.js';
+import { timer } from './util/timer.js';
 
 function getTick(puzzle: AoCJson, a: AoCAnswer, b: AoCAnswer): { a: string; b: string } {
   const output = { a: '', b: '' };

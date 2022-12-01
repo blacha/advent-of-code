@@ -1,5 +1,5 @@
 import { AoC } from 'aocf';
-import Heap from 'heap-js';
+import { Heap } from 'heap-js';
 
 export type Input = number[][];
 

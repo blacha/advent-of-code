@@ -1,12 +1,12 @@
-export { AoC } from './aoc';
-export { toNumberArray, toNumberArraySorted } from './util/parse';
-export { permutations } from './util/combonitorics';
-export { Iter } from './util/iter';
-export { Grid } from './util/grid';
-export { timer } from './util/timer';
-export { log } from './util/log';
-export { AoCDataFile, AoCAnswer, AoCJson } from './export';
-export { AoCData } from './aoc.data';
+export { AoC } from './aoc.js';
+export { toNumberArray, toNumberArraySorted } from './util/parse.js';
+export { permutations } from './util/combonitorics.js';
+export { Iter } from './util/iter.js';
+export { Grid } from './util/grid.js';
+export { timer } from './util/timer.js';
+export { log } from './util/log.js';
+export { AoCDataFile, AoCAnswer, AoCJson } from './export.js';
+export { AoCData } from './aoc.data.js';
 
 export interface Point {
   x: number;

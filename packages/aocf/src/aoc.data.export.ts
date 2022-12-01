@@ -1,8 +1,8 @@
 import arg from 'arg';
 import { writeFileSync } from 'fs';
-import { AoC } from './aoc';
-import { AoCData } from './aoc.data';
-import { AoCDataFile } from './export';
+import { AoC } from './aoc.js';
+import { AoCData } from './aoc.data.js';
+import { AoCDataFile } from './export.js';
 
 const Args = arg({ '--user': String, '--year': Number });
 

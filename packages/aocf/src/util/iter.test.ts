@@ -1,6 +1,5 @@
-import 'source-map-support/register';
 import o from 'ospec';
-import { Iter } from './iter';
+import { Iter } from './iter.js';
 
 o.spec('Iter', () => {
   const items = [90, 1, 2, 3, 4];

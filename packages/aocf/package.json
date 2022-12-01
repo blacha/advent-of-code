@@ -2,6 +2,7 @@
   "name": "aocf",
   "version": "0.1.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "build": "tsc --pretty",
     "lint": "eslint 'src/**/*.ts' --quiet --fix",
@@ -12,8 +13,8 @@
   "dependencies": {
     "arg": "^5.0.0",
     "node-fetch": "^2.6.1",
-    "pino": "^7.5.0",
-    "pretty-json-log": "^0.3.2",
+    "pino": "^8.7.0",
+    "pretty-json-log": "^1.3.0",
     "typescript-memoize": "^1.1.0"
   },
   "author": "Blayne Chard <blayne@chard.com>",

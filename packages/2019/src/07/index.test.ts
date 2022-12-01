@@ -1,5 +1,4 @@
 import o from 'ospec';
-import 'source-map-support/register';
 import { AmplifierControl } from './index';
 
 o.spec('2019:Day07', () => {

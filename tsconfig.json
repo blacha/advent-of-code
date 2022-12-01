@@ -7,6 +7,7 @@
     { "path": "packages/2019" },
     { "path": "packages/2020" },
     { "path": "packages/2021" },
+    { "path": "packages/2022" },
     { "path": "packages/all" }
   ]
 }

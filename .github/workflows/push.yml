@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Use Node.js 16.x
+    - name: Use Node.js 18.x
       uses: actions/setup-node@v1
       with:
-        node-version: 16.x
+        node-version: 18.x
     # Configure the .aocrc to look at .aoc-data
     - name: .aocrc
       run: echo "AOC_DATA_PATH=$GITHUB_WORKSPACE" > $GITHUB_WORKSPACE/.aocrc
@@ -30,15 +30,3 @@ jobs:
 
     - name: Test
       run: yarn run test
-      
-    - name: Create github release
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: npx conventional-github-releaser -p angular
-      env:
-        CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-    - name: Publish NPM
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: npx lerna publish from-git --yes
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

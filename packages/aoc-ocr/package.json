@@ -2,6 +2,7 @@
   "name": "aoc-ocr",
   "version": "0.1.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "build": "tsc --pretty",
     "lint": "eslint 'src/**/*.ts' --quiet --fix",

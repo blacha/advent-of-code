@@ -1,5 +1,5 @@
 import { AoC } from 'aocf';
-import { OpComputer, OpExitCode, OpType } from './shared/op.computer';
+import { OpComputer, OpExitCode, OpType } from './shared/op.computer.js';
 
 export class AoC2020Day8 extends AoC<string> {
   constructor() {

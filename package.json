@@ -9,16 +9,14 @@
     "build": "tsc -b --pretty",
     "test": "lerna run test"
   },
-  "dependencies": {
-    "node-fetch": "^2.6.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "@linzjs/style": "^3.4.0",
+    "@linzjs/style": "^3.14.0",
     "@types/node": "^16.11.11",
     "@types/node-fetch": "^2.5.7",
-    "@types/ospec": "^4.0.2",
-    "lerna": "^4.0.0",
-    "ospec": "^4.0.1",
+    "@types/ospec": "^4.0.4",
+    "lerna": "^6.1.0",
+    "ospec": "^4.1.6",
     "source-map-support": "^0.5.19"
   },
   "author": "Blayne Chard <blayne@chard.com>",

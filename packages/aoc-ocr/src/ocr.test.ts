@@ -1,5 +1,5 @@
 import o from 'ospec';
-import { AoCOcr, Characters, Glyphs } from './index';
+import { AoCOcr, Characters, Glyphs } from './index.js';
 
 const GlyphG = `
 ░██░

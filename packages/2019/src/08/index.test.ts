@@ -1,5 +1,4 @@
 import o from 'ospec';
-import 'source-map-support/register';
 import { ElfImage, Color } from './index';
 import { InputData } from './input';
 

@@ -1,7 +1,5 @@
-import 'source-map-support/register';
-
 import o from 'ospec';
-import { Sensors } from './index';
+import { Sensors } from './index.js';
 
 o.spec('2019:Day10', () => {
   o('should do first example', () => {

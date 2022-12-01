@@ -1,4 +1,4 @@
-import { Computer } from '../shared/computer/int.computer';
+import { Computer } from '../shared/computer/int.computer.js';
 import { RobotProgram } from './robot';
 export enum PanelColor {
   Black = 0,

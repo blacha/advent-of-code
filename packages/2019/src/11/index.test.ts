@@ -1,7 +1,5 @@
-import 'source-map-support/register';
-
 import o from 'ospec';
-import { Robot, PanelColor } from './index';
+import { PanelColor, Robot } from './index.js';
 
 o.spec('2019:Day11', () => {
   o('Answers', () => {

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Advent of Code 2020",
   "main": "build/index.js",
+  "type": "module",
   "scripts": {
     "build": "tsc -b --pretty",
     "lint": "eslint 'src/**/*.ts' --quiet --fix",

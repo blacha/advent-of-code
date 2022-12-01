@@ -1,9 +1,10 @@
 import { existsSync, promises as fs, readFileSync } from 'fs';
 import fetch from 'node-fetch';
 import * as path from 'path';
-import { AoC } from './aoc';
-import { AoCDataFile, AoCJson } from './export';
-import { log } from './util/log';
+import { fileURLToPath } from 'url';
+import { AoC } from './aoc.js';
+import { AoCDataFile, AoCJson } from './export.js';
+import { log } from './util/log.js';
 
 const EnvVars = {
   user: 'AOC_USER',
@@ -152,7 +153,7 @@ export class AoCDataRegistry {
     if (this.isInit) return;
     this.isInit = true;
     this.stateFromEnv();
-    let currentPath = __dirname;
+    let currentPath = fileURLToPath(import.meta.url);
 
     while (path.join(currentPath, '..') != currentPath) {
       this.stateFromRcFile(path.join(currentPath, EnvRcFileName));

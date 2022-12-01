@@ -1,5 +1,4 @@
-import { AoC } from 'aocf';
-import { toNumberArraySorted } from 'aocf';
+import { AoC, toNumberArraySorted } from 'aocf';
 
 export class AoC2020Day10 extends AoC<number[]> {
   constructor() {
