@@ -1,3 +1,5 @@
+// Hack to include "fetch" until typing is fixed
+/// <reference lib="dom" />
 import { existsSync, promises as fs, readFileSync } from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
