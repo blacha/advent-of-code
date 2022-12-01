@@ -1,5 +1,4 @@
 import { existsSync, promises as fs, readFileSync } from 'fs';
-import fetch from 'node-fetch';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import { AoC } from './aoc.js';
