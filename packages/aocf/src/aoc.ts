@@ -75,9 +75,15 @@ export class AoC<T = string> {
     return data as any as T;
   }
 
-  parse?(data: string): T;
-  partA?(input: T): number | string;
-  partB?(input: T): number | string;
+  parse(data: string): T {
+    return data as unknown as T;
+  }
+  partA(input: T): number | string {
+    return -1;
+  }
+  partB(input: T): number | string {
+    return -1;
+  }
 
   test(fn?: (o: Ospec) => void): void {
     o.spec(this.id, () => {
