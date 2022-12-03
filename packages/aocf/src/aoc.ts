@@ -79,9 +79,11 @@ export class AoC<T = string> {
     return data as unknown as T;
   }
   partA(input: T): number | string {
+    log.warn('PartA:Missing', { day: this.day, year: this.year, input });
     return -1;
   }
   partB(input: T): number | string {
+    log.warn('PartB:Missing', { day: this.day, year: this.year, input });
     return -1;
   }
 
