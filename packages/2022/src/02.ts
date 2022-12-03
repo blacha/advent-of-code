@@ -13,8 +13,7 @@ export const GameBPartA: Record<string, Rps> = { X: 'rock', Y: 'paper', Z: 'scis
 const aoc = AoC.create<Input>(2022, 2);
 aoc.parse = (s: string): Input => {
   return s.split('\n').map((c) => {
-    const [a, b] = c.split(' ');
-    return { a: GameA[a], b } as { a: Rps; b: 'X' | 'Y' | 'Z' };
+    return { a: GameA[c.charAt(0)], b: c.charAt(2) } as { a: Rps; b: 'X' | 'Y' | 'Z' };
   });
 };
 
