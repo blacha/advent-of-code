@@ -12,6 +12,29 @@ function getTick(puzzle: AoCJson, a: AoCAnswer, b: AoCAnswer): { a: string; b: s
   return output;
 }
 
+function dump(
+  id: string,
+  a: unknown,
+  b: unknown,
+  duration: { a: number; b: number },
+  isCorrect?: { a: string; b: string },
+): void {
+  console.log(
+    `${id}`,
+    'a:',
+    String(a).padStart(14, ' '),
+    isCorrect?.a,
+    `\t${duration.a} ms`,
+    '\tb:',
+    String(b).padStart(14, ' '),
+    isCorrect?.b,
+    `\t${duration.b} ms`,
+  );
+}
+
+/** Force ospec to run */
+let ospecRunTimer: NodeJS.Timeout | null = null;
+
 export class AoC<T = string> {
   static id(year: number, day: number): string {
     return `${year}-12-${day.toString().padStart(2, '0')}`;
@@ -87,7 +110,13 @@ export class AoC<T = string> {
     return -1;
   }
 
-  test(fn?: (o: Ospec) => void): void {
+  runTest(): void {
+    if (ospecRunTimer) {
+      clearTimeout(ospecRunTimer);
+    }
+    ospecRunTimer = setTimeout(() => o.run(), 10);
+  }
+  test(fn?: (o: Ospec) => void, forceRun = false): void {
     o.spec(this.id, () => {
       if (fn) fn(o);
       o('Answer', async () => {
@@ -97,21 +126,14 @@ export class AoC<T = string> {
         const { a, b, duration } = this.answers(puzzle.input);
         const isCorrect = getTick(puzzle, a, b);
 
-        console.log(
-          `${this.id}`,
-          'a:',
-          String(a).padStart(14, ' '),
-          isCorrect.a,
-          `\t${duration.a} ms`,
-          '\tb:',
-          String(b).padStart(14, ' '),
-          isCorrect.b,
-          `\t${duration.b} ms`,
-        );
+        dump(this.id, a, b, duration, isCorrect);
+
         if (puzzle.a != null) o(a).equals(puzzle.a);
         if (puzzle.b != null) o(b).equals(puzzle.b);
       });
     });
+
+    if (forceRun) this.runTest();
   }
 
   @Memoize()
@@ -144,7 +166,14 @@ export class AoC<T = string> {
     return { a, b, duration };
   }
 
-  fetch(): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
-    return AoCData.fetch(this).then((f) => this.run(f.input));
+  fetch(output = false): Promise<{ a: AoCAnswer; b: AoCAnswer; duration: { a: number; b: number } }> {
+    return AoCData.fetch(this).then(async (f) => {
+      const c = await this.run(f.input);
+      if (output) {
+        const isCorrect = getTick(f, c.a, c.b);
+        dump(this.id, c.a, c.b, c.duration, isCorrect);
+      }
+      return c;
+    });
   }
 }

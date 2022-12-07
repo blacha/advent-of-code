@@ -106,4 +106,4 @@ aoc.test((o) => {
   o('PartB', () => {
     o(aoc.partB(aoc.parse(input))).equals(70);
   });
-}, true);
+});
