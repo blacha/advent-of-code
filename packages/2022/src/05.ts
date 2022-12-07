@@ -78,10 +78,10 @@ aoc.test((o) => {
     o(aoc.parse(input)).deepEquals({
       stacks: [['Z', 'N'], ['M', 'C', 'D'], ['P']],
       moves: [
-        { count: 1, from: 2, to: 1 },
-        { count: 3, from: 1, to: 3 },
-        { count: 2, from: 2, to: 1 },
-        { count: 1, from: 1, to: 2 },
+        { count: 1, from: 1, to: 0 },
+        { count: 3, from: 0, to: 2 },
+        { count: 2, from: 1, to: 0 },
+        { count: 1, from: 0, to: 1 },
       ],
     });
   });
