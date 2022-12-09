@@ -1,5 +1,4 @@
 import { AoC } from 'aocf';
-import { cwd } from 'process';
 
 export type Input = Map<string, { files: { name: string; size: number }[]; size: number; path: string }>;
 
