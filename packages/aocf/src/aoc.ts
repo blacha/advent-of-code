@@ -113,9 +113,7 @@ export class AoC<T = string> {
   }
 
   runTest(): void {
-    if (ospecRunTimer) {
-      clearTimeout(ospecRunTimer);
-    }
+    if (ospecRunTimer) clearTimeout(ospecRunTimer);
     ospecRunTimer = setTimeout(() => o.run(), 10);
   }
   test(fn?: (o: Ospec) => void, forceRun = false): void {

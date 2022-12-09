@@ -6,7 +6,7 @@ import './05.js';
 import './06.js';
 import './07.js';
 import './08.js';
-// import './09.js';
+import './09.js';
 // import './10.js';
 // import './11.js';
 // import './12.js';
