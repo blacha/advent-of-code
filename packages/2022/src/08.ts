@@ -84,3 +84,5 @@ aoc.partB = (input: Input): number => {
   }
   return max;
 };
+
+aoc.test();

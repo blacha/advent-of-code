@@ -24,11 +24,13 @@ function dump(
     'a:',
     String(a).padStart(14, ' '),
     isCorrect?.a,
-    `\t${duration.a} ms`,
+    `\t`,
+    `${duration.a} ms`.padStart(10, ' '),
     '\tb:',
     String(b).padStart(14, ' '),
     isCorrect?.b,
-    `\t${duration.b} ms`,
+    `\t`,
+    `${duration.b} ms`.padStart(10, ' '),
   );
 }
 
