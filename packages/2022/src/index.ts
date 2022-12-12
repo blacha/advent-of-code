@@ -9,7 +9,7 @@ import './08.js';
 import './09.js';
 import './10.js';
 import './11.js';
-// import './12.js';
+import './12.js';
 // import './13.js';
 // import './14.js';
 // import './15.js';
