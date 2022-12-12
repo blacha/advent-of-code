@@ -100,4 +100,14 @@ aoc.partB = (input: Input): number => {
   throw new Error('No Answer');
 };
 
-aoc.test();
+aoc.test((o) => {
+  const testValues = `Sabqponm\nabcryxxl\naccszExk\nacctuvwj\nabdefghi`;
+
+  o('PartA', () => {
+    o(aoc.partA(aoc.parse(testValues))).equals(31);
+  });
+
+  o('PartB', () => {
+    o(aoc.partB(aoc.parse(testValues))).equals(29);
+  });
+});
