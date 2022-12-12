@@ -1,5 +1,4 @@
 import { AoC } from 'aocf';
-import { time } from 'console';
 
 export type Input = Monkey[];
 
