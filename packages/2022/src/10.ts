@@ -59,5 +59,3 @@ aoc.partB = (input: Input): string => {
 };
 
 aoc.test();
-
-aoc.fetch(true);
