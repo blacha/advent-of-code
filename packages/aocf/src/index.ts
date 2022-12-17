@@ -20,3 +20,11 @@ export interface Vec3 extends Point {
 export interface Vec4 extends Vec3 {
   w: number;
 }
+
+/** Collection of UTF block colors */
+export const Colors = {
+  Black: '⬛',
+  White: '⬜',
+  Purple: '🟪',
+  Yellow: '🟧',
+};
