@@ -1,4 +1,4 @@
-import { AoC, Colors, Point } from 'aocf';
+import { AoC } from 'aocf';
 
 export type Grid = Floor[][];
 export type Input = { grid: Grid; movement: (number | 'L' | 'R')[] };
