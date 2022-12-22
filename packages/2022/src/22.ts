@@ -92,7 +92,7 @@ aoc.partA = (i: Input): number => {
 };
 aoc.partB = (input: Input): number => {
   // hard pass!
-  return -1;
+  return input.grid.length * -1;
 };
 
 const testValues = `        ...#
