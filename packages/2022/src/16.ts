@@ -91,23 +91,23 @@ aoc.parse = (l: string): NodeGraph => {
 
 export type TimeDistanceMap = Record<string, number>;
 
-function openValve(input: Input, cv: string, time: number, next: string[]): number {
-  next = next.filter((n) => n !== cv);
+function openValve(input: Input, currentNode: string, time: number, next: Set<string>): number {
+  const todo = new Set(next);
+  todo.delete(currentNode);
+
+  const currentTime = input.timeMap[currentNode];
   let bestFlow = 0;
-  for (const nodeId of next) {
-    const timeLeft = time - input.timeMap[cv][nodeId] - 1;
+  for (const nodeId of todo) {
+    const timeLeft = time - currentTime[nodeId] - 1;
     if (timeLeft > 0) {
-      const flow = input.get(nodeId).flow * timeLeft + openValve(input, nodeId, timeLeft, next);
+      const flow = input.get(nodeId).flow * timeLeft + openValve(input, nodeId, timeLeft, todo);
       bestFlow = Math.max(flow, bestFlow);
     }
   }
   return bestFlow;
 }
 // Stolen from bhosale-ajay
-aoc.partA = (input: Input): number => {
-  return openValve(input, 'AA', 30, input.flowNodes);
-};
-
+aoc.partA = (input: Input): number => openValve(input, 'AA', 30, new Set(input.flowNodes));
 // Stolen from i_have_no_biscuits
 aoc.partB = (input: Input): number => {
   const bestFlowMap: Record<string, number> = {};
@@ -120,7 +120,7 @@ aoc.partB = (input: Input): number => {
         recordPath(nv, timeLeft, [...path, nv], flow + pathFlow);
       }
     }
-    const pathKey = [...path].sort().join('');
+    const pathKey = path.sort().join('');
     bestFlowMap[pathKey] = Math.max(bestFlowMap[pathKey] || 0, pathFlow);
   }
   recordPath('AA', 26, [], 0);
